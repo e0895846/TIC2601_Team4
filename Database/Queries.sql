@@ -11,7 +11,7 @@ CREATE TABLE posts (
   user_id INT NOT NULL REFERENCES users(user_id),
   header VARCHAR(255),
   contents VARCHAR,
-  is_comment TINYINT NOT NULL,
+  is_comment INT(1) NOT NULL,
   update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -25,7 +25,7 @@ CREATE TABLE is_comment_of (
 CREATE TABLE votes (
   user_id INT NOT NULL REFERENCES users(user_id),
   post_id INT NOT NULL REFERENCES posts(post_id),
-  is_upvote TINYINT NOT NULL,
+  is_upvote INT(1) NOT NULL,
   PRIMARY KEY (user_id, post_id)
   update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
