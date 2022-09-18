@@ -45,4 +45,4 @@ o	recent view
 
 
 Home Page Prototype
-![alt text](https://github.com/e0895846/TIC2601_Team4/blob/main/ReadMe%20Related/1st%20Prototype%20Home%20page.jpg?raw=true)
+![alt text](https://github.com/e0895846/TIC2601_Team4/blob/main/ReadMe Related/1st Prototype Home page.jpg?raw=true)
