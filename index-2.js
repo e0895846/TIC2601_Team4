@@ -1,0 +1,30 @@
+const path = require('path');
+
+const express = require('express');
+const app = express();
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+const mysql = require('mysql');
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'nodeuser',
+  password: 'TIC2601',
+  database: 'myapp'
+});
+
+connection.connect((err) => {
+  if (err) throw err;
+  console.log('Connected!');
+});
+
+app.get('/', (req, res) => {
+    res.render('book-2');
+});
+
+var server = app.listen(80, function () {
+   var host = server.address().address
+   var port = server.address().port
+   
+   console.log("Example app listening at http://%s:%s", host, port)
+})
