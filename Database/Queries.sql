@@ -12,7 +12,14 @@ CREATE TABLE posts (
   header VARCHAR(255),
   contents VARCHAR,
   is_comment TINYINT NOT NULL,
+  update_at DATETIME,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE is_comment_of (
+  parent INT NOT NULL REFERENCE posts(post_id),
+  child INT NOT NULL REFERENCE posts(post_id),
+  PRIMARY KEY (parent, child)
 );
 
 CREATE TABLE votes (
@@ -20,4 +27,5 @@ CREATE TABLE votes (
   post_id INT NOT NULL REFERENCE posts(post_id),
   is_upvote TINYINT NOT NULL,
   PRIMARY KEY (user_id, post_id)
+  last_updated DATETIME
 );
