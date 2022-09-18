@@ -27,7 +27,7 @@ CREATE TABLE votes (
   user_id INT NOT NULL REFERENCES users(user_id),
   post_id INT NOT NULL REFERENCES posts(post_id),
   is_upvote TINYINT(1) NOT NULL,
-  PRIMARY KEY (user_id, post_id)
   update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (user_id, post_id),
   CHECK(is_upvote EXIST (1, 0))
 );
