@@ -1,3 +1,4 @@
+--For SQLite
 CREATE TABLE users (
   user_id INT PRIMARY KEY,
   name VARCHAR(20) NOT NULL,
@@ -31,3 +32,5 @@ CREATE TABLE votes (
   PRIMARY KEY (user_id, post_id),
   CHECK(is_upvote EXIST (1, 0))
 );
+
+--For MySQL
