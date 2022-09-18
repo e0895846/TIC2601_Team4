@@ -44,5 +44,3 @@ o	about (joined date)
 o	recent view
 
 
-Home Page Prototype
-![Home Page Prototype](https://github.com/e0895846/TIC2601_Team4/blob/main/ReadMe Related/1st_Prototype_Home_page.jpg)
