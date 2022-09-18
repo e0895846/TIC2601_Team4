@@ -42,3 +42,7 @@ o	bookmark list
 o	reputation
 o	about (joined date)
 o	recent view
+
+
+Home Page Prototype
+![alt text](https://github.com/e0895846/TIC2601_Team4/blob/main/ReadMe%20Related/1st%20Prototype%20Home%20page.jpg?raw=true)
