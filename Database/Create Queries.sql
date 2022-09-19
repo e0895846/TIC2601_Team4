@@ -2,35 +2,35 @@
 CREATE TABLE users (
   user_id INT PRIMARY KEY,
   name VARCHAR(20) NOT NULL,
-  password VARCHAR(60) NOT NULL, 
+  password VARCHAR(64) NOT NULL, 
   reputation INT DEFAULT 0,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE posts (
   post_id INT PRIMARY KEY,
-  user_id INT NOT NULL REFERENCES users(user_id),
+  user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   header VARCHAR(255),
-  contents VARCHAR(MAX),
+  contents VARCHAR(256),
   is_comment TINYINT(1) NOT NULL,
-  update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  CHECK(is_comment EXIST (1, 0))
+  CHECK(is_comment = 1 OR is_comment = 0)
 );
 
 CREATE TABLE is_comment_of (
-  parent INT NOT NULL REFERENCES posts(post_id),
-  child INT NOT NULL REFERENCES posts(post_id),
+  parent INT NOT NULL REFERENCES posts(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  child INT NOT NULL REFERENCES posts(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (parent, child)
 );
 
 CREATE TABLE votes (
-  user_id INT NOT NULL REFERENCES users(user_id),
-  post_id INT NOT NULL REFERENCES posts(post_id),
+  user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  post_id INT NOT NULL REFERENCES posts(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
   is_upvote TINYINT(1) NOT NULL,
-  update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (user_id, post_id),
-  CHECK(is_upvote EXIST (1, 0))
+  CHECK(is_upvote = 1 OR is_upvote = 0)
 );
 
 --For MySQL
