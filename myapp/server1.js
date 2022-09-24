@@ -153,7 +153,7 @@ app.post('/delete_post/:id/:username', async (req, res) =>{
     }
 });
 
-app.post('/edit_post/:id/:username', async (req, res) =>{
+app.post('./edit_post/:id/:username', async (req, res) =>{
     
     let postId = parseInt(req.params.id.substring(1));     
     
