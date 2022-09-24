@@ -18,3 +18,11 @@ WHERE p.user_id =  u.user_id AND p.contents LIKE '%search word%';
 
 
 -- No. of comments display
+
+--Display Top 5 comments from post
+SELECT p.post_id, p.header, p.contents, p.update_at, p.created_at
+FROM posts p, is_comment_of ico
+WHERE ico.child = p.post_id
+AND ico.parent = 1 --post_id
+--ORDER BY p.reputation
+LIMIT 5;
