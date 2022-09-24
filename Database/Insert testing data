@@ -1,0 +1,50 @@
+INSERT INTO posts 
+VALUES (00000001,
+1,
+'Stopping drugs: How Singapore screens travellers arriving at Changi Airport',
+'At least 41 Singaporeans and PRs have been arrested this year for suspected drug abuse at various checkpoints.',
+0,
+'2022-09-24',
+'2022-09-24');
+
+INSERT INTO posts
+VALUES (
+00000002,
+1,
+'Heavy rains, lightning kill at least 36 in northern India',
+'LUCKNOW: Hazardous weather killed at least 36 people in northern India over the past 24 hours, including 12 who died after being struck by lightning, officials said as they warned of more heavy downpours in the coming days.',
+0,
+'2022-09-24',
+'2022-09-24');
+
+
+INSERT INTO posts
+VALUES (
+00000003,
+2,
+'comment 1 header test',
+'comment 1 content test',
+1,
+'2022-09-24',
+'2022-09-24');
+
+INSERT INTO posts
+VALUES (
+00000004,
+1,
+'comment 2 header test',
+'comment 2 header test',
+1,
+'2022-09-24',
+'2022-09-24');
+
+INSERT INTO is_comment_of
+VALUES (
+00000001,
+00000003);
+
+
+INSERT INTO is_comment_of
+VALUES (
+00000003,
+00000004);

@@ -1,4 +1,9 @@
---For SQLite
+# DDL
+
+CREATE DATABASE IF NOT EXISTS rabbit;
+USE rabbit;
+
+DROP TABLE IF EXISTS users;
 CREATE TABLE users (
   user_id INT PRIMARY KEY,
   name VARCHAR(20) NOT NULL,
@@ -7,6 +12,7 @@ CREATE TABLE users (
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP TABLE IF EXISTS posts;
 CREATE TABLE posts (
   post_id INT PRIMARY KEY,
   user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -18,12 +24,14 @@ CREATE TABLE posts (
   CHECK(is_comment = 1 OR is_comment = 0)
 );
 
+DROP TABLE IF EXISTS is_comment_of;
 CREATE TABLE is_comment_of (
   parent INT NOT NULL REFERENCES posts(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
   child INT NOT NULL REFERENCES posts(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (parent, child)
 );
 
+DROP TABLE IF EXISTS votes;
 CREATE TABLE votes (
   user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   post_id INT NOT NULL REFERENCES posts(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -32,5 +40,3 @@ CREATE TABLE votes (
   PRIMARY KEY (user_id, post_id),
   CHECK(is_upvote = 1 OR is_upvote = 0)
 );
-
---For MySQL
