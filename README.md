@@ -6,13 +6,14 @@ TASK TO DO:
 index.ejs
 	all posts, login/signup button
 
-server1.js split
-	app.js, index.js, login.js, signup.js user.js 
-
 URL bug
 Insert data
 
 -----------------------
+
+server1.js split
+	app.js, index.js, login.js, signup.js user.js 
+
 
 ![alt text](https://github.com/e0895846/TIC2601_Team4/blob/main/ReadMe%20Related/Full%20Schema%20Table.jpg?raw=true)
 Use cases:
