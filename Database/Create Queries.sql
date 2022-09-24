@@ -1,3 +1,36 @@
+-- snp Verison 1.0
+-- 
+
+CREATE DATABASE IF NOT EXISTS snp;
+USE snp;
+
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+  username VARCHAR(20) PRIMARY KEY,
+  password VARCHAR(64) NOT NULL,
+  #reputation INT DEFAULT 0,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP()
+);
+
+DROP TABLE IF EXISTS posts;
+CREATE TABLE posts (
+  post_id INT PRIMARY KEY AUTO_INCREMENT,
+  username VARCHAR(20) REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE,
+  header VARCHAR(255) NOT NULL,
+  contents VARCHAR(40000)
+  
+  #reputation INT DEFAULT 0,
+  #is_comment TINYINT(1) NOT NULL,
+  #update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  #created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  #CHECK(is_comment = 1 OR is_comment = 0)
+);
+
+
+
+
+
+
 --For SQLite
 CREATE TABLE users (
   user_id INT PRIMARY KEY,
