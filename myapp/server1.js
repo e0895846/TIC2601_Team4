@@ -18,7 +18,7 @@ const con = mysql.createConnection({
   host: 'localhost',
   user: 'nodeuser',
   password: 'TIC2601',
-  database: 'myapp'
+  database: 'snp'
 });
 
 con.connect((err) => {
