@@ -13,18 +13,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set('views', path.join(__dirname, 'views/pages/'));
 app.set('view engine', 'ejs');
 
-const mysql = require('mysql');
-const con = mysql.createConnection({
-  host: 'localhost',
-  user: 'nodeuser',
-  password: 'TIC2601',
-  database: 'myapp'
-});
-
-con.connect((err) => {
-  if (err) throw err;
-  console.log('Connected!');
-});
 
 app.get('/', (req, res) =>{
     res.render('login');
