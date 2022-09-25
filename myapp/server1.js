@@ -34,10 +34,12 @@ app.get('/goto_signup', (req, res) =>{
     res.render('signup');
 });
 
-app.get('/signout', (req, res) => {
-    res.clearCookie('nToken');
-    return res.redirect('/');
+const signoutURL = ['/signout', '/delete_post/:id/signout', '/postPage/:username/signout', '/postPage/signout', '/updatePost/:id/signout', '/updatePost/:id/:username/signout'];
+
+app.get(signoutURL, (req, res) => {    
+    res.redirect('/');
 });
+
 
 
 const queryAsync = promisify(con.query).bind(con);
@@ -153,7 +155,9 @@ app.post('/delete_post/:id/:username', async (req, res) =>{
     }
 });
 
-app.post('./edit_post/:id/:username', async (req, res) =>{
+const editPostURL = ['/edit_post/:id/:username', '/delete_post/:id2/edit_post/:id/:username', '/postPage/edit_Post/:id/:username', '/updatePost/:id2/edit_post/:id/:username'];
+
+app.post(editPostURL, async (req, res) =>{
     
     let postId = parseInt(req.params.id.substring(1));     
     
