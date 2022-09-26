@@ -14,10 +14,10 @@ CREATE TABLE users (
 
 DROP TABLE IF EXISTS posts;
 CREATE TABLE posts (
-  post_id INT PRIMARY KEY AUTO_INCREMENT,
+  postId INT PRIMARY KEY AUTO_INCREMENT,
   username VARCHAR(20) REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE,
   header VARCHAR(255) NOT NULL,
-  contents VARCHAR(40000)
+  contents VARCHAR(16000)
   
   #reputation INT DEFAULT 0,
   #is_comment TINYINT(1) NOT NULL,
@@ -25,7 +25,6 @@ CREATE TABLE posts (
   #created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   #CHECK(is_comment = 1 OR is_comment = 0)
 );
-
 
 
 
