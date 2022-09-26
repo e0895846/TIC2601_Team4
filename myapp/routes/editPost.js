@@ -5,10 +5,10 @@ var bodyParser = require('body-parser')
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 var queryAsync = db.queryAsync
-var queryAsync = db.queryAsync
 var userinfonoPassSQL = db.userinfonoPassSQL
 var postSQL = db.postSQL
 var coutPostSQL = db.coutPostSQL
+var updatepostSQL = db.updatepostSQL
 
 
 router.post('/updatePost/:id/:username', async (req, res) =>{
@@ -28,7 +28,7 @@ router.post('/updatePost/:id/:username', async (req, res) =>{
         posts = await queryAsync(postSQL, [username]);
         countPosts = await queryAsync(coutPostSQL, [username]);
         
-        res.render('index',{
+        res.render('user',{
             countPosts : countPosts,
             userInfo:userInfo,
             posts:posts

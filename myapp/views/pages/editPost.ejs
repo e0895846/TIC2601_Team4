@@ -9,7 +9,7 @@
             <% posts.forEach(function(p) { %>
             <h1><%= username = p.username %> 's Post</h1>
             <% postId = p.postId; %>   
-            <form method="post" action="/updatePost/:<%=postId%>/:<%=username%>">    
+            <form method="post" action="/editPost/updatePost/:<%=postId%>/:<%=username%>">    
                 <div>
                     <input type="text" name="header" value="<%=p.header%>"> 
                 </div>
