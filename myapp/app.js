@@ -8,7 +8,9 @@ const express = require('express');
 const app = express();
 
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(express.json());
+app.use(bodyParser.urlencoded({extended: false}));
 
 app.set('views', path.join(__dirname, 'views/pages/'));
 app.set('view engine', 'ejs');
@@ -16,13 +18,15 @@ app.set('view engine', 'ejs');
 
 var indexRouter = require('./routes/index');
 var loginRouter = require('./routes/login');
-var signupRouter = require('./routes/signup')
-var editPostRouter = require('./routes/editPost')
+var signupRouter = require('./routes/signup');
+var editPostRouter = require('./routes/editPost');
+var userRouter = require('./routes/user');
 
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/signup', signupRouter);
 app.use('/editPost', editPostRouter);
+app.use('/user', userRouter);
 
 
 var server = app.listen(8080, function() {

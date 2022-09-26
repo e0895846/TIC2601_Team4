@@ -29,6 +29,13 @@ const getpostbyIdSQL = 'SELECT * FROM posts WHERE postid = ?';
 const updatepostSQL = 'UPDATE posts SET header = ?, contents = ? WHERE postId = ?';
 
 
-module.exports = queryAsync;
-module.exports = postSQL;
-module.exports = coutPostSQL;
+module.exports.queryAsync = queryAsync;
+module.exports.insPostSQL = insPostSQL;
+module.exports.userinfowPassSQL = userinfowPassSQL;
+module.exports.userinfonoPassSQL = userinfonoPassSQL;
+module.exports.postSQL = postSQL;
+module.exports.coutPostSQL = coutPostSQL;
+module.exports.insUserSQL = insUserSQL;
+module.exports.deletepostSQL = deletepostSQL;
+module.exports.getpostbyIdSQL = getpostbyIdSQL;
+module.exports.updatepostSQL = updatepostSQL;

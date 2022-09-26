@@ -13,11 +13,6 @@ var deletepostSQL = db.deletepostSQL
 var getpostbyIdSQL = db.getpostbyIdSQL
 
 
-router.get('/user', (req, res) =>{
-    res.render('user', {title: "User Page"});
-});
-
-
 router.get('/signout', (req, res) => {
     res.clearCookie('nToken');
     return res.redirect('/');
@@ -39,7 +34,7 @@ router.post('/postPage/:username', async (req, res) =>{
         posts = await queryAsync(postSQL, [username]);
         countPosts = await queryAsync(coutPostSQL, [username]);
         
-        res.render('index',{
+        res.render('user',{
             countPosts : countPosts,
             userInfo:userInfo,
             posts:posts
@@ -64,7 +59,7 @@ router.post('/delete_post/:id/:username', async (req, res) =>{
         posts = await queryAsync(postSQL, [username]);
         countPosts = await queryAsync(coutPostSQL, [username]);
         
-        res.render('index',{
+        res.render('user',{
             countPosts : countPosts,
             userInfo:userInfo,
             posts:posts

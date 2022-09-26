@@ -3,12 +3,13 @@ var router = express.Router();
 var db = require('../sql.js')
 var bodyParser = require('body-parser')
 
+const app = express();
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 var queryAsync = db.queryAsync
 var insUserSQL = db.insUserSQL
 
-router.get('/goto_signup', (req, res) =>{
-    res.render('signup', {title: 'Signup Page'});
+router.get('/', function(req, res, next) {
+    res.render('signup');
 });
 
 
@@ -18,6 +19,7 @@ router.post('/signup', async function(req, res){
     if(username && password){                  
         try{
             await queryAsync(insUserSQL,[username, password]);
+            console.log('Signup success')
             res.render('login');
         }catch(error){
             console.log('SQL error', error);
