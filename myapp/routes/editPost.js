@@ -1,9 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../sql.js')
-var bodyParser = require('body-parser')
 
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
 var queryAsync = db.queryAsync
 var userinfonoPassSQL = db.userinfonoPassSQL
 var postSQL = db.postSQL

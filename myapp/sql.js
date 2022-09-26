@@ -27,6 +27,7 @@ const insUserSQL = 'INSERT INTO users (username, password) VALUES (?, ?)';
 const deletepostSQL = 'DELETE FROM posts WHERE postid = ?';
 const getpostbyIdSQL = 'SELECT * FROM posts WHERE postid = ?';
 const updatepostSQL = 'UPDATE posts SET header = ?, contents = ? WHERE postId = ?';
+const selectAllPostSQL = 'SELECT * FROM posts';
 
 
 module.exports.queryAsync = queryAsync;
@@ -39,3 +40,4 @@ module.exports.insUserSQL = insUserSQL;
 module.exports.deletepostSQL = deletepostSQL;
 module.exports.getpostbyIdSQL = getpostbyIdSQL;
 module.exports.updatepostSQL = updatepostSQL;
+module.exports.selectAllPostSQL = selectAllPostSQL;

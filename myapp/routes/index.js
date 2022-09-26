@@ -1,14 +1,21 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../sql.js')
-var bodyParser = require('body-parser')
 
-const app = express();
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+var queryAsync = db.queryAsync
+var selectAllPostSQL = db.selectAllPostSQL;
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index');
+router.get('/', async(req, res, next) => {
+  try{
+    posts = await queryAsync(selectAllPostSQL);
+    res.render('index', {
+      posts: posts
+    });
+  }catch(error){
+    console.log('SQL error', error);
+    res.status(500).send('Something went wrong');
+} 
 });
 
 router.post('/login', (req, res, next) => {
