@@ -10,12 +10,10 @@ var coutPostSQL = db.coutPostSQL
 var deletepostSQL = db.deletepostSQL
 var getpostbyIdSQL = db.getpostbyIdSQL
 
-
 router.get('/signout', (req, res) => {
-    res.clearCookie('nToken');
+    //res.clearCookie('nToken');
     return res.redirect('/');
 });
-
 
 router.post('/postPage/:username', async (req, res) =>{
     let username = req.params.username.substring(1);

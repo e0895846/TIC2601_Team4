@@ -11,7 +11,7 @@
             <% postId = p.postId; %>   
             <form method="post" action="/editPost/updatePost/:<%=postId%>/:<%=username%>">    
                 <div>
-                    <input type="text" name="header" value="<%=p.header%>"> 
+                    <input type="text" name="header" value="<%=p.header%>" size="50"> 
                 </div>
                 <div>
                     <label for="l_contents">contents:</label><br>

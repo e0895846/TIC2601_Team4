@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forum</title>
-
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <script src="/js/scrip.js"></script>
-</head>
-
-
+<%-include('../partial/header')-%>
 
 <body>
     <header class="header">
@@ -19,25 +10,30 @@
                 <div class="Top-icon">
                     <img src="https://img.myloview.com/canvas-prints/tv-global-news-icon-simple-illustration-of-tv-global-news-vector-icon-for-web-design-isolated-on-white-background-400-245028823.jpg" alt="icon" width="60" height="60"> 
                 </div>
+
+                <!--Logion Section-->
+                <form class="Top-login" style="text-align:right;", action="/login", method="post">
+                    <input type="submit" name="login-button" value="Login" class = "login" style="float:right">
+                </form>
+                <form class="Top-login" style="text-align:right;", action="/signup", method="post">
+                    <input type="submit" name="signup-button" value="Sign up" class = "signup" style="float:right">
+                </form>                
     
                 <!--SearchBox Section-->
                 <div class="Top-search">
-                    <select name="" id="" class = "round">
-                        <option value="Title">Title</option>
-                        <option value="Username">Username</option>
-                        <option value="Descriptions">Descriptions</option>
+                    <form action="/search" method="get">
+                    <select name="selectPicker"  class = "round">
+                        <option value="">Select Option</option>                        
+                        <option value="username">username</option>                        
+                        <option value="header">header</option>                        
+                        <option value="contents">contents</option>                        
                     </select>
-                    <input type="text" name="search-content" placeholder="Search News" size="40" class = "round">
-                    <input type="button" name="search-button" value="Go" class = "go" style="text-align: center;">
+                    <input type="text" name="search_content" placeholder="Search..." size="40" class = "round">
+                    <input type="submit" name="search_button" value="Search" class = "go" style="text-align: center;">
+                    </form>
                 </div>
     
-                <!--Logion Section-->
-                <form class="Top-login" style="text-align:right;", action="/login", method="post">
-                    <input type="submit" name="login-button" value="Login" class = "login" >
-                </form>
-                <form class="Top-login" style="text-align:right;", action="/signup", method="post">
-                    <input type="submit" name="signup-button" value="Sign up" class = "signup">
-                </form>                
+                
     
             </div>
         </div>
@@ -59,6 +55,10 @@
                 <div class="subforum-description subforum-column">                
                     <p><%= p.contents %></p>
                 </div>
+                <div class="subforum-info subforum-column">
+                    <b>Last post</b> by <%=p.username%> 
+                    <br>on <small><%=p.created_at%></small>                    
+                </div>
             </div>                   
           </div>
           <br><br>
@@ -66,21 +66,9 @@
         <% }) %>
       <% } %>    
 
-    
 
-    <!-- Forum Info -->
-    <div class="forum-info">
-        <div class="chart">
-            MyForum - Stats &nbsp;<i class="fa fa-bar-chart"></i>
-        </div>
-        <span><u>5,369</u> Posts in <u>48</u> Topics by <u>8,124</u> Members.</span><br>
-        <span>Latest post: <b><a href="">Random post</a></b> on Dec 15 2021 By <a href="">RandomUser</a></span>.<br>
-        <span>Check <a href="">the latest posts</a> .</span><br>
-    </div>
 
-    <footer>
-        <span>&copy;  Selmi Abderrahim | All Rights Reserved</span>
-    </footer>
+    <%-include('../partial/footer')-%>
     <script src="main.js"></script>
 </body>
 </html>

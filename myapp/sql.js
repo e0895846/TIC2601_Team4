@@ -28,6 +28,10 @@ const deletepostSQL = 'DELETE FROM posts WHERE postid = ?';
 const getpostbyIdSQL = 'SELECT * FROM posts WHERE postid = ?';
 const updatepostSQL = 'UPDATE posts SET header = ?, contents = ? WHERE postId = ?';
 const selectAllPostSQL = 'SELECT * FROM posts';
+const selectPostByUser = 'SELECT * FROM posts WHERE username LIKE ?';
+const selectPostByHeader = 'SELECT * FROM posts WHERE header LIKE ?';
+const selectPostByContents = 'SELECT * FROM posts WHERE contents LIKE ?';
+
 
 
 module.exports.queryAsync = queryAsync;
@@ -41,3 +45,6 @@ module.exports.deletepostSQL = deletepostSQL;
 module.exports.getpostbyIdSQL = getpostbyIdSQL;
 module.exports.updatepostSQL = updatepostSQL;
 module.exports.selectAllPostSQL = selectAllPostSQL;
+module.exports.selectPostByUser = selectPostByUser;
+module.exports.selectPostByHeader = selectPostByHeader;
+module.exports.selectPostByContents = selectPostByContents;
