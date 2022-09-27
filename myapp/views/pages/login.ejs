@@ -1,21 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<%-include('../partial/header')-%>
-<body>
-    <div class="">
-        <h1>Log in</h1>
-        <form method="post" action="/login/login">            
+<%- include('../partial/header') %>
+
+    <body>
+        <header>
+            <!--Icon Section-->
+            <a class="Top-icon" href="/">
+                <img src="public/images/reddit.png" alt="icon" width="60" height="60">
+            </a>
+        </header>
+        <div class="">
+            <h1>Log in</h1>
+            <form method="post" action="/login/login">
                 <label for="l_name">user name:</label>
-                <input type="text" name="username" placeholder="user name">               
+                <input type="text" name="username" placeholder="user name">
                 <label for="l_password">password:</label>
-                <input type="password" name="password" placeholder="password"><br>                   
-                <input type="submit" value="Log in"/>
-        </form>
-        <br><br>
-        <form action="/signup" method="post" style="display: inline-block;">
-            <input type="submit" value="Sign up" />
-        </form> 
-    </div>
+                <input type="password" name="password" placeholder="password"><br>
+                <input type="submit" value="Log in" />
+            </form>
+            <br><br>
+            <form action="/signup" method="post" style="display: inline-block;">
+                <input type="submit" value="Sign up" />
+            </form>
+        </div>
     <%-include('../partial/footer')-%>
-</body>
+    </body>
+
 </html>

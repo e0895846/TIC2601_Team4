@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<%-include('../partial/header')-%>
-<body>
-    <div class="">
-        <h1>Sign up</h1>
-        <form method="post" action="/signup/signup">            
+<%- include('../partial/header') %>
+
+    <body>
+        <header>
+            <!--Icon Section-->
+            <a class="Top-icon" href="/">
+                <img src="public/images/reddit.png" alt="icon" width="60" height="60">
+            </a>
+        </header>
+        <div class="">
+            <h1>Sign up</h1>
+            <form method="post" action="/signup/signup">
                 <label for="l_name">user name:</label>
-                <input type="text" name="username" placeholder="user name">               
+                <input type="text" name="username" placeholder="user name">
                 <label for="l_password">password:</label>
-                <input type="password" name="password" placeholder="password"><br>                   
+                <input type="password" name="password" placeholder="password"><br>
                 <input type="submit" value="Sign up">
-        </form>
-    </div>
+            </form>
+        </div>
     <%-include('../partial/footer')-%>
-</body>
+    </body>
+
 </html>

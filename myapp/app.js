@@ -29,6 +29,10 @@ app.use('/editPost', editPostRouter);
 app.use('/user', userRouter);
 
 
+app.use('/public', express.static(__dirname + "/public"))
+app.use('/partial', express.static(__dirname + "/views/partial"))
+
+
 var server = app.listen(8080, function() {
     var host = server.address().address;
     var port = server.address().port;

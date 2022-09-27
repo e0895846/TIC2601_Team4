@@ -1,5 +1,5 @@
 .Top-Navigation {
-    background-color:#ffffff;
+    background-color: #ffffff;
     flex: 0;
     left: 0;
     position: fixed;
@@ -8,43 +8,51 @@
     z-index: 80;
     margin-top: 0;
 }
+
 .Top-container {
-    -ms-flex-align: center;
+    /* -ms-flex-align: center; */
     align-items: center;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
+    /* display: -ms-inline-flexbox; */
+    display: flex;
+    justify-content: space-between;
     box-sizing: border-box;
     flex-grow: 33;
-    padding: 16px;
+    padding: 12px;
 }
+
 .Top-icon {
-    position:absolute;
+    /* position:absolute;
     top: 5px;
-    left:10;
+    left:10; */
 }
-.Top-search{
-    position:absolute;
+
+.Top-search {
+    /* position:absolute;
     top:18px;
     right: 50%;
     flex:1;
     border: 0;
-    font-size: 20px;
+    font-size: 20px; */
 }
-.Top-login{
-    position:absolute;
+
+.Top-login {
+    display: inline-flex;
+    /* position:absolute;
     top:18px;
-    right: 10px;
+    right: 10px; */
 }
 
 .Content {
-    background-color:#e8eceb;
+    background-color: #e8eceb;
 }
+
 .round {
     border-radius: 15px;
     background-color: #ffffff;
     border: 1px rgb(42, 200, 248) solid;
     padding: 5px 5px 5px 5px;
 }
+
 .go {
     border-radius: 15px;
     background-color: #ffffff;
@@ -52,11 +60,13 @@
     padding: 5px 5px 5px 5px;
     box-shadow: 0px 0px 2px 2px rgb(82, 214, 247);
 }
+
 .go:hover {
-    background-color:#62f8fd;
+    background-color: #62f8fd;
 }
+
 .go:active {
-    background-color:#139fc2;
+    background-color: #139fc2;
 }
 
 .login {
@@ -65,14 +75,17 @@
     background-color: #fdfdfd;
     padding: 5px 5px 5px 5px;
     width: 80px;
-    
+
 }
+
 .login:hover {
-    background-color:#62f8fd;
+    background-color: #62f8fd;
 }
+
 .login:active {
-    background-color:#139fc2;
+    background-color: #139fc2;
 }
+
 .signup {
     border-radius: 15px;
     border: 1px rgb(60, 239, 245) solid;
@@ -80,9 +93,11 @@
     padding: 5px 5px 5px 5px;
     width: 80px;
 }
+
 .signup:hover {
-    background-color:#fdfdfd;
+    background-color: #fdfdfd;
 }
+
 .signup:active {
-    background-color:#35aac7;
+    background-color: #35aac7;
 }
