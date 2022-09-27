@@ -4,7 +4,7 @@
 <body>
     <div class="">
         <h1>Log in</h1>
-        <form method="post" action="login">            
+        <form method="post" action="/login/login">            
                 <label for="l_name">user name:</label>
                 <input type="text" name="username" placeholder="user name">               
                 <label for="l_password">password:</label>
@@ -12,11 +12,8 @@
                 <input type="submit" value="Log in"/>
         </form>
         <br><br>
-        <form action="goto_signup" method="get" style="display: inline-block;">
+        <form action="/signup" method="post" style="display: inline-block;">
             <input type="submit" value="Sign up" />
-        </form> 
-        <form action="skip_login" method="get" style="display: inline-block;">
-            <input type="submit" value="Skip Log in" />
         </form> 
     </div>
     <%-include('../partial/footer')-%>

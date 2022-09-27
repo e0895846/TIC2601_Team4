@@ -70,12 +70,3 @@ o	bookmark list
 o	reputation
 o	about (joined date)
 o	recent view
-
-
-
-Fork  
-Pull request  
-Implement login function  
-Insert users data for login functional test   
-Insert posts data into database  
-Show all post in main page(post only)  
