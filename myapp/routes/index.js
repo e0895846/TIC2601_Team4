@@ -7,7 +7,7 @@ var selectAllPostSQL = db.selectAllPostSQL;
 var selectPostByUser = db.selectPostByUser;
 var selectPostByHeader = db.selectPostByHeader;
 var selectPostByContents = db.selectPostByContents;
-
+var selectPost = db.selectPost;
 
 /* GET home page. */
 router.get('/', async(req, res, next) => {
@@ -40,7 +40,9 @@ router.get('/search', async (req, res) =>{
       posts = await queryAsync (selectPostByHeader, [`%${req.query.search_content}%`]);
     }else if(opt == 'contents'){
       posts = await queryAsync (selectPostByContents, [`%${req.query.search_content}%`]);
-    }
+    } else {
+		posts = await queryAsync (selectPost, [`%${req.query.search_content}%`, `%${req.query.search_content}%`, `%${req.query.search_content}%`]);
+	}
         
     res.render('index', {
       posts : posts

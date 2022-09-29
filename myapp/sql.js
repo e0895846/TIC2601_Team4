@@ -11,7 +11,7 @@ const selectAllPostSQL = 'SELECT * FROM posts';
 const selectPostByUser = 'SELECT * FROM posts WHERE username LIKE ?';
 const selectPostByHeader = 'SELECT * FROM posts WHERE header LIKE ?';
 const selectPostByContents = 'SELECT * FROM posts WHERE contents LIKE ?';
-
+const selectPost = 'SELECT * FROM posts p WHERE p.username LIKE ? OR p.header LIKE ? OR p.contents LIKE ?';
 
 module.exports.insPostSQL = insPostSQL;
 module.exports.userinfowPassSQL = userinfowPassSQL;
@@ -26,3 +26,4 @@ module.exports.selectAllPostSQL = selectAllPostSQL;
 module.exports.selectPostByUser = selectPostByUser;
 module.exports.selectPostByHeader = selectPostByHeader;
 module.exports.selectPostByContents = selectPostByContents;
+module.exports.selectPost = selectPost;

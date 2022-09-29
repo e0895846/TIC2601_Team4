@@ -1,17 +1,15 @@
-const path = require('path');
-
 const {
     promisify,
 } = require('util');
 
 const express = require('express');
 const app = express();
+app.use(express.json());
 
 const bodyParser = require('body-parser');
-
-app.use(express.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
+const path = require('path');
 app.set('views', path.join(__dirname, 'views/pages/'));
 app.set('view engine', 'ejs');
 
