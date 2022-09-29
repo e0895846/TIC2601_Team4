@@ -16,17 +16,16 @@ app.set('views', path.join(__dirname, 'views/pages/'));
 app.set('view engine', 'ejs');
 
 
-var indexRouter = require('./routes/index');
-var loginRouter = require('./routes/login');
-var signupRouter = require('./routes/signup');
-var editPostRouter = require('./routes/editPost');
-var userRouter = require('./routes/user');
-
-app.use('/', indexRouter);
-app.use('/login', loginRouter);
-app.use('/signup', signupRouter);
-app.use('/editPost', editPostRouter);
-app.use('/user', userRouter);
+var fs = require('fs')
+var routes = fs.readdirSync('./routes/')
+var routeDict = {}
+for (var file of routes){
+	routeDict[file.substr(0, file.length-3)] = require('./routes/' + file)
+}
+for (var key in routeDict){
+	var webpath = key == 'index' ? '/' : '/' + key;
+	app.use(webpath, routeDict[key]);
+}
 
 
 var server = app.listen(8080, function() {
