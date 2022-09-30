@@ -1,23 +1,3 @@
-const mysql = require('mysql');
-
-const {
-  promisify,
-} = require('util');
-
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'nodeuser',
-  password: 'TIC2601',
-  database: 'snp'
-});
-
-
-connection.connect((err) => {
-if (err) throw err;
-console.log('Connected!');
-});
-
-const queryAsync = promisify(connection.query).bind(connection);
 const insPostSQL = `INSERT INTO posts (username, header, contents) VALUES (?, ?, ?)`;
 const userinfowPassSQL = 'SELECT * FROM users WHERE username = ? AND password = ?';
 const userinfonoPassSQL = 'SELECT * FROM users WHERE username = ?';
@@ -31,10 +11,10 @@ const selectAllPostSQL = 'SELECT * FROM posts';
 const selectPostByUser = 'SELECT * FROM posts WHERE username LIKE ?';
 const selectPostByHeader = 'SELECT * FROM posts WHERE header LIKE ?';
 const selectPostByContents = 'SELECT * FROM posts WHERE contents LIKE ?';
+const selectPost = 'SELECT * FROM posts p WHERE p.username LIKE ? OR p.header LIKE ? OR p.contents LIKE ?';
 
 
 
-module.exports.queryAsync = queryAsync;
 module.exports.insPostSQL = insPostSQL;
 module.exports.userinfowPassSQL = userinfowPassSQL;
 module.exports.userinfonoPassSQL = userinfonoPassSQL;
@@ -48,3 +28,4 @@ module.exports.selectAllPostSQL = selectAllPostSQL;
 module.exports.selectPostByUser = selectPostByUser;
 module.exports.selectPostByHeader = selectPostByHeader;
 module.exports.selectPostByContents = selectPostByContents;
+module.exports.selectPost = selectPost;

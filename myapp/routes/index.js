@@ -2,11 +2,12 @@ var express = require('express');
 var router = express.Router();
 var db = require('../sql.js')
 
-var queryAsync = db.queryAsync
+var queryAsync = require('../mysql.js')
 var selectAllPostSQL = db.selectAllPostSQL;
 var selectPostByUser = db.selectPostByUser;
 var selectPostByHeader = db.selectPostByHeader;
 var selectPostByContents = db.selectPostByContents;
+var selectPost = db.selectPost;
 
 
 /* GET home page. */
@@ -40,6 +41,8 @@ router.get('/search', async (req, res) =>{
       posts = await queryAsync (selectPostByHeader, [`%${req.query.search_content}%`]);
     }else if(opt == 'contents'){
       posts = await queryAsync (selectPostByContents, [`%${req.query.search_content}%`]);
+    } else {
+      posts = await queryAsync (selectPost, [`%${req.query.search_content}%`, `%${req.query.search_content}%`, `%${req.query.search_content}%`]);
     }
         
     res.render('index', {

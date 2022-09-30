@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var db = require('../sql.js')
 
-var queryAsync = db.queryAsync
+var queryAsync = require('../mysql.js')
 var postSQL = db.postSQL
 var coutPostSQL = db.coutPostSQL
 var userinfowPassSQL = db.userinfowPassSQL;

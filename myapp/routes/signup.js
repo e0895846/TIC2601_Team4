@@ -3,7 +3,7 @@ var router = express.Router();
 var db = require('../sql.js')
 var bodyParser = require('body-parser')
 
-var queryAsync = db.queryAsync
+var queryAsync = require('../mysql.js')
 var insUserSQL = db.insUserSQL
 
 router.get('/', function(req, res, next) {
