@@ -17,7 +17,8 @@ Users:
 To fix:
 	-Debug Redirect after login (Redirect to previous page)
 	-SiteMap
-	-
+![alt text](https://github.com/e0895846/TIC2601_Team4/blob/main/ReadMe%20Related/Sitemap.png?raw=true)
+Any thing wan to add / edit do tell me. -Yi Tat
 
 -----------------------
 
