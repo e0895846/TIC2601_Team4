@@ -24,11 +24,15 @@ router.get('/', async(req, res, next) => {
 });
 
 router.post('/login', (req, res, next) => {
-    res.render('login')
+    // res.render('login')
+    res.redirect('/login')
+    next()
 })
 
 router.post('/signup', (req, res) =>{
-  res.render('signup');
+  // res.render('signup');
+  res.redirect('/signup')
+    next()
 });
 
 router.get('/search', async (req, res) =>{

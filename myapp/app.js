@@ -7,6 +7,9 @@ const {
 const express = require('express');
 const app = express();
 
+var cookieParser = require('cookie-parser')
+app.use(cookieParser())
+
 const bodyParser = require('body-parser');
 
 app.use(express.json());
