@@ -3,11 +3,21 @@ Simplified: Users(login, signup),  Posts (CRUD)
 ------------------------------------
 TASK TO DO:
 
-index.ejs
-	all posts, login/signup button
+Session (User Login):
+	-Comment
+	-Upvote/Downvote
 
-URL bug
-Insert data
+Database:
+	-Reputation
+
+Users:
+	-Administrator
+		-Use user main page (edit/delete) but use a checker for (if userid = userid OR isadmin = true)
+		
+To fix:
+	-Debug Redirect after login (Redirect to previous page)
+	-SiteMap
+	-
 
 -----------------------
 
