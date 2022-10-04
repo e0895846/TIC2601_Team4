@@ -9,6 +9,9 @@ var insUserSQL = db.insUserSQL
 router.get('/', function(req, res, next) {
     res.render('signup');
 });
+router.post('/', function(req, res, next) {
+    res.render('signup');
+});
 
 
 router.post('/signup', async function(req, res){

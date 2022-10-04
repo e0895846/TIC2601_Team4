@@ -15,8 +15,8 @@ router.get('/signout', (req, res) => {
     return res.redirect('/');
 });
 
-router.post('/postPage/:username', async (req, res) =>{
-    let username = req.params.username.substring(1);
+router.get('/', async (req, res) => {
+    let username = req.session.user.username;
     let header = req.body.header;
     let content = req.body.content;
 
@@ -25,10 +25,10 @@ router.post('/postPage/:username', async (req, res) =>{
     let countPosts = {};
     
     try{
-        await queryAsync(insPostSQL,[username, header, content]);
         userInfo = await queryAsync(userinfonoPassSQL,[username]);
         posts = await queryAsync(postSQL, [username]);
         countPosts = await queryAsync(coutPostSQL, [username]);
+        console.log(username)
         
         res.render('user',{
             countPosts : countPosts,
@@ -39,8 +39,34 @@ router.post('/postPage/:username', async (req, res) =>{
         console.log('SQL error', error);
         res.status(500).send('Something went wrong');
     }
-       
 });
+
+// router.post('/postPage/:username', async (req, res) =>{
+//     let username = req.params.username.substring(1);
+//     let header = req.body.header;
+//     let content = req.body.content;
+
+//     let userInfo = {};
+//     let posts = {};
+//     let countPosts = {};
+    
+//     try{
+//         await queryAsync(insPostSQL,[username, header, content]);
+//         userInfo = await queryAsync(userinfonoPassSQL,[username]);
+//         posts = await queryAsync(postSQL, [username]);
+//         countPosts = await queryAsync(coutPostSQL, [username]);
+        
+//         res.render('user',{
+//             countPosts : countPosts,
+//             userInfo:userInfo,
+//             posts:posts
+//         });
+//     }catch(error){
+//         console.log('SQL error', error);
+//         res.status(500).send('Something went wrong');
+//     }
+       
+// });
 
 router.post('/delete_post/:id/:username', async (req, res) =>{    
     let postId = parseInt(req.params.id.substring(1));

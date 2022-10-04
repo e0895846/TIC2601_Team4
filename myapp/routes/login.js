@@ -10,24 +10,13 @@ var userinfowPassSQL = db.userinfowPassSQL;
 router.get('/', function(req, res, next) {
     res.render('login');
 });
+router.post('/', function(req, res, next) {
+    res.render('login');
+});
 
-router.get('/test', (req, res, next) => {
-    console.log(req.cookies) 
-    let context = {
-        "name" : "username",
-        "password": "password"
-    }
-    res.cookie('cookieName', 'cookieValue', context)
-    console.log(res.cookie)
-    res.send('')
-})
-
-
-router.post('/login', async (req, res) =>{
+router.post('/login', async (req, res, next) =>{
     let username = req.body.username;
     let password = req.body.password;
-    
-    console.log('Cookies: ', req.cookies)
         
     let userInfo = {};
     let posts = {};
@@ -40,11 +29,15 @@ router.post('/login', async (req, res) =>{
             countPosts = await queryAsync(coutPostSQL, [username]);
 
             if(userInfo.length > 0){
-                res.render('user',{
-                    countPosts : countPosts,
-                    posts : posts,
-                    userInfo : userInfo
-                 });
+                // Store user info into session
+                req.session.user = req.body; // username and password
+                req.session.isLogin = true; // login status
+                res.redirect('/user')
+                // res.render('user',{
+                //     countPosts : countPosts,
+                //     posts : posts,
+                //     userInfo : userInfo
+                //  });
             }else{
                 res.send('Incoreect username or password');
             }
@@ -56,6 +49,7 @@ router.post('/login', async (req, res) =>{
        
     }else{
         res.send('Please enter username and password');
+        res.end()
     }    
 });
 
