@@ -10,13 +10,7 @@ router.get('/signout', (req, res) => {
 
 router.get('/:postid', async (req, res) => {
     let postid = req.params.postid;
-    
-
     let reply = req.body.content;
-
-    let userInfo = {};
-    let posts = {};
-    let countPosts = {};
     
     try{
         post = await queryAsync('SELECT header, contents FROM posts WHERE postId = ?', [postid]);
