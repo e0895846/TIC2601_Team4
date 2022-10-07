@@ -27,6 +27,13 @@ CREATE TABLE posts (
   #CHECK(is_comment = 1 OR is_comment = 0)
 );
 
+DROP TABLE IF EXISTS is_comment_of;
+CREATE TABLE is_comment_of (
+  parent INT NOT NULL REFERENCES posts(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  child INT NOT NULL REFERENCES posts(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (parent, child)
+);
+
 
 
 
