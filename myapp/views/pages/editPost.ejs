@@ -1,14 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-    <%- include('../partial/header') %>
+<% var dir = process.cwd() %>
+<%- include('../partial/head') %>
 
-    <body>
-        <header>
-            <!--Icon Section-->
-            <a class="Top-icon" href="/">
-                <img src="public/images/reddit.png" alt="icon" width="60" height="60">
-            </a>
-        </header>
+  <body>
+    <%- include('../partial/header') %>
         <div>
             <div>
                 <% var postId; %>

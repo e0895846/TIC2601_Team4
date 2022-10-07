@@ -1,14 +1,9 @@
 <!DOCTYPE html>
 <% var dir = process.cwd() %>
-<%- include('../partial/header') %>
+<%- include('../partial/head') %>
 
   <body>
-    <header>
-      <!--Icon Section-->
-      <a class="Top-icon" href="/">
-        <img src="public/images/reddit.png" alt="icon" width="60" height="60">
-    </a>
-    </header>
+    <%- include('../partial/header') %>
 
     <div>
       <form action="/user/signout" method="get" style="float:right">

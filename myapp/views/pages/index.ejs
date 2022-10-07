@@ -1,44 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
-<%- include('../partial/header') %>
+<% var dir = process.cwd() %>
+<%- include('../partial/head') %>
 
-<body>
-    <header class="header">
-        <div class="Top Navigation">
-            <div class="Top-container">
-                <!--Icon Section-->
-                <a class="Top-icon" href="/">
-                    <img src="public/images/reddit.png" alt="icon" width="60" height="60">
-                </a>
+  <body>
+    <%- include('../partial/header') %>
 
-                <!--SearchBox Section-->
-                <div class="Top-search">
-                    <form action="/search" method="get">
-                        <select name="selectPicker" class="round">
-                            <option value="">Select Option</option>
-                            <option value="username">username</option>
-                            <option value="header">header</option>
-                            <option value="contents">contents</option>
-                        </select>
-                        <input type="text" name="search_content" placeholder="Search..." size="40" class="round">
-                        <input type="submit" name="search_button" value="Search" class="go"
-                            style="text-align: center;">
-                    </form>
-                </div>
-
-                <!--Logion Section-->
-                <div class="Top-login">
-                    <form action="/login" , method="post">
-                        <button class="login" style="float:right">Login</button>
-                    </form>
-                    <form action="/signup" , method="post">
-                        <button class="signup" style="float:right">Sign Up</button>
-                    </form>
-                </div>
-
-            </div>
-        </div>
-    </header>
+    <!--SearchBox Section-->
+    <div class="Top-search">
+        <form action="/search" method="get">
+            <select name="selectPicker" class="round">
+                <option value="">Select Option</option>
+                <option value="username">username</option>
+                <option value="header">header</option>
+                <option value="contents">contents</option>
+            </select>
+            <input type="text" name="search_content" placeholder="Search..." size="40" class="round">
+            <input type="submit" name="search_button" value="Search" class="go"
+                style="text-align: center;">
+        </form>
+    </div>
 
     <section>
         <% if (posts.length> 0) {%>
