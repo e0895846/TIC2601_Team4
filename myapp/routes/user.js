@@ -15,8 +15,8 @@ router.get('/signout', (req, res) => {
     return res.redirect('/');
 });
 
-router.get('/', async (req, res) => {
-    let username = req.session.user.username;
+router.get('/:username', async (req, res) => {
+    let username = req.params.username;
     let header = req.body.header;
     let content = req.body.content;
 
@@ -28,7 +28,6 @@ router.get('/', async (req, res) => {
         userInfo = await queryAsync(userinfonoPassSQL,[username]);
         posts = await queryAsync(postSQL, [username]);
         countPosts = await queryAsync(coutPostSQL, [username]);
-        console.log(username)
         
         res.render('user',{
             countPosts : countPosts,
@@ -68,31 +67,36 @@ router.get('/', async (req, res) => {
        
 // });
 
-router.post('/delete_post/:id/:username', async (req, res) =>{    
+router.post('/delete_post/:id', async (req, res) =>{    
     let postId = parseInt(req.params.id.substring(1));
-    let username = req.params.username.substring(1);
-    let userInfo = {};
-    let posts = {};
-    let countPosts = {};  
-    
-    try {
-        await queryAsync(deletepostSQL, [postId]);
-        userInfo = await queryAsync(userinfonoPassSQL,[username]);
-        posts = await queryAsync(postSQL, [username]);
-        countPosts = await queryAsync(coutPostSQL, [username]);
+    let username = await queryAsync('SELECT username FROM posts WHERE postid = ?', [postId])[0].username;
+    if (req.session.user.username == username) {
+
+        let userInfo = {};
+        let posts = {};
+        let countPosts = {};  
         
-        res.render('user',{
-            countPosts : countPosts,
-            userInfo:userInfo,
-            posts:posts
-        });
-    } catch (error) {
-        console.log('SQL error', error);
-        res.status(500).send('Something went wrong');
+        try {
+            await queryAsync('DELETE FROM posts WHERE postid = ?', [postId, loginuser]);
+
+            userInfo = await queryAsync(userinfonoPassSQL,[username]);
+            posts = await queryAsync(postSQL, [username]);
+            countPosts = await queryAsync(coutPostSQL, [username]);
+            
+            res.render('user',{
+                countPosts : countPosts,
+                userInfo:userInfo,
+                posts:posts
+            });
+            
+        } catch (error) {
+            console.log('SQL error', error);
+            res.status(500).send('Something went wrong');
+        }
     }
 });
 
-router.post('/edit_post/:id/:username', async (req, res) =>{
+router.post('/edit_post/:id', async (req, res) =>{
     
     let postId = parseInt(req.params.id.substring(1));     
     
