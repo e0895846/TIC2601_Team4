@@ -31,13 +31,14 @@
     </div>
     <br>
     <hr><br>
-    <% if (posts.length> 0) {%>
-    <% let counter=1 %>
-    <% posts.forEach((p)=> { %>
-      <%- include('../partial/showPost', {p:p, counter:counter, username:username}) %>
-      <%counter++%>
-    <% }) %>
-    <% } %>
+    <%  if (posts.length> 0) {
+          let counter = 1
+          posts.forEach((p)=> { 
+    %>    <%- include('../partial/showPost', {p:p, counter:counter, username:username}) %>
+    <%      counter++
+          })
+        }
+    %>
     <%- include('../partial/footer') %>
   </body>
 
