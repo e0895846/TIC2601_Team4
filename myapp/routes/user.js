@@ -69,8 +69,8 @@ router.get('/:username', async (req, res) => {
 
 router.post('/delete_post/:id', async (req, res) =>{    
     let postId = parseInt(req.params.id.substring(1));
-    let username = await queryAsync('SELECT username FROM posts WHERE postid = ?', [postId])[0].username;
-    if (req.session.user.username == username) {
+    let username = await queryAsync('SELECT username FROM posts WHERE postid = ?', [postId]);
+    if (req.session.isLogin && req.session.user.username == username[0].username) {
 
         let userInfo = {};
         let posts = {};
