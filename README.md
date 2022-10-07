@@ -13,13 +13,13 @@ Insert data
 Web UI Layout
 
 Main Page(index.ejs)
-![alt text](https://github.com/e0895846/TIC2601_Team4/blob/main/ReadMe%20Related/UI%20Layout/index.png?raw=true)
+![alt text](https://github.com/e0895846/TIC2601_Team4/blob/Develop/ReadMe%20Related/UI%20Layout/Index.png)
 
 Login Page
-![alt text](https://github.com/e0895846/TIC2601_Team4/blob/main/ReadMe%20Related/UI%20Layout/Login.png?raw=true)
+![alt text](https://github.com/e0895846/TIC2601_Team4/blob/Develop/ReadMe%20Related/UI%20Layout/Login.png)
 
 Post Page (details of the specific post)
-![alt text](https://github.com/e0895846/TIC2601_Team4/blob/main/ReadMe%20Related/UI%20Layout/Post.png?raw=true)
+![alt text](https://github.com/e0895846/TIC2601_Team4/blob/Develop/ReadMe%20Related/UI%20Layout/Post.png)
 
 -------------------------------------
 
