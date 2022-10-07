@@ -16,11 +16,12 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.set('views', path.join(__dirname, 'views/pages/'));
 app.set('view engine', 'ejs');
+
 app.use(session({
-    secret: 'test',
+    secret: 'tic2601',
     resave: false,
     saveUninitialized: true
-}))
+}));
 
 var fs = require('fs')
 var routes = fs.readdirSync('./routes/')
