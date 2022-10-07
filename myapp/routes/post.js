@@ -22,7 +22,7 @@ router.get('/:postid', async (req, res) => {
             content: post[0].contents,
             postid,
             posts: replies,
-            replyCount: numOfReplies[0].count
+            totalCount: numOfReplies[0].count || replies.length
         });
     }catch(error){
         console.log('SQL error', error);

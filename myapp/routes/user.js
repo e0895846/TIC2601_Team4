@@ -30,7 +30,7 @@ router.get('/:username', async (req, res) => {
         countPosts = await queryAsync(coutPostSQL, [username]);
         
         res.render('user',{
-            countPosts : countPosts,
+            totalCount : countPosts[0].count || posts.length,
             userInfo:userInfo,
             posts:posts
         });
@@ -84,7 +84,7 @@ router.post('/delete_post/:id', async (req, res) =>{
             countPosts = await queryAsync(coutPostSQL, [username]);
             
             res.render('user',{
-                countPosts : countPosts,
+                totalCount : countPosts[0].count || posts.length,
                 userInfo:userInfo,
                 posts:posts
             });

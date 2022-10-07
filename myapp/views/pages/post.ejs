@@ -25,53 +25,16 @@
           <textarea id="content" name="content" rows="10" cols="80"></textarea>
         </div>
         <div>
-          <input type="submit" value="Post">
+          <input type="submit" value="Send">
         </div>
       </form>
     </div>
     <br>
     <hr><br>
     <% if (posts.length> 0) {%>
-    <%let counter=1%>
+    <% let counter=1 %>
     <% posts.forEach((p)=> { %>
-      <% postId=p.postId%>
-      <div class="Content">
-        <div class="subforum">
-          <div class="subforum-title">
-            <h2>
-              <%= p.header %>
-            </h2>
-          </div>
-          <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-              <i class="fa fa-car center"></i>
-            </div>
-            <div class="subforum-description subforum-column">
-              <p>
-                <%= p.contents %>
-              </p>
-            </div>
-            <div class="subforum-stats subforum-column center">
-              <span>
-                <%=counter%> / <%=numOfReplies%> Posts</a>
-              </span>
-            </div>
-            <div class="subforum-info subforum-column">
-              <b>Last post</b> by <%=p.username%>
-              <br>on <small>
-                <%=p.created_at%>
-              </small>
-            </div>
-          </div>
-        </div>
-        <form action="/user/delete_post/:<%=postId%>" method="post" style="display: inline-block;">
-          <input type="submit" value="Delete Post" />
-        </form>
-        <form action="/user/edit_post/:<%=postId%>/:<%=username%>" method="post" style="display: inline-block;">
-          <input type="submit" value="Edit Post" />
-        </form>
-        <br><br>
-      </div>
+      <%- include('../partial/showPost', {p:p, counter:counter, username:username}) %>
       <%counter++%>
     <% }) %>
     <% } %>

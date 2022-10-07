@@ -1,0 +1,17 @@
+<div style="border:1px solid black;">
+    <div>
+      <h2><%= p.header %></h2>
+      <div>
+        <p><%= p.contents %></p>
+      </div>
+        <p><small><%=counter%> / <%=totalCount%> Posts</small></p>
+        <p><small> Posted by <%=p.username%> on <%=p.created_at%></small></p>
+    </div>
+    <form action="/user/delete_post/:<%=p.postId%>" method="post" style="display: inline-block;">
+      <input type="submit" value="Delete Post" />
+    </form>
+    <form action="/user/edit_post/:<%=p.postId%>/:<%=username%>" method="post" style="display: inline-block;">
+      <input type="submit" value="Edit Post" />
+    </form>
+</div>
+<br><br>
