@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
     res.render('login');
 });
 router.post('/', function(req, res, next) {
-    res.render('login');
+    res.render('login', {referer:req.headers.referer});
 });
 
 router.post('/login', async (req, res, next) =>{
@@ -30,9 +30,16 @@ router.post('/login', async (req, res, next) =>{
 
             if(userInfo.length > 0){
                 // Store user info into session
-                req.session.user = req.body; // username and password
+                req.session.user = username; // username and password
                 req.session.isLogin = true; // login status
-                res.redirect('/user')
+
+                if (    req.body.referer && 
+                        (req.body.referer !== undefined && 
+                        req.body.referer.slice(-6) !== "/login")) {
+                    res.redirect(req.body.referer);
+                } else {
+                    res.redirect("/");
+                }
                 // res.render('user',{
                 //     countPosts : countPosts,
                 //     posts : posts,
