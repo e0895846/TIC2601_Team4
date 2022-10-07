@@ -12,7 +12,7 @@ var selectPost = db.selectPost;
 /* GET home page. */
 router.get('/', async (req, res, next) => {
   try {
-    let sql = 'SELECT * FROM posts ORDER BY created_at DESC';
+    let sql = 'SELECT * FROM data ORDER BY created_at DESC';
     posts = await queryAsync(sql);
     res.render('index', {
       posts: posts

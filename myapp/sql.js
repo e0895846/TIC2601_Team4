@@ -1,17 +1,17 @@
-const insPostSQL = `INSERT INTO posts (username, header, contents) VALUES (?, ?, ?)`;
+const insPostSQL = `INSERT INTO data (username, header, contents) VALUES (?, ?, ?)`;
 const userinfowPassSQL = 'SELECT * FROM users WHERE username = ? AND password = ?';
 const userinfonoPassSQL = 'SELECT * FROM users WHERE username = ?';
-const postSQL = 'SELECT * FROM posts WHERE username = ?';
-const coutPostSQL = 'SELECT COUNT(*) as count FROM posts WHERE username = ?';
+const postSQL = 'SELECT * FROM data WHERE username = ?';
+const coutPostSQL = 'SELECT COUNT(*) as count FROM data WHERE username = ?';
 const insUserSQL = 'INSERT INTO users (username, password) VALUES (?, ?)';
-const deletepostSQL = 'DELETE FROM posts WHERE postid = ?';
-const getpostbyIdSQL = 'SELECT * FROM posts WHERE postid = ?';
-const updatepostSQL = 'UPDATE posts SET header = ?, contents = ? WHERE postId = ?';
-const selectAllPostSQL = 'SELECT * FROM posts';
-const selectPostByUser = 'SELECT * FROM posts WHERE username LIKE ?';
-const selectPostByHeader = 'SELECT * FROM posts WHERE header LIKE ?';
-const selectPostByContents = 'SELECT * FROM posts WHERE contents LIKE ?';
-const selectPost = 'SELECT * FROM posts p WHERE p.username LIKE ? OR p.header LIKE ? OR p.contents LIKE ?';
+const deletepostSQL = 'DELETE FROM data WHERE postid = ?';
+const getpostbyIdSQL = 'SELECT * FROM data WHERE postid = ?';
+const updatepostSQL = 'UPDATE data SET header = ?, contents = ? WHERE postId = ?';
+const selectAllPostSQL = 'SELECT * FROM data';
+const selectPostByUser = 'SELECT * FROM data WHERE username LIKE ?';
+const selectPostByHeader = 'SELECT * FROM data WHERE header LIKE ?';
+const selectPostByContents = 'SELECT * FROM data WHERE contents LIKE ?';
+const selectPost = 'SELECT * FROM data p WHERE p.username LIKE ? OR p.header LIKE ? OR p.contents LIKE ?';
 
 
 
