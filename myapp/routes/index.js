@@ -18,8 +18,8 @@ router.get('/', async (req, res, next) => {
 
     res.render('index', {
       req:req,
-      posts: posts,
-      title:"Rabbit"
+      title:"Rabbit",
+      posts: posts
     });
   } catch (error) {
     console.log('SQL error', error);
@@ -30,16 +30,7 @@ router.get('/', async (req, res, next) => {
 router.get('/search', async (req, res) => {
   let opt = req.query.selectPicker;
   try {
-
-    if (opt == 'username') {
-      posts = await queryAsync(selectPostByUser, [`%${req.query.search_content}%`]);
-    } else if (opt == 'header') {
-      posts = await queryAsync(selectPostByHeader, [`%${req.query.search_content}%`]);
-    } else if (opt == 'contents') {
-      posts = await queryAsync(selectPostByContents, [`%${req.query.search_content}%`]);
-    } else {
-      posts = await queryAsync(selectPost, [`%${req.query.search_content}%`, `%${req.query.search_content}%`, `%${req.query.search_content}%`]);
-    }
+    posts = await queryAsync('SELECT * FROM data p WHERE p.username LIKE ? OR p.header LIKE ? OR p.content LIKE ?', [`%${req.query.search_content}%`, `%${req.query.search_content}%`, `%${req.query.search_content}%`]);
 
     res.render('index', {
       posts: posts

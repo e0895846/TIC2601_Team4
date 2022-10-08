@@ -13,11 +13,11 @@ router.get('/:id', async (req, res) => {
 
         res.render('post',{
             req:req,
+            title: post[0].header,
             header: post[0].header,
-            content: post[0].contents,
+            content: post[0].content,
             postId: id,
-            posts: replies,
-            title: "Post"
+            posts: replies
         });
     }catch(error){
         console.log('SQL error', error);
