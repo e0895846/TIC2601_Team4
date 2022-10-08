@@ -1,18 +1,19 @@
-<div style="border:1px solid black;">
-    <div>
-      <h2><%= post.header %></h2>
+<div class="card my-3 col">
+  <div class="card-header d-flex p-2">
+      <a href="#" class="me-auto"><%= post.header %></a>
       <div>
-        <p><%= post.content %></p>
+          <a href="#" ><%=post.username%></a>
+          Last post on <%=post.created_at.getFullYear()+"-"+post.created_at.getMonth()+"-"+post.created_at.getDate()+" "+post.created_at.getHours()+":"+post.created_at.getMinutes()%>
       </div>
-        <br><small> Posted by <%=post.username%> on <%=post.created_at%></small>
-    </div>
-    <% if (req.session.isLogin && (req.session.user == post.username || req.session.isAdmin)) {  %>
-    <form action="/crud/post/delete/<%=post.post_id%>" method="post" style="display: inline-block;">
-      <input type="submit" value="Delete Post" />
-    </form>
-    <form action="/crud/post/edit/<%=post.post_id%>/" method="post" style="display: inline-block;">
-      <input type="submit" value="Edit Post" />
-    </form>
-    <% } %>
+      
+  </div>
+  <div class="card-body">
+      <%= post.content %>
+  </div>
+  <div class="card-footer">
+      <a href="#" class="">
+          <i class="bi bi-chat-dots" style="font-size:25px;"></i>
+          99+
+      </a>
+  </div>
 </div>
-<br><br>

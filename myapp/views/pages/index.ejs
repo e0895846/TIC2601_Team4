@@ -6,24 +6,7 @@
     <%- include('../partial/header', {req:req}) %>
     <div class="main container-fluid mt-2">
         <div class="row">
-            <div class="col-2 mx-1">
-                <nav class="navbar bg-light">
-                    <ul class="navbar-nav my-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link active">Home</a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link">Category A</a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link">Category B</a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link">Category C</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+            <%- include('../partial/leftbar') %>  
             <div class="col-8">
                 <div class="d-flex p-2 justify-content-between mb-2">
                     (Category show here)
@@ -31,32 +14,14 @@
                 </div>
 
                 <div class="row row-cols-1 g-4">
-                    <% if (posts.length> 0) {%>
-                    <% posts.forEach((p)=> { %>
-                    <% postId=p.postId%>
-                    <% date=p.created_at %>
-                    <% newDate = date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds() %>
-                    <div class="card my-3 col">
-                        <div class="card-header d-flex p-2">
-                            <a href="#" class="me-auto"><%= p.header %></a>
-                            <div>
-                                <a href="#" ><%=p.username%></a>
-                                Last post on <%=newDate%>
-                            </div>
-                            
-                        </div>
-                        <div class="card-body">
-                            <%= p.content %>
-                        </div>
-                        <div class="card-footer">
-                            <a href="#" class="">
-                                <i class="bi bi-chat-dots" style="font-size:25px;"></i>
-                                99+
-                            </a>
-                        </div>
-                    </div>
-                    <% }) %>
-                    <% } %>
+                    <%  if (posts.length> 0) {
+                        let counter = 1
+                        posts.forEach((post)=> { 
+                    %>    <%- include('../partial/showPost', {post:post, req:req}) %>
+                    <%      counter++
+                        })
+                        }
+                    %>
                 </div>
             </div>
         </div>
