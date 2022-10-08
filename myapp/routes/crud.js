@@ -15,16 +15,16 @@ router.post('/post/:crud/:id', async (req, res) =>{
         var category = 'test'; //replace with function to get category of post
         if (crud == 'create' || crud == 'reply'){
             if (crud == 'reply') {
-                await queryAsync('INSERT INTO data (username, header, category, contents) VALUES (?, ?, ?); INSERT INTO is_comment_of (parent, child) VALUES (?, LAST_INSERT_ID())', [loginUser, header, category, content, id]);
+                await queryAsync('INSERT INTO data (username, header, category, content) VALUES (?, ?, ?); INSERT INTO is_comment_of (parent, child) VALUES (?, LAST_INSERT_ID())', [loginUser, header, category, content, id]);
             } else {
-                await queryAsync('INSERT INTO data (username, header, category, contents) VALUES (?, ?, ?)', [loginUser, header, category, content]);
+                await queryAsync('INSERT INTO data (username, header, category, content) VALUES (?, ?, ?)', [loginUser, header, category, content]);
             }
         } else if (crud == 'edit' || crud == 'delete') {
             let username = await queryAsync('SELECT username FROM data WHERE post_id = ?', [id]); 
             if (req.session.user == username[0].username || req.session.isAdmin) {
                 if (crud == 'edit') {
                     console.log("Edit");
-                    await queryAsync('UPDATE data SET header = ?, contents = ? , category = ? WHERE post_id = ?', [header, content, category, id]);
+                    await queryAsync('UPDATE data SET header = ?, content = ? , category = ? WHERE post_id = ?', [header, content, category, id]);
                 } else if (crud == 'delete'){
                     await queryAsync('DELETE FROM data WHERE post_id = ?', [id]);
                 }
