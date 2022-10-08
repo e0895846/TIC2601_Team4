@@ -34,12 +34,14 @@
                     <% if (posts.length> 0) {%>
                     <% posts.forEach((p)=> { %>
                     <% postId=p.postId%>
+                    <% date=p.created_at %>
+                    <% newDate = date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds() %>
                     <div class="card my-3 col">
                         <div class="card-header d-flex p-2">
                             <div class="me-auto"><%= p.header %></div>
                             <div>
                                 <a href="#" ><%=p.username%></a>
-                                Last post on <%=p.created_at%>
+                                Last post on <%=newDate%>
                             </div>
                             
                         </div>
