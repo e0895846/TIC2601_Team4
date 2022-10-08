@@ -33,13 +33,8 @@ router.post('/login', async (req, res, next) => {
                 req.session.isAdmin = userInfo[0].is_admin; //Administrative rights
                 req.session.isLogin = true; // login status
 
-                if (req.body.referer &&
-                    (req.body.referer !== undefined &&
-                        req.body.referer.slice(-6) !== "/login")) {
-                    res.redirect(req.body.referer);
-                } else {
-                    res.redirect("/");
-                }
+                res.redirect("/");
+
                 // res.render('user',{
                 //     countPosts : countPosts,
                 //     posts : posts,
