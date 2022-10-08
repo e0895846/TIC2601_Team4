@@ -29,7 +29,8 @@ router.post('/updatePost/:id/:username', async (req, res) =>{
         res.render('user',{
             countPosts : countPosts,
             userInfo:userInfo,
-            posts:posts
+            posts:posts,
+            title: "Edit Post"
         });
     } catch (error) {
         console.log('SQL error', error);

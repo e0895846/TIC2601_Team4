@@ -17,7 +17,8 @@ router.get('/', async (req, res, next) => {
 
     res.render('index', {
       req:req,
-      posts: posts
+      posts: posts,
+      title:"Rabbit"
     });
   } catch (error) {
     console.log('SQL error', error);

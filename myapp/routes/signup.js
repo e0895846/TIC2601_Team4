@@ -7,7 +7,10 @@ var queryAsync = require('../mysql.js')
 var insUserSQL = db.insUserSQL
 
 router.get('/', function(req, res, next) {
-    res.render('signup', { req:req });
+    res.render('signup', {
+        req:req,
+        title: "Sign Up"
+    });
 });
 router.post('/', function(req, res, next) {
     res.render('signup');
