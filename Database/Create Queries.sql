@@ -1,10 +1,10 @@
 -- snp Verison 1.0
 
-CREATE DATABASE IF NOT EXISTS snp;
-USE snp;
+CREATE DATABASE IF NOT EXISTS rabbit;
+USE rabbit;
 
-DROP TABLE IF EXISTS users;
-CREATE TABLE users (
+DROP TABLE IF EXISTS user;
+CREATE TABLE user (
   username VARCHAR(20) NOT NULL PRIMARY KEY,
   password VARCHAR(64) NOT NULL,
   is_admin TINYINT(1) NOT NULL DEFAULT 0,
@@ -29,26 +29,26 @@ CREATE TABLE image (
 DROP TABLE IF EXISTS data;
 CREATE TABLE data (
   post_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  username VARCHAR(20) NOT NULL REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE,
+  username VARCHAR(20) NOT NULL REFERENCES user(username) ON DELETE CASCADE ON UPDATE CASCADE,
   category VARCHAR(45) NOT NULL REFERENCES category(category) ON DELETE CASCADE ON UPDATE CASCADE,
   header VARCHAR(255) NOT NULL,
-  contents VARCHAR(16000),
+  content VARCHAR(16000),
   #image_id INT NOT NULL REFERENCES image(image_id) ON DELETE CASCADE ON UPDATE CASCADE,
   reputation INT NOT NULL DEFAULT 0,
   update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP()
 );
 
-DROP TABLE IF EXISTS subscribes;
-CREATE TABLE subscribes (
+DROP TABLE IF EXISTS subscribe;
+CREATE TABLE subscribe (
   category VARCHAR(45) NOT NULL REFERENCES category(category) ON DELETE CASCADE ON UPDATE CASCADE,
-  username VARCHAR(20) NOT NULL REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE
+  username VARCHAR(20) NOT NULL REFERENCES user(username) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-DROP TABLE IF EXISTS votes;
-CREATE TABLE votes (
-  username VARCHAR(20) NOT NULL REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  post_id INT NOT NULL REFERENCES posts(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
+DROP TABLE IF EXISTS vote;
+CREATE TABLE vote (
+  username VARCHAR(20) NOT NULL REFERENCES user(username) ON DELETE CASCADE ON UPDATE CASCADE,
+  post_id INT NOT NULL REFERENCES data(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
   is_upvote TINYINT(1) NOT NULL,
   update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
   PRIMARY KEY (username, post_id),
@@ -62,13 +62,13 @@ CREATE TABLE post (
 
 DROP TABLE IF EXISTS is_comment_of;
 CREATE TABLE is_comment_of (
-  parent INT NOT NULL REFERENCES posts(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  child INT NOT NULL REFERENCES posts(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  parent INT NOT NULL REFERENCES data(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  child INT NOT NULL REFERENCES data(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (parent, child)
 );
 
-TRUNCATE users;
-INSERT INTO users (username, password) VALUES 
+TRUNCATE user;
+INSERT INTO user (username, password) VALUES 
 ('Kelvin', '123456'),
 ('James', '654321'),
 ('Robert', '654321'),
@@ -79,7 +79,7 @@ INSERT INTO category (category) VALUES
 ('test');
 
 TRUNCATE data;
-INSERT INTO data (username, header, category, contents) VALUES 
+INSERT INTO data (username, header, category, content) VALUES 
 ('Kelvin', 'TESTING1', 'test', 'This is testing 1 contents'),
 ('James', 'TESTING2', 'test', 'This is testing 2 contents'),
 ('Robert', 'TESTING3', 'test', 'This is testing 3 contents'),
