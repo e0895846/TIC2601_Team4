@@ -24,13 +24,14 @@ router.post('/login', async (req, res, next) =>{
 
       if(username && password){       
        try{
-            userInfo = await queryAsync(userinfowPassSQL,[username,password]);
+            userInfo = await queryAsync('SELECT username, is_admin FROM users WHERE username = ? AND password = ?', [username, password]);
             posts = await queryAsync(postSQL, [username]);
             countPosts = await queryAsync(coutPostSQL, [username]);
 
             if(userInfo.length > 0){
                 // Store user info into session
-                req.session.user = username; // username and password
+                req.session.user = userInfo[0].username; // username and password
+                req.session.isAdmin = userInfo[0].is_admin; //Administrative rights
                 req.session.isLogin = true; // login status
 
                 if (    req.body.referer && 
