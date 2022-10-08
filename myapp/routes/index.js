@@ -12,8 +12,9 @@ var selectPost = db.selectPost;
 /* GET home page. */
 router.get('/', async (req, res, next) => {
   try {
-    let sql = 'SELECT * FROM data ORDER BY created_at DESC';
-    let posts = await queryAsync(sql);
+    let sql = 'SELECT d.* FROM post p LEFT JOIN data d ON d.post_id = p.post_id ORDER BY created_at DESC LIMIT 20;';
+    posts = await queryAsync(sql);
+
     res.render('index', {
       req:req,
       posts: posts

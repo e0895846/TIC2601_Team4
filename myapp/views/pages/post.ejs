@@ -19,22 +19,24 @@
       </p>
     </div>
     <div>
-      <form method="post" action="/user/postPage/:<%=postid%>">
+      <% if (req.session.isLogin) {  %>
+      <form method="post" action="/crud/post/reply/<%=postId%>">
         <div>
-          <label for="l_contents">Reply:</label><br>
+          <label for="content">Reply:</label><br>
           <textarea id="content" name="content" rows="10" cols="80"></textarea>
         </div>
         <div>
           <input type="submit" value="Send">
         </div>
       </form>
+      <% } %>
     </div>
     <br>
     <hr><br>
     <%  if (posts.length> 0) {
           let counter = 1
-          posts.forEach((p)=> { 
-    %>    <%- include('../partial/showPost', {p:p, counter:counter, username:username}) %>
+          posts.forEach((post)=> { 
+    %>    <%- include('../partial/showPost', {post:post, req:req}) %>
     <%      counter++
           })
         }

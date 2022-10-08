@@ -20,19 +20,16 @@ router.get('/:username', async (req, res) => {
     let header = req.body.header;
     let content = req.body.content;
 
-    let userInfo = {};
     let posts = {};
     let countPosts = {};
     
     try{
         userInfo = await queryAsync(userinfonoPassSQL,[username]);
         posts = await queryAsync(postSQL, [username]);
-        countPosts = await queryAsync(coutPostSQL, [username]);
         
         res.render('user', {
             req:req,
-            totalCount : countPosts[0].count || posts.length,
-            userInfo:userInfo,
+            userInfo: userInfo[0],
             posts:posts
         });
     }catch(error){
