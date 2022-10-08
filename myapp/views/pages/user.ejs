@@ -11,16 +11,13 @@
       </form>
     </div>
     <div>
-      <% var username; %>
-        <% var postId; %>
-          <% userInfo.forEach(function(f) { %>
-            <h1>
-              <%= username=f.username %> 's Main page
-            </h1>
-            <% }); %>
+      <h1>
+        <%= userInfo.username %>'s page
+      </h1>
+
     </div>
     <div>
-      <form method="post" action="/user/postPage/:<%=username%>">
+      <form method="post" action="/crud/post/create/0">
         <div>
           <input type="text" name="header" placeholder="header..." size="50">
         </div>
@@ -37,8 +34,8 @@
     <hr><br>
     <%  if (posts.length> 0) {
           let counter = 1
-          posts.forEach((p)=> { 
-    %>    <%- include('../partial/showPost', {p:p, counter:counter, username:username}) %>
+          posts.forEach((post)=> { 
+    %>    <%- include('../partial/showPost', {post:post, req:req}) %>
     <%      counter++
           })
         }

@@ -3,27 +3,20 @@ var router = express.Router();
 
 var queryAsync = require('../mysql.js')
 
-router.get('/signout', (req, res) => {
-    //res.clearCookie('nToken');
-    return res.redirect('/');
-});
-
-router.get('/:postid', async (req, res) => {
-    let postid = req.params.postid;
+router.get('/:id', async (req, res) => {
+    let id = req.params.id;
     let reply = req.body.content;
     
     try{
-        post = await queryAsync('SELECT header, contents FROM data WHERE post_id = ?', [postid]);
-        replies = await queryAsync('SELECT * FROM data WHERE post_id IN (SELECT child FROM is_comment_of WHERE parent = ?)', [postid]);
-        numOfReplies = await queryAsync('SELECT COUNT(*) as count FROM is_comment_of WHERE parent = ?', [postid]);
+        post = await queryAsync('SELECT header, contents FROM data WHERE post_id = ?', [id]);
+        replies = await queryAsync('SELECT * FROM data WHERE post_id IN (SELECT child FROM is_comment_of WHERE parent = ?)', [id]);
 
         res.render('post',{
             req:req,
             header: post[0].header,
             content: post[0].contents,
-            postid,
-            posts: replies,
-            totalCount: numOfReplies[0].count || replies.length
+            postId: id,
+            posts: replies
         });
     }catch(error){
         console.log('SQL error', error);

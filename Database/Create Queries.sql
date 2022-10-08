@@ -88,6 +88,12 @@ INSERT INTO data (username, header, category, contents) VALUES
 ('Robert', 'TESTING3', 'test', 'This is testing 6 reply'),
 ('John', 'TESTING4', 'test', 'This is testing 7 reply');
 
+INSERT INTO post (post_id) VALUES
+(1),
+(2),
+(3),
+(4);
+
 INSERT INTO is_comment_of (parent, child) VALUES
 (1, 5),
 (1, 6),

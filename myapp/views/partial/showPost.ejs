@@ -1,17 +1,18 @@
 <div style="border:1px solid black;">
     <div>
-      <h2><%= p.header %></h2>
+      <h2><%= post.header %></h2>
       <div>
-        <p><%= p.contents %></p>
+        <p><%= post.contents %></p>
       </div>
-        <br><small><%=counter%> / <%=totalCount%> Posts</small>
-        <br><small> Posted by <%=p.username%> on <%=p.created_at%></small>
+        <br><small> Posted by <%=post.username%> on <%=post.created_at%></small>
     </div>
-    <form action="/user/delete_post/:<%=p.postId%>" method="post" style="display: inline-block;">
+    <% if (req.session.isLogin && (req.session.user == post.username || req.session.isAdmin)) {  %>
+    <form action="/crud/post/delete/<%=post.post_id%>" method="post" style="display: inline-block;">
       <input type="submit" value="Delete Post" />
     </form>
-    <form action="/user/edit_post/:<%=p.postId%>/:<%=username%>" method="post" style="display: inline-block;">
+    <form action="/crud/post/edit/<%=post.post_id%>/" method="post" style="display: inline-block;">
       <input type="submit" value="Edit Post" />
     </form>
+    <% } %>
 </div>
 <br><br>
