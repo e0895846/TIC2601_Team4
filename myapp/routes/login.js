@@ -21,7 +21,7 @@ router.post('/login', async (req, res, next) => {
 
     if (username && password) {
         try {
-            userInfo = await queryAsync('SELECT username, is_admin FROM users WHERE username = ? AND password = ?', [username, password]);
+            userInfo = await queryAsync('SELECT username, is_admin FROM user WHERE username = ? AND password = ?', [username, password]);
             posts = await queryAsync(postSQL, [username]);
             countPosts = await queryAsync(coutPostSQL, [username]);
 
