@@ -14,6 +14,7 @@ router.get('/', async (req, res, next) => {
   try {
     let sql = 'SELECT d.* FROM post p LEFT JOIN data d ON d.post_id = p.post_id ORDER BY created_at DESC LIMIT 20;';
     posts = await queryAsync(sql);
+
     res.render('index', {
       req:req,
       posts: posts
@@ -23,14 +24,6 @@ router.get('/', async (req, res, next) => {
     res.status(500).send('Something went wrong');
   }
 });
-
-// router.post('/login', (req, res, next) => {
-//   res.render('login')
-// })
-
-// router.post('/signup', (req, res) => {
-//   res.render('signup')
-// });
 
 router.get('/search', async (req, res) => {
   let opt = req.query.selectPicker;
@@ -49,6 +42,21 @@ router.get('/search', async (req, res) => {
     res.render('index', {
       posts: posts
     });
+  } catch (error) {
+    console.log('SQL error', error);
+    res.status(500).send('Something went wrong');
+  }
+});
+
+// signout
+router.get('/signout', async (req, res, next) => {
+  try {
+    let sql = 'SELECT * FROM data ORDER BY created_at DESC';
+    req.session.posts = await queryAsync(sql);
+    req.session.user = '';
+    req.session.isAdmin = false;
+    req.session.isLogin = false;
+    res.redirect('/')
   } catch (error) {
     console.log('SQL error', error);
     res.status(500).send('Something went wrong');

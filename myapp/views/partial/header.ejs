@@ -10,10 +10,18 @@
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
       <% if (req.session.isLogin) {  %>
-        <a class="navbar-brand d-flex align-items-center" href="/<%= (req.session.isLogin) ? 'user/' + req.session.user : 'login'%>">
-          <i class="bi bi-person-circle mx-2" style="font-size:35px;"></i>
-          <span><%= req.session.user %></span>
-        </a>
+        <div class="dropdown text-end">
+          <a href="/<%= (req.session.isLogin) ? 'user/' + req.session.user : 'login'%>" class="navbar-brand d-flex align-items-center dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="bi bi-person-circle mx-2" style="font-size:35px;"></i>
+            <span><%= req.session.user %></span>
+          </a>
+          <ul class="dropdown-menu text-small">
+            <li><a class="dropdown-item" href="#">New post</a></li>
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/signout">Sign out</a></li>
+          </ul>
+        </div>
       <% } else { %>
         <a href="/login" class="btn btn-outline-success active" role="button">Login/Sign Up</a>
       <% } %>
