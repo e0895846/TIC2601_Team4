@@ -9,6 +9,7 @@ var selectPostByContents = db.selectPostByContents;
 var selectPost = db.selectPost;
 
 
+
 /* GET home page. */
 router.get('/', async (req, res, next) => {
   try {
@@ -51,8 +52,6 @@ router.get('/search', async (req, res) => {
 // signout
 router.get('/signout', async (req, res, next) => {
   try {
-    let sql = 'SELECT * FROM data ORDER BY created_at DESC';
-    req.session.posts = await queryAsync(sql);
     req.session.user = '';
     req.session.isAdmin = false;
     req.session.isLogin = false;

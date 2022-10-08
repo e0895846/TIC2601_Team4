@@ -1,6 +1,6 @@
 <div class="card my-3 col">
   <div class="card-header d-flex p-2">
-      <a href="#" class="me-auto"><%= post.header %></a>
+      <a href="/post/<%=post.post_id%>" class="me-auto"><%= post.header %></a>
       <div>
           <a href="#" ><%=post.username%></a>
           Last post on <%=post.created_at.getFullYear()+"-"+post.created_at.getMonth()+"-"+post.created_at.getDate()+" "+post.created_at.getHours()+":"+post.created_at.getMinutes()%>
