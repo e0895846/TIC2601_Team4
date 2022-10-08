@@ -21,6 +21,7 @@ app.use(session({
     secret: 'tic2601',
     resave: false,
     saveUninitialized: true
+    
 }));
 
 var fs = require('fs')

@@ -3,7 +3,7 @@
 <%- include('../partial/head') %>
 
   <body>
-    <%- include('../partial/header') %>
+    <%- include('../partial/header', {req:req}) %>
 
     <section>
         <% if (posts.length> 0) {%>

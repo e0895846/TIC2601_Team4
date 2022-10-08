@@ -3,7 +3,7 @@
 <%- include('../partial/head') %>
 
     <body>
-        <%- include('../partial/header') %>
+        <%- include('../partial/header', {req:req}) %>
         <div class="container-fluid">
             <h1>Log in</h1>
             <form method="post" action="/login/login">

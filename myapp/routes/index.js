@@ -15,7 +15,8 @@ router.get('/', async (req, res, next) => {
     let sql = 'SELECT * FROM data ORDER BY created_at DESC';
     posts = await queryAsync(sql);
     res.render('index', {
-      posts: posts
+      posts: posts,
+      req:req
     });
   } catch (error) {
     console.log('SQL error', error);
