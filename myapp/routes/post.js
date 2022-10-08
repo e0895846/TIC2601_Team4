@@ -16,7 +16,8 @@ router.get('/:id', async (req, res) => {
             header: post[0].header,
             content: post[0].contents,
             postId: id,
-            posts: replies
+            posts: replies,
+            title: "Post"
         });
     }catch(error){
         console.log('SQL error', error);

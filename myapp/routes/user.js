@@ -30,7 +30,8 @@ router.get('/:username', async (req, res) => {
         res.render('user', {
             req:req,
             userInfo: userInfo[0],
-            posts:posts
+            posts:posts,
+            title: username
         });
     }catch(error){
         console.log('SQL error', error);

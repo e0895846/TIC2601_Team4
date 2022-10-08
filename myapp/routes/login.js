@@ -8,7 +8,10 @@ var coutPostSQL = db.coutPostSQL
 var userinfowPassSQL = db.userinfowPassSQL;
 
 router.get('/', function (req, res, next) {
-    res.render('login', { req:req });
+    res.render('login', {
+         req:req,
+         title: "Login/Sign Up"
+        });
 });
 
 router.post('/login', async (req, res, next) => {
