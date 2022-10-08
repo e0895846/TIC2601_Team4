@@ -3,7 +3,7 @@
 <%- include('../partial/head') %>
 
   <body>
-    <%- include('../partial/header') %>
+    <%- include('../partial/header', {req:req}) %>
 
     <div>
       <form action="/user/signout" method="get" style="float:right">

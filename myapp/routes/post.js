@@ -18,6 +18,7 @@ router.get('/:postid', async (req, res) => {
         numOfReplies = await queryAsync('SELECT COUNT(*) as count FROM is_comment_of WHERE parent = ?', [postid]);
 
         res.render('post',{
+            req:req,
             header: post[0].header,
             content: post[0].contents,
             postid,

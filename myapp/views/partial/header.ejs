@@ -9,8 +9,8 @@
         <input class="form-control" type="search" placeholder="Search Rabbit">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
-      <% if (req.session.user) {  %>
-        <a class="navbar-brand d-flex align-items-center" href="/user">
+      <% if (req.session.isLogin) {  %>
+        <a class="navbar-brand d-flex align-items-center" href="/<%= (req.session.isLogin) ? 'user/' + req.session.user : 'login'%>">
           <i class="bi bi-person-circle mx-2" style="font-size:35px;"></i>
           <span><%= req.session.user %></span>
         </a>

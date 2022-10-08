@@ -29,7 +29,8 @@ router.get('/:username', async (req, res) => {
         posts = await queryAsync(postSQL, [username]);
         countPosts = await queryAsync(coutPostSQL, [username]);
         
-        res.render('user',{
+        res.render('user', {
+            req:req,
             totalCount : countPosts[0].count || posts.length,
             userInfo:userInfo,
             posts:posts
