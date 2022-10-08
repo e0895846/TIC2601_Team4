@@ -1,31 +1,28 @@
-<header>
-  <nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/">
-        <img src="public/images/reddit.png" alt="Home icon" width="50" height="50">
-        Rabbit
-      </a>
-      <form class="d-flex col-6" role="search" action="/search" method="get">
-        <input class="form-control" type="search" placeholder="Search Rabbit">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-      <% if (req.session.isLogin) {  %>
-        <div class="dropdown text-end">
-          <a href="/<%= (req.session.isLogin) ? 'user/' + req.session.user : 'login'%>" class="navbar-brand d-flex align-items-center dropdown-toggle" data-bs-toggle="dropdown">
-            <i class="bi bi-person-circle mx-2" style="font-size:35px;"></i>
-            <span><%= req.session.user %></span>
-          </a>
-          <ul class="dropdown-menu text-small">
-            <li><a class="dropdown-item" href="#">New post</a></li>
-            <li><a class="dropdown-item" href="#">Profile</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="/signout">Sign out</a></li>
-          </ul>
-        </div>
-      <% } else { %>
-        <a href="/login" class="btn btn-outline-success active" role="button">Login/Sign Up</a>
-      <% } %>
-    </div>
-  </nav>
-
-</header>
+<nav class="navbar navbar-expand-lg bg-light sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+      <img src="public/images/reddit.png" alt="Home icon" width="50" height="50">
+      Rabbit
+    </a>
+    <form class="d-flex col-6" role="search" action="/search" method="get">
+      <input class="form-control" type="search" placeholder="Search Rabbit">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+    <% if (req.session.isLogin) {  %>
+      <div class="dropdown text-end">
+        <a href="/<%= (req.session.isLogin) ? 'user/' + req.session.user : 'login'%>" class="navbar-brand d-flex align-items-center dropdown-toggle" data-bs-toggle="dropdown">
+          <i class="bi bi-person-circle mx-2" style="font-size:35px;"></i>
+          <span><%= req.session.user %></span>
+        </a>
+        <ul class="dropdown-menu text-small">
+          <li><a class="dropdown-item" href="#">New post</a></li>
+          <li><a class="dropdown-item" href="#">Profile</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="/signout">Sign out</a></li>
+        </ul>
+      </div>
+    <% } else { %>
+      <a href="/login" class="btn btn-outline-success active" role="button">Login/Sign Up</a>
+    <% } %>
+  </div>
+</nav>

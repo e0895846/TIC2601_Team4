@@ -4,41 +4,65 @@
 
   <body>
     <%- include('../partial/header', {req:req}) %>
+    <div class="main container-fluid mt-2">
+        <div class="row">
+            <div class="col-2 mx-1">
+                <nav class="navbar bg-light">
+                    <ul class="navbar-nav my-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active">Home</a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link">Category A</a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link">Category B</a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link">Category C</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-8">
+                <div class="d-flex p-2 justify-content-between mb-2">
+                    (Category show here)
+                    <a class="btn btn-primary" href="#" role="button">New Post</a>
+                </div>
 
-    <section>
-        <% if (posts.length> 0) {%>
-        <% posts.forEach((p)=> { %>
-        <% postId=p.postId%>
-            <div class="Content">
-                <div class="subforum">
-                    <div class="subforum-title">
-                        <h2>
-                            <%= p.header %>
-                        </h2>
-                    </div>
-                    <div class="subforum-row">
-                        <div class="subforum-icon subforum-column center">
-                            <i class="fa fa-car center"></i>
+                <div class="row row-cols-1 g-4">
+                    <% if (posts.length> 0) {%>
+                    <% posts.forEach((p)=> { %>
+                    <% postId=p.postId%>
+                    <div class="card my-3 col">
+                        <div class="card-header d-flex p-2">
+                            <div class="me-auto"><%= p.header %></div>
+                            <div>
+                                <a href="#" ><%=p.username%></a>
+                                Last post on <%=p.created_at%>
+                            </div>
+                            
                         </div>
-                        <div class="subforum-description subforum-column">
-                            <p>
-                                <%= p.contents %>
-                            </p>
+                        <div class="card-body">
+                            <%= p.contents %>
                         </div>
-                        <div class="subforum-info subforum-column">
-                            <b>Last post</b> by <%=p.username%>
-                            <br>on <small>
-                                    <%=p.created_at%>
-                                </small>
+                        <div class="card-footer">
+                            <a href="#" class="">
+                                <i class="bi bi-chat-dots" style="font-size:25px;"></i>
+                                99+
+                            </a>
                         </div>
                     </div>
+                    <% }) %>
+                    <% } %>
                 </div>
             </div>
-            <br><br>
+        </div>
+    </div>
+
     
-        <% }) %>
-        <% } %>
-    </section>
+
+    
     
 <%- include('../partial/footer') %>   
 </body>
