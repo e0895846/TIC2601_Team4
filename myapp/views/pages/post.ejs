@@ -1,41 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
 <%- include('../partial/head') %>
-
   <body>
     <%- include('../partial/header', {req:req}) %>
-    <div>
-      <h1>
-        <%=header%>
-      </h1>
-      <p>
-        <%=content%>
-      </p>
+    <div class="main container-fluid mt-2">
+        <div class="row">
+            <%- include('../partial/leftbar') %>  
+            <div class="col-8">
+                <div>
+                  <h1>
+                    <%=header%>
+                  </h1>
+                  <p>
+                    <%=content%>
+                  </p>
+                </div>
+                <div class="row row-cols-1 g-4">
+                  <% if (req.session.isLogin) {  %>
+                  <form method="post" action="/crud/post/reply/<%=postId%>">
+                    <div class="form-group">
+                      <label for="content">Reply:</label>
+                      <textarea class="form-control" id="content" name="content" rows="5"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary my-1">Send</button>
+                  </form>
+                  <% } %>
+                  <%  if (posts.length> 0) {
+                      let counter = 1
+                      posts.forEach((post)=> { 
+                  %>    <%- include('../partial/showPost', {post:post, req:req}) %>
+                  <%      counter++
+                      })
+                      }
+                  %>
+                </div>
+            </div>
+          </div>
     </div>
-    <div>
-      <% if (req.session.isLogin) {  %>
-      <form method="post" action="/crud/post/reply/<%=postId%>">
-        <div>
-          <label for="content">Reply:</label><br>
-          <textarea id="content" name="content" rows="10" cols="80"></textarea>
-        </div>
-        <div>
-          <input type="submit" value="Send">
-        </div>
-      </form>
-      <% } %>
-    </div>
-    <br>
-    <hr><br>
-    <%  if (posts.length> 0) {
-          let counter = 1
-          posts.forEach((post)=> { 
-    %>    <%- include('../partial/showPost', {post:post, req:req}) %>
-    <%      counter++
-          })
-        }
-    %>
     <%- include('../partial/footer') %>
   </body>
-
 </html>

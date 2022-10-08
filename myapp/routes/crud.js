@@ -15,7 +15,8 @@ router.post('/post/:crud/:id', async (req, res) =>{
         var category = 'test'; //replace with function to get category of post
         if (crud == 'create' || crud == 'reply'){
             if (crud == 'reply') {
-                await queryAsync('INSERT INTO data (username, header, category, content) VALUES (?, ?, ?); INSERT INTO is_comment_of (parent, child) VALUES (?, LAST_INSERT_ID())', [loginUser, header, category, content, id]);
+                var returnPost = await queryAsync('INSERT INTO data SET ?', {username:loginUser, header:'test', category:category, content:content});
+                await queryAsync('INSERT INTO is_comment_of (parent, child) VALUES (?, ?)', [id, returnPost.insertId]);
             } else {
                 await queryAsync('INSERT INTO data (username, header, category, content) VALUES (?, ?, ?)', [loginUser, header, category, content]);
             }
@@ -30,6 +31,9 @@ router.post('/post/:crud/:id', async (req, res) =>{
                 }
             }
         }
+    }
+    if (crud == 'edit' || crud == 'reply'){
+        res.redirect('/post/'+id);
     }
     res.redirect('/');
 });
