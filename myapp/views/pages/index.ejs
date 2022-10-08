@@ -5,21 +5,6 @@
   <body>
     <%- include('../partial/header') %>
 
-    <!--SearchBox Section-->
-    <div class="Top-search">
-        <form action="/search" method="get">
-            <select name="selectPicker" class="round">
-                <option value="">Select Option</option>
-                <option value="username">username</option>
-                <option value="header">header</option>
-                <option value="contents">contents</option>
-            </select>
-            <input type="text" name="search_content" placeholder="Search..." size="40" class="round">
-            <input type="submit" name="search_button" value="Search" class="go"
-                style="text-align: center;">
-        </form>
-    </div>
-
     <section>
         <% if (posts.length> 0) {%>
         <% posts.forEach((p)=> { %>
