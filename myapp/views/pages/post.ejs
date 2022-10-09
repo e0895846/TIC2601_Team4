@@ -5,35 +5,51 @@
     <div class="main container-fluid mt-2">
         <div class="row">
             <%- include('../partial/leftbar') %>  
-            <div class="col-8">
-                <div>
-                  <h1>
-                    <%=header%>
-                  </h1>
-                  <p>
-                    <%=content%>
-                  </p>
+            <div class="col-8 mx-3">
+              <div class="d-flex p-2 justify-content-between mb-2">
+                  (Category show here)
+                  <div>
+                    <a href="#" ><%=post.username%></a>
+                    Last post on <%=post.created_at.getFullYear()+"-"+post.created_at.getMonth()+"-"+post.created_at.getDate()+" "+post.created_at.getHours()+":"+post.created_at.getMinutes()%>
+                  </div>
+              </div>
+
+              <div class="row row-cols-1 g-3">
+                <!-- Post-->
+                <div class="col-12 mx-1 d-flex">
+                  <div class="m-3 fs-4">
+                      <button class="btn p-0 fs-3"><i class="bi bi-hand-thumbs-up d-block"></i></button>
+                      <div class="d-block text-center"><%= post.reputation %></div>
+                      <button class="btn p-0 fs-3"><i class="bi bi-hand-thumbs-down d-block"></i></button>
+                  </div>
+                  <div class="card my-3">
+                      <div class="card-header d-flex p-2">
+                          <a href="/post/<%=post.post_id%>" class="me-auto"><%= post.header %></a>
+                      </div>
+                      <div class="card-body">
+                          <%= post.content %>
+                      </div>
+                  </div>
                 </div>
-                <div class="row row-cols-1 g-4">
-                  <% if (req.session.isLogin) {  %>
-                  <form method="post" action="/crud/post/reply/<%=postId%>">
-                    <div class="form-group">
-                      <label for="content">Reply:</label>
-                      <textarea class="form-control" id="content" name="content" rows="5"></textarea>
+
+                <!-- Textarea-->
+                <div class="col-12 mx-1">
+                  <form>
+                    <div class="form-floating d-block">
+                      <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                      <label for="floatingTextarea2">Comments</label>
                     </div>
-                    <button type="submit" class="btn btn-primary my-1">Send</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                   </form>
-                  <% } %>
-                  <%  if (posts.length> 0) {
-                      let counter = 1
-                      posts.forEach((post)=> { 
-                  %>    <%- include('../partial/showPost', {post:post, req:req}) %>
-                  <%      counter++
-                      })
-                      }
-                  %>
                 </div>
-            </div>
+
+                <!-- Comments-->
+                <div class="col-12 mx-1">
+                  (Comments)
+                </div>
+              </div>
+              </div>
+          </div>
           </div>
     </div>
     <%- include('../partial/footer') %>
