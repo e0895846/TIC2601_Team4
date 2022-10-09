@@ -1,19 +1,26 @@
-<div class="card my-3 col">
-  <div class="card-header d-flex p-2">
-      <a href="/post/<%=post.post_id%>" class="me-auto"><%= post.header %></a>
-      <div>
-          <a href="#" ><%=post.username%></a>
-          Last post on <%=post.created_at.getFullYear()+"-"+post.created_at.getMonth()+"-"+post.created_at.getDate()+" "+post.created_at.getHours()+":"+post.created_at.getMinutes()%>
+<div class="col-12 mx-1 d-flex">
+    <div class="m-3 fs-4">
+        <button class="btn p-0 fs-3"><i class="bi bi-hand-thumbs-up d-block"></i></button>
+        <div class="d-block text-center"><%= post.reputation %></div>
+        <button class="btn p-0 fs-3"><i class="bi bi-hand-thumbs-down d-block"></i></button>
+    </div>
+    <div class="card my-3 col">
+        <div class="card-header d-flex p-2">
+            <a href="/post/<%=post.post_id%>" class="me-auto"><%= post.header %></a>
+            <div>
+                <a href="#" ><%=post.username%></a>
+                Last post on <%=post.created_at.getFullYear()+"-"+post.created_at.getMonth()+"-"+post.created_at.getDate()+" "+post.created_at.getHours()+":"+post.created_at.getMinutes()%>
+            </div>
+            
+        </div>
+        <div class="card-body">
+            <%= post.content %>
+        </div>
+        <div class="card-footer">
+            <a href="#" class="">
+                <i class="bi bi-chat-dots" style="font-size:25px;"></i>
+                99+
+            </a>
+        </div>
       </div>
-      
-  </div>
-  <div class="card-body">
-      <%= post.content %>
-  </div>
-  <div class="card-footer">
-      <a href="#" class="">
-          <i class="bi bi-chat-dots" style="font-size:25px;"></i>
-          99+
-      </a>
-  </div>
 </div>

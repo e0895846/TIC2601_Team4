@@ -5,18 +5,18 @@
     <%- include('../partial/header', {req:req}) %>
     <div class="main container-fluid mt-2">
         <div class="row">
-            <%- include('../partial/leftbar') %>  
-            <div class="col-8">
+            <%- include('../partial/leftbar') %> 
+            <div class="col-8 mx-3">
                 <div class="d-flex p-2 justify-content-between mb-2">
                     (Category show here)
                     <a class="btn btn-primary" href="#" role="button">New Post</a>
                 </div>
 
-                <div class="row row-cols-1 g-4">
+                <div class="row row-cols-1 g-3">
                     <%  if (posts.length> 0) {
                         let counter = 1
-                        posts.forEach((post)=> { 
-                    %>    <%- include('../partial/showPost', {post:post, req:req}) %>
+                        posts.forEach((post)=> {%>    
+                    <%- include('../partial/showPost', {post:post, req:req}) %>
                     <%      counter++
                         })
                         }
