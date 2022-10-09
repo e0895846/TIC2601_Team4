@@ -6,7 +6,7 @@
         <%- include('../partial/header', {req:req}) %>
         <div class="container-fluid">
             <h1>Log in</h1>
-            <form method="post" action="/login/login">
+            <form method="post" action="/login/login" autocomplete="off">
                 <label for="l_name">user name:</label>
                 <input type="text" name="username" placeholder="user name">
                 <label for="l_password">password:</label>
