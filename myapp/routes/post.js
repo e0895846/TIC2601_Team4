@@ -8,17 +8,16 @@ router.get('/:id', async (req, res) => {
     let reply = req.body.content;
     
     try{
-        post = await queryAsync('SELECT header, content FROM data WHERE post_id = ?', [id]);
+        post1 = await queryAsync('SELECT * FROM data WHERE post_id = ?', [id]);
         replies = await queryAsync('SELECT * FROM data WHERE post_id IN (SELECT child FROM is_comment_of WHERE parent = ?)', [id]);
 
         res.render('post',{
             req:req,
-            title: post[0].header,
-            header: post[0].header,
-            content: post[0].content,
-            postId: id,
-            posts: replies
+            title:post1[0].header,
+            post:post1[0],
+            replies: replies
         });
+        
     }catch(error){
         console.log('SQL error', error);
         res.status(500).send('Something went wrong');
