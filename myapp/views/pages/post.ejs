@@ -33,17 +33,19 @@
                 </div>
 
                 <!-- Textarea for edit-->
-                <% if (true) { %>
+                <% if (post.username == req.session.user || req.session.isAdmin) { %>
                 <div class="col-12 justify-content-right">
                   <form method="post" action="/crud/post/edit/<%=post.post_id%>">
                       <label class="h5">Edit your post here</label>
-                      <textarea class="form-control"><%= post.content %></textarea>
+                      <textarea class="form-control" name="header"><%= post.header %></textarea>
+                      <textarea class="form-control" name="content"><%= post.content %></textarea>
                       <button type="submit" class="btn btn-primary mt-3">Update</button>
                   </form>
                 </div>
                 <% } %>
 
                 <!-- Textarea for comment-->
+                <% if (req.session.isLogin) { %>
                 <div class="col-12 justify-content-right">
                   <form method="post" action="/crud/post/reply/<%=post.post_id%>">
                       <div class="form-floating d-block">
@@ -53,7 +55,9 @@
                       <button type="submit" class="btn btn-primary mt-3">Submit</button>
                   </form>
                 </div>
+                <% } %>
 
+                <hr/>
                 <!-- Comments-->
                 <div class="col-12 mx-1">
                   <%  if (replies.length> 0) {
