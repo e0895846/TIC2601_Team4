@@ -98,3 +98,6 @@ INSERT INTO is_comment_of (parent, child) VALUES
 (1, 5),
 (1, 6),
 (5, 7);
+
+INSERT INTO vote (username, post_id, is_upvote) VALUES
+('Kelvin', 1, 1);
