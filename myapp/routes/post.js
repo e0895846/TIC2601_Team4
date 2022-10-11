@@ -8,13 +8,13 @@ router.get('/:id', async (req, res) => {
     let reply = req.body.content;
     
     try{
-        post1 = await queryAsync('SELECT * FROM data WHERE post_id = ?', [id]);
+        post = await queryAsync('SELECT * FROM data WHERE post_id = ?', [id]);
         replies = await queryAsync('SELECT * FROM data WHERE post_id IN (SELECT child FROM is_comment_of WHERE parent = ?)', [id]);
 
         res.render('post',{
             req:req,
-            title:post1[0].header,
-            post:post1[0],
+            title: post[0].header,
+            post: post[0],
             replies: replies
         });
         

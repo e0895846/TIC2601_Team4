@@ -24,7 +24,7 @@
                   </div>
                   <div class="card col">
                       <div class="card-header d-flex">
-                          <a href="/post/<%=post.post_id%>"><%= post.header %></a>
+                          <h4><%= post.header %></h4>
                       </div>
                       <div class="card-body">
                           <%= post.content %>
@@ -34,9 +34,9 @@
 
                 <!-- Textarea-->
                 <div class="col-12 justify-content-right">
-                  <form>
+                  <form method="post" action="/crud/post/reply/<%=post.post_id%>">
                       <div class="form-floating d-block">
-                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                        <textarea class="form-control" name="content" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
                         <label for="floatingTextarea2">Comments</label>
                       </div>
                       <button type="submit" class="btn btn-primary mt-3">Submit</button>
@@ -45,7 +45,14 @@
 
                 <!-- Comments-->
                 <div class="col-12 mx-1">
-                  (Comments)
+                  <%  if (replies.length> 0) {
+                    let counter = 1
+                    replies.forEach((post)=> {%>    
+                  <%- include('../partial/showPost', {post:post, req:req}) %>
+                  <%      counter++
+                    })
+                    }
+                  %>
                 </div>
               </div>
               </div>
