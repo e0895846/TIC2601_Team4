@@ -3,11 +3,8 @@ Simplified: Users(login, signup),  Posts (CRUD)
 ------------------------------------
 TASK TO DO:
 
-index.ejs
-	all posts, login/signup button
-
-URL bug
-Insert data
+Check BUG
+Validation done at database level
 
 -------------------------------
 Web UI Layout
