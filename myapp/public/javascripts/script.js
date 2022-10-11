@@ -29,6 +29,7 @@ function vote(button) {
   let icon = button.querySelector("i");
   icon.classList.toggle('bi-hand-thumbs-up');
   icon.classList.toggle('bi-hand-thumbs-up-fill');
+  
 }
 
 function unvote(button) {
