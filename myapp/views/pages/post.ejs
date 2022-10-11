@@ -32,11 +32,22 @@
                   </div>
                 </div>
 
-                <!-- Textarea-->
+                <!-- Textarea for edit-->
+                <% if (true) { %>
+                <div class="col-12 justify-content-right">
+                  <form method="post" action="/crud/post/edit/<%=post.post_id%>">
+                      <label class="h5">Edit your post here</label>
+                      <textarea class="form-control"><%= post.content %></textarea>
+                      <button type="submit" class="btn btn-primary mt-3">Update</button>
+                  </form>
+                </div>
+                <% } %>
+
+                <!-- Textarea for comment-->
                 <div class="col-12 justify-content-right">
                   <form method="post" action="/crud/post/reply/<%=post.post_id%>">
                       <div class="form-floating d-block">
-                        <textarea class="form-control" name="content" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                        <textarea class="form-control" name="content" id="floatingTextarea2" style="height: 100px"></textarea>
                         <label for="floatingTextarea2">Comments</label>
                       </div>
                       <button type="submit" class="btn btn-primary mt-3">Submit</button>
