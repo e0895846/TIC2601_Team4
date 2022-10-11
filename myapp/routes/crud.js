@@ -3,6 +3,18 @@ var router = express.Router();
 
 var queryAsync = require('../mysql.js')
 
+function vote(button) {
+    let icon = button.querySelector("i");
+    icon.classList.toggle('bi bi-hand-thumbs-up');
+    icon.classList.toggle('bi bi-hand-thumbs-up-fill');
+}
+
+function unvote(button) {
+    let icon = button.querySelector("i");
+    icon.classList.toggle('bi bi-hand-thumbs-down');
+    icon.classList.toggle('bi bi-hand-thumbs-down-fill');
+}
+
 router.post('/post/:crud/:id', async (req, res) =>{
     let crud = req.params.crud;
     let id = req.params.id;
