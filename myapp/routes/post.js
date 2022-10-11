@@ -8,7 +8,7 @@ router.get('/:id', async (req, res) => {
     let reply = req.body.content;
     
     try{
-        post = await queryAsync('SELECT * FROM data WHERE post_id = ?', [id]);
+        post = await queryAsync("SELECT d.*, v.is_upvote FROM data d LEFT JOIN vote v ON v.post_id = d.post_id WHERE d.post_id = ? OR (v.post_id = ? AND v.username = '?')", [id, id, req.session.user]);
         replies = await queryAsync('SELECT * FROM data WHERE post_id IN (SELECT child FROM is_comment_of WHERE parent = ?)', [id]);
 
         res.render('post',{
