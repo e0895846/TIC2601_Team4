@@ -26,8 +26,7 @@ function showReply() {
 }
 
 function vote(button) {
-  console.log("upvote");
-  let icon = document.querySelector("i");
+  let icon = button.querySelector("i");
   icon.classList.toggle('bi-hand-thumbs-up');
   icon.classList.toggle('bi-hand-thumbs-up-fill');
 }
