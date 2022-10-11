@@ -18,17 +18,9 @@
                 <!-- Post-->
                 <div class="col-12 d-flex">
                   <div class="fs-4 px-2">
-                      <button class="btn p-0 fs-3"><i class="bi d-block bi-hand-thumbs-up
-                        <% if(post.is_upvote) { %>
-                          -fill
-                        <% } %>
-                        "></i></button>
+                      <button class="btn p-0 fs-3"><i class="bi d-block bi-hand-thumbs-up<%= post.is_upvote==1 ? '-fill':''%>"></i></button>
                       <div class="d-block text-center"><%= post.reputation %></div>
-                      <button class="btn p-0 fs-3"><i class="bi d-block bi-hand-thumbs-down
-                        <% if(!post.is_upvote && post.is_upvote != null) { %>
-                          -fill
-                        <% } %>
-                        "></i></button>
+                      <button class="btn p-0 fs-3"><i class="bi d-block bi-hand-thumbs-down<%= post.is_upvote==0&&post.is_upvote!=undefined ? '-fill':''%>"></i></button>
                   </div>
                   <div class="card col">
                       <div class="card-header d-flex">
