@@ -26,7 +26,6 @@ router.post('/post/:crud/:id', async (req, res) =>{
                 let username = await queryAsync('SELECT username FROM data WHERE post_id = ?', [id]); 
                 if (req.session.user == username[0].username || req.session.isAdmin) {
                     if (crud == 'edit') {
-                        console.log("Edit");
                         await queryAsync('UPDATE data SET header = ?, content = ? , category = ? WHERE post_id = ?', [header, content, category, id]);
                     } else if (crud == 'delete'){
                         await queryAsync('DELETE FROM data WHERE post_id = ?', [id]);
