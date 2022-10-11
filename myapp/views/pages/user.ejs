@@ -3,43 +3,40 @@
 
   <body>
     <%- include('../partial/header', {req:req}) %>
+    <div class="main container-fluid mt-2">
+        <div class="row">
+            <%- include('../partial/leftbar') %> 
+            <div class="col-8 mx-3">
+                <div class="d-flex p-2 justify-content-between mb-2">
+                    Your latest posts
+                    <a class="btn btn-primary" href="#" role="button">New Post</a>
+                </div>
 
-    <div>
-      <form action="/user/signout" method="get" style="float:right">
-        <input type="submit" value="Sign out" />
-      </form>
-    </div>
-    <div>
-      <h1>
-        <%= userInfo.username %>'s page
-      </h1>
+                <div class="row row-cols-1 g-3">
+                    <%  if (posts.length> 0) {
+                        let counter = 1
+                        posts.forEach((post)=> {%>    
+                    <%- include('../partial/showPost', {post:post, req:req}) %>
+                    <%      counter++
+                        })
+                        }
+                    %>
+                </div>
+            </div>
 
+            <!-- User info bar-->
+            <div class="col-3 mx-3">
+              
+            </div>
+
+        </div>
     </div>
-    <div>
-      <form method="post" action="/crud/post/create/0">
-        <div>
-          <input type="text" name="header" placeholder="header..." size="50">
-        </div>
-        <div>
-          <label for="l_contents">contents:</label><br>
-          <textarea id="content" name="content" rows="10" cols="80"></textarea>
-        </div>
-        <div>
-          <input type="submit" value="Post">
-        </div>
-      </form>
-    </div>
-    <br>
-    <hr><br>
-    <%  if (posts.length> 0) {
-          let counter = 1
-          posts.forEach((post)=> { 
-    %>    <%- include('../partial/showPost', {post:post, req:req}) %>
-    <%      counter++
-          })
-        }
-    %>
-<%- include('../partial/footer') %>
+
+    
+
+    
+    
+<%- include('../partial/footer') %>   
 </body>
 
 </html>
