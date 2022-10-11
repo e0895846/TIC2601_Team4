@@ -51,8 +51,9 @@ router.post('/post/:crud/:id', async (req, res) =>{
     }
     if (crud == 'edit' || crud == 'reply'){
         res.redirect('/post/'+id);
+    } else {
+        res.redirect('/');
     }
-    res.redirect('/');
 });
 
 router.post('/user/:crud/:name', async (req, res) =>{
