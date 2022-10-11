@@ -29,7 +29,7 @@ router.post('/post/:crud/:id', async (req, res) =>{
         try {
             if (crud == 'create' || crud == 'reply'){
                 if (crud == 'reply') {
-                    var returnPost = await queryAsync('INSERT INTO data SET ?', {username:loginUser, header:'test', category:category, content:content});
+                    var returnPost = await queryAsync('INSERT INTO data SET ?', {username:loginUser, header:'Reply to post#' + id, category:category, content:content});
                     await queryAsync('INSERT INTO is_comment_of (parent, child) VALUES (?, ?)', [id, returnPost.insertId]);
                 } else {
                     await queryAsync('INSERT INTO data (username, header, category, content) VALUES (?, ?, ?)', [loginUser, header, category, content]);
