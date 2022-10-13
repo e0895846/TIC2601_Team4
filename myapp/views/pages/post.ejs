@@ -34,11 +34,11 @@
 
                 <!-- Textarea for edit-->
                 <% if (true) { %>
-                <div class="col-12 justify-content-right">
+                <div class="col-12 justify-content-right d-block">
                   <form method="post" action="/crud/post/edit/<%=post.post_id%>">
                       <label class="h5">Edit your post here</label>
                       <textarea class="form-control"><%= post.content %></textarea>
-                      <button type="submit" class="btn btn-primary mt-3">Update</button>
+                      <button type="submit " class="btn btn-primary mt-3">Update</button>
                   </form>
                 </div>
                 <% } %>
