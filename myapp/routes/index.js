@@ -1,14 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../sql.js')
 
 var queryAsync = require('../mysql.js')
-var selectPostByUser = db.selectPostByUser;
-var selectPostByHeader = db.selectPostByHeader;
-var selectPostByContents = db.selectPostByContents;
-var selectPost = db.selectPost;
-
-
 
 /* GET home page. */
 router.get('/', async (req, res, next) => {

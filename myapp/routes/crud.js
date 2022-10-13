@@ -3,17 +3,22 @@ var router = express.Router();
 
 var queryAsync = require('../mysql.js')
 
-function vote(button) {
-    let icon = button.querySelector("i");
-    icon.classList.toggle('bi bi-hand-thumbs-up');
-    icon.classList.toggle('bi bi-hand-thumbs-up-fill');
-}
+router.post('/vote/:vote/:post', async (req, res) =>{
+    let vote = req.params.vote;
+    let post = req.params.post;
+ 
+    let loginUser = req.session.user;
+    //Login Check
 
-function unvote(button) {
-    let icon = button.querySelector("i");
-    icon.classList.toggle('bi bi-hand-thumbs-down');
-    icon.classList.toggle('bi bi-hand-thumbs-down-fill');
-}
+    try {
+        //Vote check and vote edit
+    } catch (error) {
+        console.log('SQL error', error);
+        res.status(500).send('Something went wrong');
+    }
+
+    res.redirect('/post/' + post);
+});
 
 router.post('/post/:crud/:id', async (req, res) =>{
     let crud = req.params.crud;
@@ -51,8 +56,9 @@ router.post('/post/:crud/:id', async (req, res) =>{
     }
     if (crud == 'edit' || crud == 'reply'){
         res.redirect('/post/'+id);
+    } else {
+        res.redirect('/');
     }
-    res.redirect('/');
 });
 
 router.post('/user/:crud/:name', async (req, res) =>{

@@ -1,28 +1,14 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../sql.js')
-var bodyParser = require('body-parser')
 
 var queryAsync = require('../mysql.js')
-var insUserSQL = db.insUserSQL
-
-router.get('/', function(req, res, next) {
-    res.render('signup', {
-        req:req,
-        title: "Sign Up"
-    });
-});
-router.post('/', function(req, res, next) {
-    res.render('signup');
-});
-
 
 router.post('/signup', async function(req, res){
     let username = req.body.username;
     let password = req.body.password;
     if(username && password){                  
         try{
-            await queryAsync(insUserSQL,[username, password]);
+            await queryAsync('INSERT INTO user (username, password) VALUES (?, ?)',[username, password]);
             console.log('Signup success')
             res.render('login');
         }catch(error){
