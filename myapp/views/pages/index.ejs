@@ -12,6 +12,21 @@
                     <a class="btn btn-primary" href="#" role="button">New Post</a>
                 </div>
 
+                <!-- New Post Textare-->
+                <div class="row g-2 my-2 d-flex align-items-center">
+                    <label class="form-label w-auto">New post in </label>
+                    <div class="col-5">
+                        <select class="form-control w-auto">
+                            <!-- loop category options here-->
+                            <option value="" selected>--Select Category--</option>
+                            <option value="Category A">Category A</option>
+                        </select>
+                    </div>
+                    <a class="btn btn-primary ms-auto w-auto" href="#" role="button">Submit New Post</a>
+                    <input class="form-control col-12" placeholder="Post Header">
+                    <textarea class="form-control col-12 my-2" rows="3" placeholder="Post Content"></textarea>
+                </div>
+
                 <div class="row row-cols-1 g-3">
                     <%  if (posts.length> 0) {
                         let counter = 1

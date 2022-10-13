@@ -38,7 +38,7 @@
                   <form method="post" action="/crud/post/edit/<%=post.post_id%>">
                       <label class="h5">Edit your post here</label>
                       <textarea class="form-control" name="header"><%= post.header %></textarea>
-                      <textarea class="form-control" name="content"><%= post.content %></textarea>
+                      <textarea class="form-control" name="content" rows="3"><%= post.content %></textarea>
                       <button type="submit" class="btn btn-primary mt-3">Update</button>
                   </form>
                 </div>
