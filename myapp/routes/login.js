@@ -14,6 +14,13 @@ router.post('/login', async (req, res, next) => {
     let username = req.body.username;
     let password = req.body.password;
 
+    // reject invalid type of input
+    if (typeof username != "string" || typeof password != "string"){
+        response.send("Invalid parameters!");
+        response.end();
+        return;
+       }
+
     if (username && password) {
         try {
             var userInfo = await queryAsync('SELECT username, is_admin FROM user WHERE username = ? AND password = ?', [username, password]);
