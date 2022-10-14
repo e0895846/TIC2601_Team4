@@ -1,52 +1,47 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../sql.js')
 
 var queryAsync = require('../mysql.js')
-var selectAllPostSQL = db.selectAllPostSQL;
-var selectPostByUser = db.selectPostByUser;
-var selectPostByHeader = db.selectPostByHeader;
-var selectPostByContents = db.selectPostByContents;
-var selectPost = db.selectPost;
 
 /* GET home page. */
-router.get('/', async(req, res, next) => {
-  try{
-    posts = await queryAsync(selectAllPostSQL);            
+router.get('/', async (req, res, next) => {
+  try {
+    posts = await queryAsync('SELECT d.* , v.is_upvote FROM post p LEFT JOIN data d ON d.post_id = p.post_id LEFT JOIN (SELECT * FROM vote v WHERE v.username = ?) v ON d.post_id = v.post_id ORDER BY created_at DESC LIMIT 20;', [req.session.user]);
+
     res.render('index', {
-      posts : posts      
+      req:req,
+      title:"Rabbit",
+      posts: posts
     });
-  }catch(error){
+  } catch (error) {
     console.log('SQL error', error);
     res.status(500).send('Something went wrong');
-} 
+  }
 });
 
-router.post('/login', (req, res, next) => {
-    res.render('login')
-})
-
-router.post('/signup', (req, res) =>{
-  res.render('signup');
-});
-
-router.get('/search', async (req, res) =>{
-  let opt = req.query.selectPicker;      
+router.get('/search', async (req, res) => {
+  let opt = req.query.selectPicker;
   try {
-    
-    if(opt == 'username'){
-      posts = await queryAsync (selectPostByUser, [`%${req.query.search_content}%`]);
-    }else if(opt == 'header'){
-      posts = await queryAsync (selectPostByHeader, [`%${req.query.search_content}%`]);
-    }else if(opt == 'contents'){
-      posts = await queryAsync (selectPostByContents, [`%${req.query.search_content}%`]);
-    } else {
-		posts = await queryAsync (selectPost, [`%${req.query.search_content}%`, `%${req.query.search_content}%`, `%${req.query.search_content}%`]);
-	}
-        
+    posts = await queryAsync('SELECT * FROM data p WHERE p.username LIKE ? OR p.header LIKE ? OR p.content LIKE ?', [`%${req.query.search_content}%`, `%${req.query.search_content}%`, `%${req.query.search_content}%`]);
+
     res.render('index', {
-      posts : posts
+      req:req,
+      title:"Search Results",
+      posts: posts
     });
+  } catch (error) {
+    console.log('SQL error', error);
+    res.status(500).send('Something went wrong');
+  }
+});
+
+// signout
+router.get('/signout', async (req, res, next) => {
+  try {
+    req.session.user = '';
+    req.session.isAdmin = false;
+    req.session.isLogin = false;
+    res.redirect('/')
   } catch (error) {
     console.log('SQL error', error);
     res.status(500).send('Something went wrong');

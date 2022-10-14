@@ -1,8 +1,28 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TIC2601 TEAM 4 prototype</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">    
-</head>
+<nav class="navbar navbar-expand-lg bg-light sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+      <img src="../public/images/rabbit-logo.png" alt="Home icon" width="50" height="50">
+      <img src="../public/images/rabbit-text.png" alt="icon text" width="110" height="45">
+    </a>
+    <form class="d-flex col-5 px-5" role="search" action="/search" method="get">
+      <input class="form-control" type="search" name="search_content" placeholder="Search Rabbit">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+    <% if (req.session.isLogin) {  %>
+      <div class="dropdown text-end">
+        <a href="/<%= (req.session.isLogin) ? 'user/' + req.session.user : 'login'%>" class="navbar-brand d-flex align-items-center dropdown-toggle" data-bs-toggle="dropdown">
+          <i class="bi bi-person-circle mx-2" style="font-size:35px;"></i>
+          <span><%= req.session.user %></span>
+        </a>
+        <ul class="dropdown-menu text-small">
+          <li><a class="dropdown-item" href="#">New post</a></li>
+          <li><a class="dropdown-item" href="/user/<%= req.session.user %>">Profile</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="/signout">Sign out</a></li>
+        </ul>
+      </div>
+    <% } else { %>
+      <a href="/login" class="btn btn-outline-success active" role="button">Login/Sign Up</a>
+    <% } %>
+  </div>
+</nav>

@@ -1,74 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
-<%-include('../partial/header')-%>
+<%- include('../partial/head') %>
 
-<body>
-    <header class="header">
-        <div class="Top Navigation">
-            <div class="Top-container">
-                <!--Icon Section-->
-                <div class="Top-icon">
-                    <img src="https://img.myloview.com/canvas-prints/tv-global-news-icon-simple-illustration-of-tv-global-news-vector-icon-for-web-design-isolated-on-white-background-400-245028823.jpg" alt="icon" width="60" height="60"> 
+  <body>
+    <%- include('../partial/header', {req:req}) %>
+    <div class="main container-fluid mt-2">
+        <div class="row">
+            <%- include('../partial/leftbar') %> 
+            <div class="col-8 px-5">
+                <div class="d-flex justify-content-between ps-5 mt-2 mx-2 h5">
+                    (Category show here)
+                    <a class="btn btn-primary" href="#" role="button">New Post</a>
                 </div>
 
-                <!--Logion Section-->
-                <form class="Top-login" style="text-align:right;", action="/login", method="post">
-                    <input type="submit" name="login-button" value="Login" class = "login" style="float:right">
+                <!-- New Post Textare-->
+                <% if (req.session.isLogin) { %>
+                <form class="row g-2 my-2 d-flex align-items-center" method="post" action="/crud/post/create/0">
+                    <label class="form-label w-auto">New post in </label>
+                    <div class="col-5">
+                        <select class="form-control w-auto" name="category">
+                            <!-- loop category options here-->
+                            <option value="" selected>--Select Category--</option>
+                            <option value="Category A">Category A</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary ms-auto w-auto" type="submit">Submit New Post</button>
+                    <input class="form-control col-12" name="header" placeholder="Post Header">
+                    <textarea class="form-control col-12 my-2" name="content" rows="3" placeholder="Post Content"></textarea>
                 </form>
-                <form class="Top-login" style="text-align:right;", action="/signup", method="post">
-                    <input type="submit" name="signup-button" value="Sign up" class = "signup" style="float:right">
-                </form>                
-    
-                <!--SearchBox Section-->
-                <div class="Top-search">
-                    <form action="/search" method="get">
-                    <select name="selectPicker"  class = "round">
-                        <option value="">Select Option</option>                        
-                        <option value="username">username</option>                        
-                        <option value="header">header</option>                        
-                        <option value="contents">contents</option>                        
-                    </select>
-                    <input type="text" name="search_content" placeholder="Search..." size="40" class = "round">
-                    <input type="submit" name="search_button" value="Search" class = "go" style="text-align: center;">
-                    </form>
+                <% } %>
+
+                <div class="row row-cols-1 g-3">
+                    <%  if (posts.length> 0) {
+                        let counter = 1
+                        posts.forEach((post)=> {%>    
+                    <%- include('../partial/showPost', {post:post, req:req}) %>
+                    <%      counter++
+                        })
+                        }
+                    %>
                 </div>
-    
-                
-    
             </div>
         </div>
-    </header>
+    </div>
 
+    
 
-    <% if (posts.length > 0) {%>
-        <% posts.forEach((p) => { %>        
-          <% postId = p.postId%>
-          <div class="Content">
-            <div class="subforum">                            
-              <div class="subforum-title">
-                <h2><%= p.header %></h2>
-              </div>
-              <div class="subforum-row">
-                <div class="subforum-icon subforum-column center">
-                    <i class="fa fa-car center"></i>
-                </div>
-                <div class="subforum-description subforum-column">                
-                    <p><%= p.contents %></p>
-                </div>
-                <div class="subforum-info subforum-column">
-                    <b>Last post</b> by <%=p.username%> 
-                    <br>on <small><%=p.created_at%></small>                    
-                </div>
-            </div>                   
-          </div>
-          <br><br>
-          
-        <% }) %>
-      <% } %>    
-
-
-
-    <%-include('../partial/footer')-%>
-    <script src="main.js"></script>
+    
+    
+<%- include('../partial/footer') %>   
 </body>
+
 </html>

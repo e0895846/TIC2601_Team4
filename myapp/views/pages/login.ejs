@@ -1,21 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<%-include('../partial/header')-%>
-<body>
-    <div class="">
-        <h1>Log in</h1>
-        <form method="post" action="/login/login">            
-                <label for="l_name">user name:</label>
-                <input type="text" name="username" placeholder="user name">               
-                <label for="l_password">password:</label>
-                <input type="password" name="password" placeholder="password"><br>                   
-                <input type="submit" value="Log in"/>
-        </form>
-        <br><br>
-        <form action="/signup" method="post" style="display: inline-block;">
-            <input type="submit" value="Sign up" />
-        </form> 
-    </div>
+<%- include('../partial/head') %>
+
+    <body>
+        <div class="container-fluid">
+            <div class="row text-center pb-4 mb-4">
+                <div class="col-12 d-flex pt-4 justify-content-center">
+                    <a class="p-3" href="/"> 
+                        <img src="public/images/rabbit-logo.png" alt="Home icon" width="100" height="100">
+                    </a>
+                </div>
+                <div class="col-12 d-flex pb-4 justify-content-center">
+                    <a class="p-3" href="/">
+                        <img src="public/images/rabbit-text.png" alt="icon text" width="110" height="45">
+                    </a>
+                </div>
+                
+                <div class="d-flex justify-content-center">
+                    <div class="p-3 mx-5">
+                        <p class="h3 mb-3">Login</p>
+                        <form method="post" action="/login/login" autocomplete="off" class="form-control py-2 px-3">
+                            <div class="form-floating mb-3 pt-2">
+                                <input class="form-control" type="text" id="floatingInput" name="username" placeholder="Username">
+                                <label for="floatingInput">Username</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" type="password" name="password" id="floatingPassword" placeholder="Password">
+                                <label for="floatingPassword">Password</label>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Login</button>
+                        </form>
+                    </div>
+                    <div class="d-flex" style="height: 100%;">
+                        <div class="vr"></div>
+                      </div>
+                    <div class="p-3 mx-5">
+                        <p class="h3 mb-3">Sign up</p>
+                        <form method="post" action="/crud/user/create/0" autocomplete="off" class="form-control py-2 px-3">
+                            <div class="form-floating mb-3 pt-2">
+                                <input class="form-control" type="text" id="floatingInput" name="username" placeholder="Username">
+                                <label for="floatingInput">Username</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" type="password" name="password" id="floatingPassword" placeholder="Password">
+                                <label for="floatingPassword">Password</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" type="password" name="repeatPassword" id="floatingPassword" placeholder="Repeat Password">
+                                <label for="floatingRepeatPassword">Repeat Password</label>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Sign Up</button>
+                        </form>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
     <%-include('../partial/footer')-%>
-</body>
+    </body>
+
 </html>
