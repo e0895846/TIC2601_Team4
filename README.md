@@ -4,17 +4,17 @@ Simplified: Users(login, signup),  Posts (CRUD)
 TASK TO DO:
 
 Validation done at database level?
-
+    
 Category Page
 - Category Page (Can use user.js & user.ejs as base)
 - Category Selection in "New Post"
 - Include existing category into leftBar and hyperlinks
-
-Vote function (Function links & display has been done, just need implement database logic in crud.js)
-Implement "Show/Hide Edit section" with button toggle
-Include Delete button for post (Function have been tested, just need to add the button that suit the design)
-
-Fix 'Show User Vote' for search function
+    
+Vote function (Function links & display has been done, just need implement database logic in crud.js)  
+Implement "Show/Hide Edit section" with button toggle  
+Include Delete button for post (Function have been tested, just need to add the button that suit the design)  
+    
+Fix 'Show User Vote' for search function  
 Include logic for "New post" function for user dropdown list
 
 -------------------------------
