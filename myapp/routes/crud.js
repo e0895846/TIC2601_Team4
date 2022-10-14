@@ -71,13 +71,20 @@ router.post('/user/:crud/:name', async (req, res) =>{
  
     let username = req.body.username;
     let password = req.body.password;
+    let repeatPassword = req.body.repeatPassword;
 
     try {
         if (crud == 'create' && (!req.session.isLogin || req.session.isAdmin)) {
-            await queryAsync('INSERT INTO user (username, password) VALUES (?, ?)', [username, password]);
-            req.session.user = username;
-            req.session.isAdmin = false;
-            req.session.isLogin = true;
+            if((username && password) && (password == repeatPassword)){  
+                await queryAsync('INSERT INTO user (username, password) VALUES (?, ?)', [username, password]);
+                req.session.user = username;
+                req.session.isAdmin = false;
+                req.session.isLogin = true;
+            } else if (password != repeatPassword){
+                res.send('Repeat Password does not match');
+            } else {
+                res.send('Please enter username and password');
+            }
         }
         else if (crud == 'edit' || crud == 'delete') {
             let loginUser = req.session.user;
