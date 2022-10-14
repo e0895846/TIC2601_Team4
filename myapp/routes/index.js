@@ -25,6 +25,8 @@ router.get('/search', async (req, res) => {
     posts = await queryAsync('SELECT * FROM data p WHERE p.username LIKE ? OR p.header LIKE ? OR p.content LIKE ?', [`%${req.query.search_content}%`, `%${req.query.search_content}%`, `%${req.query.search_content}%`]);
 
     res.render('index', {
+      req:req,
+      title:"Search Results",
       posts: posts
     });
   } catch (error) {
