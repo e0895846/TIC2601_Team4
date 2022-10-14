@@ -5,7 +5,7 @@
       <img src="../public/images/rabbit-text.png" alt="icon text" width="110" height="45">
     </a>
     <form class="d-flex col-5 px-5" role="search" action="/search" method="get">
-      <input class="form-control" type="search" placeholder="Search Rabbit">
+      <input class="form-control" type="search" name="search_content" placeholder="Search Rabbit">
       <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
     <% if (req.session.isLogin) {  %>

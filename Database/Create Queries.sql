@@ -100,4 +100,8 @@ INSERT INTO is_comment_of (parent, child) VALUES
 (5, 7);
 
 INSERT INTO vote (username, post_id, is_upvote) VALUES
-('Kelvin', 1, 1);
+('Kelvin', 1, 1),
+('Kelvin', 5, 0);
+
+UPDATE data SET reputation = 1 WHERE post_id = 1;
+UPDATE data SET reputation = -1 WHERE post_id = 5;
