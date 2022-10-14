@@ -3,8 +3,19 @@ Simplified: Users(login, signup),  Posts (CRUD)
 ------------------------------------
 TASK TO DO:
 
-Check BUG
-Validation done at database level
+Validation done at database level?
+
+Category Page
+- Category Page (Can use user.js & user.ejs as base)
+- Category Selection in "New Post"
+- Include existing category into leftBar and hyperlinks
+
+Vote function (Function links & display has been done, just need implement database logic in crud.js)
+Implement "Show/Hide Edit section" with button toggle
+Include Delete button for post (Function have been tested, just need to add the button that suit the design)
+
+Fix 'Show User Vote' for search function
+Include logic for "New post" function for user dropdown list
 
 -------------------------------
 Web UI Layout
@@ -19,9 +30,12 @@ Post Page (details of the specific post)
 ![alt text](https://github.com/e0895846/TIC2601_Team4/blob/Develop/ReadMe%20Related/UI%20Layout/Post.png)
 
 -------------------------------------
+Site Map:
+![alt text](https://github.com/e0895846/TIC2601_Team4/blob/Develop/ReadMe%20Related/Sitemap.png)
 
-
+Database:
 ![alt text](https://github.com/e0895846/TIC2601_Team4/blob/Develop/ReadMe%20Related/Full%20Schema%20Table.jpg)
+-------------------------------------
 Use cases:
 1.	MainPage
 **-	User login**
