@@ -6,8 +6,7 @@ var queryAsync = require('../mysql.js')
 /* GET home page. */
 router.get('/', async (req, res, next) => {
   try {
-    let sql = 'SELECT d.* FROM post p LEFT JOIN data d ON d.post_id = p.post_id ORDER BY created_at DESC LIMIT 20;';
-    posts = await queryAsync(sql);
+    posts = await queryAsync('SELECT d.* , v.is_upvote FROM post p LEFT JOIN data d ON d.post_id = p.post_id LEFT JOIN (SELECT * FROM vote v WHERE v.username = ?) v ON d.post_id = v.post_id ORDER BY created_at DESC LIMIT 20;', [req.session.user]);
 
     res.render('index', {
       req:req,
