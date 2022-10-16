@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const bcrypt = require("bcrypt");
 
 var queryAsync = require('../mysql.js')
 
@@ -65,7 +66,7 @@ router.post('/post/:crud/:id', async (req, res) =>{
     }
 });
 
-router.post('/user/:crud/:name', async (req, res) =>{
+router.post('/user/:crud/:name', async (req, res, next) =>{
     let crud = req.params.crud;
     let name = req.params.name;
  
@@ -76,10 +77,20 @@ router.post('/user/:crud/:name', async (req, res) =>{
     try {
         if (crud == 'create' && (!req.session.isLogin || req.session.isAdmin)) {
             if((username && password) && (password == repeatPassword)){  
-                await queryAsync('INSERT INTO user (username, password) VALUES (?, ?)', [username, password]);
-                req.session.user = username;
-                req.session.isAdmin = false;
-                req.session.isLogin = true;
+                // check used name
+                let result = await queryAsync('SELECT username FROM user WHERE username = ?', [username]);
+                if (result.length > 0) {
+                    res.send("This username has been used");
+                }
+                else {
+                    let salt = await bcrypt.genSalt(10);
+                    let hashPassword = await bcrypt.hash(password, salt);
+                    console.log(hashPassword);
+                    await queryAsync('INSERT INTO user (username, password) VALUES (?, ?)', [username, hashPassword]);
+                    req.session.user = username;
+                    req.session.isAdmin = false;
+                    req.session.isLogin = true;
+                }
             } else if (password != repeatPassword){
                 res.send('Repeat Password does not match');
             } else {

@@ -1,0 +1,1 @@
+error when signup fails (password not match or username is used)

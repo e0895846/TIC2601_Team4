@@ -1,4 +1,3 @@
--- snp Verison 1.0
 
 CREATE DATABASE IF NOT EXISTS rabbit;
 USE rabbit;

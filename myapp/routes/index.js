@@ -38,10 +38,9 @@ router.get('/search', async (req, res) => {
 // signout
 router.get('/signout', async (req, res, next) => {
   try {
-    req.session.user = '';
-    req.session.isAdmin = false;
-    req.session.isLogin = false;
-    res.redirect('/')
+    req.session.destroy();
+    res.redirect('/');
+    
   } catch (error) {
     console.log('SQL error', error);
     res.status(500).send('Something went wrong');
