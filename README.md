@@ -28,7 +28,7 @@ Category Page:
 
 Login page:
 1. signup add email ----------------------------------------------- pengcheng
-2. when signup fail show error message --------------------------- pengcheng
+2. when signup fail show error message (crud.js Line69) --------------------------- pengcheng
 3. (forgot password)--------------------------------------------------- kelvin
 
 User page:
