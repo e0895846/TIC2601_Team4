@@ -68,10 +68,10 @@ CREATE TABLE is_comment_of (
 
 TRUNCATE user;
 INSERT INTO user (username, password) VALUES 
-('Kelvin', '123456'),
-('James', '654321'),
-('Robert', '654321'),
-('John', '654321');
+('Kelvin', '$2b$10$V4bx3onIgab/mvuIlkgAVOTlB/dzOCeGy7Q5GY6aeZUr.f/u3zy/y'), --123456
+('James', '$2b$10$TRXpr7RpJn2jVs1EWAR9aOoEHElhee4PpOxIsJtbc2nCXSyVjnlmS'), --654321
+('Robert', '$2b$10$wTudTtgk6FXR0rU.akBl3.luCzPDLtDnvc7o9YeQTdkfWK7xA.E0O'), --654321
+('John', '$2b$10$WRXgM85h4Wy6iib9djz1duK8BynJ2SQYuod4UB9Tc9OPTakqh0eyi'); --654321
 
 TRUNCATE category;
 INSERT INTO category (category) VALUES
