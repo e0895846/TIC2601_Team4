@@ -85,7 +85,6 @@ router.post('/user/:crud/:name', async (req, res, next) =>{
                 else {
                     let salt = await bcrypt.genSalt(10);
                     let hashPassword = await bcrypt.hash(password, salt);
-                    console.log(hashPassword);
                     await queryAsync('INSERT INTO user (username, password) VALUES (?, ?)', [username, hashPassword]);
                     req.session.user = username;
                     req.session.isAdmin = false;

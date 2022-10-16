@@ -3,16 +3,47 @@ Simplified: Users(login, signup),  Posts (CRUD)
 ------------------------------------
 TASK TO DO:
 
-Validation done at database level?
-    
-Category Page
-- Category Page (Can use user.js & user.ejs as base)
-- Category Selection in "New Post"
-- Include existing category into leftBar and hyperlinks
-    
-Vote function (Function links & display has been done, just need implement database logic in crud.js)  
-Implement "Show/Hide Edit section" with button toggle  
-Include Delete button for post (Function have been tested, just need to add the button that suit the design)  
+* important
+() ignore for now
+
+SQL: 
+1. user>reputation trigger from vote >> kelvin
+2. comment> comment_id use trigger to check before insert >> kelvin
+3. (trending based on post>created_at && vote_post>updated_at)
+
+Home page:
+1. Vote button before login >> redirect to login page --------------- kelvin
+2. Display category info, by default "New" ---------------------------------Yi tat
+3. leftbar functions ----------------------------------------- xincheng
+4. search functon -------------------------------------------------------- Yi tat
+5. User icon drop-down list functions ----------------------------------- kelvin
+6. show new post textarea after clicking "new post"--------------------------- yi tat
+7. *vote function ------------------------------------------------- 
+8. show comments count---------------------------------------- pengcheng
+9. (trending rightbar)
+
+Category Page:
+1. calculate reputation of category in category info page---------------- Yi tat
+
+
+Login page:
+1. signup add email ----------------------------------------------- pengcheng
+2. when signup fail show error message --------------------------- pengcheng
+3. (forgot password)--------------------------------------------------- kelvin
+
+User page:
+1. partial navbar (new post) -------------------------------------------- YI tat
+2. rightbar show userInfo, reputation, joindate, email-------------------- Zijing
+3. (admin) delete/block user----------------------------------------------- zijiing
+
+Post page:
+1. hide "edit post" area--------------------------------------------------- xincheng
+2. create "edit", "delete" button-------------------------------------- xincheng
+
+Admin page:
+1. *****show statistic/report-------------------------------------------------- xincheng
+2. (update category name of post)
+
     
 Fix 'Show User Vote' for search function  
 Include logic for "New post" function for user dropdown list
