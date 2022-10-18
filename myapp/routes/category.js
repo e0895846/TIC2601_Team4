@@ -4,8 +4,8 @@ var db = require('../sql.js')
 
 var queryAsync = require('../mysql.js')
 
-router.get('/:username', async (req, res) => {
-    let username = req.params.username;
+router.get('/:category', async (req, res) => {
+    let category = req.params.category;
     let header = req.body.header;
     let content = req.body.content;
 
@@ -13,15 +13,15 @@ router.get('/:username', async (req, res) => {
     let countPosts = {};
     
     try{
-        userInfo = await queryAsync('SELECT * FROM user WHERE username = ?' ,[username]);
-        posts = await queryAsync('SELECT * FROM data WHERE username = ?', [username]);
+        categoryInfo = await queryAsync('SELECT * FROM category c WHERE c.category = ?' ,[category]);
+        posts = await queryAsync('SELECT * FROM post p INNER JOIN data d ON p.post_id = d.post_id WHERE d.category = ?', [category]);
         categories = await queryAsync(db.getAllCategory);
         
-        res.render('user', {
+        res.render('category', {
             req:req,
-            title: username,
-            userInfo: userInfo[0],
+            title: category,
             categories: categories,
+            categoryInfo: categoryInfo[0],
             posts:posts
         });
     }catch(error){

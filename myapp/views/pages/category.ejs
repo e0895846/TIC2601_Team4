@@ -7,17 +7,12 @@
         <div class="row">
             <%- include('../partial/leftbar', {categories:categories}) %> 
             <div class="col-8 px-5">
-                <div class="d-flex justify-content-between ps-5 mt-2 mx-2 h5">
-                    <p class="ps-5 mt-2 mx-2 h5"></p>
-                    <% if (req.session.isLogin) { %>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#newPostCollapse" aria-expanded="false" aria-controls="newPostCollapse">New Post</button>
-                    <% } %>
+                <div class="d-flex p-2 justify-content-between">
+                    <p class="ps-5 mt-2 mx-2 h5"><%= categoryInfo.category %></p>
                 </div>
 
-                <div class="collapse" id="newPostCollapse">
-                    <%- include('../partial/newPost', {req:req}) %>
-                </div>
-                
+                <%- include('../partial/newPost', {req:req}) %>
+
                 <div class="row row-cols-1 g-3">
                     <%  if (posts.length> 0) {
                         let counter = 1
@@ -29,8 +24,21 @@
                     %>
                 </div>
             </div>
+
+            <!-- User info bar-->
+            <div class="col-3 px-5 mt-5 pt-5">
+              <ul class="list-group">
+                <li class="list-group-item">Category: <%= categoryInfo.category %></li>
+                <li class="list-group-item">Reputation: <%= categoryInfo.reputation %></li>
+              </ul>
+            </div>
+
         </div>
     </div>
+
+    
+
+    
     
 <%- include('../partial/footer') %>   
 </body>

@@ -5,11 +5,10 @@
     <%- include('../partial/header', {req:req}) %>
     <div class="main container-fluid mt-2">
         <div class="row">
-            <%- include('../partial/leftbar') %> 
+            <%- include('../partial/leftbar', {categories:categories}) %> 
             <div class="col-8 px-5">
                 <div class="d-flex p-2 justify-content-between">
                     <p class="ps-5 mt-2 mx-2 h5">User Activity</p>
-                    <a class="btn btn-primary text-center" href="#" role="button">New Post</a>
                 </div>
 
                 <div class="row row-cols-1 g-3">

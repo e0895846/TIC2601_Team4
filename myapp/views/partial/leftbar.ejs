@@ -2,17 +2,16 @@
     <nav class="navbar bg-light p-2">
         <ul class="navbar-nav my-auto">
             <li class="nav-item">
-                <a href="#" class="nav-link active">Home</a>
+                <a href="/" class="nav-link active">Home</a>
             </li>
+            <%  if (categories.length> 0) {
+                posts.forEach((cat)=> {%>    
             <li>
-                <a href="#" class="nav-link">Category A</a>
+                <a href="/category/<%= cat.category %>" class="nav-link"><%= cat.category %></a>
             </li>
-            <li>
-                <a href="#" class="nav-link">Category B</a>
-            </li>
-            <li>
-                <a href="#" class="nav-link">Category C</a>
-            </li>
+            <%  })
+                }
+            %>
         </ul>
     </nav>
 </div>
