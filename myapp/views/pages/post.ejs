@@ -9,7 +9,7 @@
               <div class="d-flex p-2 justify-content-between mb-2">
                   (Category show here)
                   <div>
-                    <a href="#" ><%=post.username%></a>
+                    <a href="/user/<%=post.username%>" ><%=post.username%></a>
                     Last post on <%=post.created_at.getFullYear()+"-"+post.created_at.getMonth()+"-"+post.created_at.getDate()+" "+post.created_at.getHours()+":"+post.created_at.getMinutes()%>
                   </div>
               </div>
