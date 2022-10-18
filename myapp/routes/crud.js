@@ -76,8 +76,9 @@ router.post('/user/:crud/:name', async (req, res, next) =>{
     let repeatPassword = req.body.repeatPassword;
 
     try {
+        //create user
         if (crud == 'create' && (!req.session.isLogin || req.session.isAdmin)) {
-            if((username && password) && (password == repeatPassword)){  
+            if((username && password && email) && (password == repeatPassword)){  
                 // check used name
                 let result = await queryAsync('SELECT username FROM user WHERE username = ?', [username]);
                 if (result.length > 0) {
@@ -97,6 +98,7 @@ router.post('/user/:crud/:name', async (req, res, next) =>{
                 res.send('Please enter username and password');
             }
         }
+        // update user password and delete user
         else if (crud == 'edit' || crud == 'delete') {
             let loginUser = req.session.user;
             if (req.session.username == name || req.session.isAdmin) {
@@ -119,7 +121,8 @@ router.post('/user/:crud/:name', async (req, res, next) =>{
         res.status(500).send('Something went wrong');
     }
 
-    res.redirect('/');
+    res.redirect("/");
+    res.end();
 });
 
 module.exports = router;
