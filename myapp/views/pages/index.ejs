@@ -9,26 +9,15 @@
             <div class="col-8 px-5">
                 <div class="d-flex justify-content-between ps-5 mt-2 mx-2 h5">
                     (Category show here)
-                    <a class="btn btn-primary" href="#" role="button">New Post</a>
+                    <% if (req.session.isLogin) { %>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#newPostCollapse" aria-expanded="false" aria-controls="newPostCollapse">New Post</button>
+                    <% } %>
                 </div>
 
-                <!-- New Post Textare-->
-                <% if (req.session.isLogin) { %>
-                <form class="row g-2 my-2 d-flex align-items-center" method="post" action="/crud/post/create/0">
-                    <label class="form-label w-auto">New post in </label>
-                    <div class="col-5">
-                        <select class="form-control w-auto" name="category">
-                            <!-- loop category options here-->
-                            <option value="" selected>--Select Category--</option>
-                            <option value="Category A">Category A</option>
-                        </select>
-                    </div>
-                    <button class="btn btn-primary ms-auto w-auto" type="submit">Submit New Post</button>
-                    <input class="form-control col-12" name="header" placeholder="Post Header">
-                    <textarea class="form-control col-12 my-2" name="content" rows="3" placeholder="Post Content"></textarea>
-                </form>
-                <% } %>
-
+                <div class="collapse" id="newPostCollapse">
+                    <%- include('../partial/newPost', {req:req}) %>
+                </div>
+                
                 <div class="row row-cols-1 g-3">
                     <%  if (posts.length> 0) {
                         let counter = 1
@@ -42,10 +31,6 @@
             </div>
         </div>
     </div>
-
-    
-
-    
     
 <%- include('../partial/footer') %>   
 </body>
