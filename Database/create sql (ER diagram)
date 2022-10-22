@@ -57,3 +57,40 @@ CREATE TABLE vote_comment (
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
   PRIMARY KEY (username, post_id, comment_id),
 );
+
+-- Trigger statement
+CREATE TRIGGER reput_ins_voteComm AFTER INSERT ON vote_comment
+FOR EACH ROW BEGIN
+	IF NEW.is_upvote = 1 THEN
+		UPDATE user u SET reputation = reputation + 1 WHERE EXISTS (SELECT * FROM post p WHERE NEW.post_id = p.Post_id AND p.username = u.username);
+	ELSE
+		UPDATE user u SET reputation = reputation - 1 WHERE EXISTS (SELECT * FROM post p WHERE NEW.post_id = p.Post_id AND p.username = u.username);    
+	END IF;
+END; //
+
+CREATE TRIGGER reput_update_voteComm AFTER UPDATE ON vote_comment
+FOR EACH ROW BEGIN
+	IF NEW.is_upvote = 1 THEN
+		UPDATE user u SET reputation = reputation + 1 WHERE EXISTS (SELECT * FROM post p WHERE NEW.post_id = p.Post_id AND p.username = u.username);
+	ELSE
+		UPDATE user u SET reputation = reputation - 1 WHERE EXISTS (SELECT * FROM post p WHERE NEW.post_id = p.Post_id AND p.username = u.username);    
+	END IF;
+END; //
+
+CREATE TRIGGER reput_ins_votePost AFTER INSERT ON vote_post
+FOR EACH ROW BEGIN
+	IF NEW.is_upvote = 1 THEN
+		UPDATE user u SET reputation = reputation + 1 WHERE EXISTS (SELECT * FROM post p WHERE NEW.post_id = p.Post_id AND p.username = u.username);
+	ELSE
+		UPDATE user u SET reputation = reputation - 1 WHERE EXISTS (SELECT * FROM post p WHERE NEW.post_id = p.Post_id AND p.username = u.username);    
+	END IF;
+END; //
+
+CREATE TRIGGER reput_update_votePost AFTER UPDATE ON vote_post
+FOR EACH ROW BEGIN
+	IF NEW.is_upvote = 1 THEN
+		UPDATE user u SET reputation = reputation + 1 WHERE EXISTS (SELECT * FROM post p WHERE NEW.post_id = p.Post_id AND p.username = u.username);
+	ELSE
+		UPDATE user u SET reputation = reputation - 1 WHERE EXISTS (SELECT * FROM post p WHERE NEW.post_id = p.Post_id AND p.username = u.username);    
+	END IF;
+END; //
