@@ -30,7 +30,7 @@ CREATE TABLE post (
 );
 
 CREATE TABLE comment (
-  comment_id INT NOT NULL,
+  comment_id INT NOT NULL AUTO_INCREMENT,
   post_id INT NOT NULL REFERENCES post(post_id) ON DELETE CASCADE,
   parent_comment_id INT REFERENCES comment(comment_id) ON DELETE CASCADE,
   username VARCHAR(20) NOT NULL REFERENCES user(username) ON DELETE CASCADE,

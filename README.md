@@ -7,8 +7,8 @@ TASK TO DO:
 () ignore for now
 
 SQL: 
-1. user>reputation trigger from vote >> kelvin
-2. comment> comment_id use trigger to check before insert >> kelvin
+1. user>reputation trigger from vote >> kelvin (completed)
+2. comment> comment_id use trigger to check before insert >> kelvin (AutoIncreasement on comment table)
 3. (trending based on post>created_at && vote_post>updated_at)
 
 Home page:
