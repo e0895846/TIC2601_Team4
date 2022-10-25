@@ -1,3 +1,4 @@
+<% if (post.post_id) {%>
 <div class="col-12 d-flex">
     <div class="fs-4 px-2">
         <button class="btn p-0 fs-3"><i class="bi d-block bi-hand-thumbs-up<%= post.is_upvote==1 ? '-fill':''%>"></i></button>
@@ -25,3 +26,4 @@
       </div>
 </div>
 <br>
+<% } %>

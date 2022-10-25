@@ -32,28 +32,44 @@
                   </div>
                 </div>
 
+                <% if (req.session.isLogin) { %>
+                <div>
+                  <form method="post" action="/crud/post/delete/<%=post.post_id%>">
+                  <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#replyCollapse" aria-expanded="false" aria-controls="replyCollapse">Reply</button>
+                  <% if (post.username == req.session.user || req.session.isAdmin) { %>
+                  <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#editCollapse" aria-expanded="false" aria-controls="editCollapse">Edit</button>
+                  <button class="btn btn-primary mt-3" type="submit">Delete</button>
+                  <% } %>
+                  </form>
+                </div>
+                <% } %>
+
                 <!-- Textarea for edit-->
                 <% if (post.username == req.session.user || req.session.isAdmin) { %>
-                <div class="col-12 justify-content-right d-block">
-                  <form method="post" action="/crud/post/edit/<%=post.post_id%>">
-                      <label class="h5">Edit your post here</label>
-                      <textarea class="form-control" name="header"><%= post.header %></textarea>
-                      <textarea class="form-control" name="content" rows="3"><%= post.content %></textarea>
-                      <button type="submit" class="btn btn-primary mt-3">Update</button>
-                  </form>
+                <div class="collapse"  id="editCollapse">
+                  <div class="col-12  justify-content-right d-block">
+                    <form method="post" action="/crud/post/edit/<%=post.post_id%>">
+                        <label class="h5">Edit your post here</label>
+                        <textarea class="form-control" name="header"><%= post.header %></textarea>
+                        <textarea class="form-control" name="content" rows="3"><%= post.content %></textarea>
+                        <button type="submit" class="btn btn-primary mt-3">Update</button>
+                    </form>
+                  </div>
                 </div>
                 <% } %>
 
                 <!-- Textarea for comment-->
                 <% if (req.session.isLogin) { %>
-                <div class="col-12 justify-content-right">
-                  <form method="post" action="/crud/post/reply/<%=post.post_id%>">
-                      <div class="form-floating d-block">
-                        <textarea class="form-control" name="content" id="floatingTextarea2" style="height: 100px"></textarea>
-                        <label for="floatingTextarea2">Comments</label>
-                      </div>
-                      <button type="submit" class="btn btn-primary mt-3">Submit</button>
-                  </form>
+                <div class="collapse"  id="replyCollapse">
+                  <div class="col-12 justify-content-right">
+                    <form method="post" action="/crud/post/reply/<%=post.post_id%>">
+                        <div class="form-floating d-block">
+                          <textarea class="form-control" name="content" id="floatingTextarea2" style="height: 100px"></textarea>
+                          <label for="floatingTextarea2">Comments</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                    </form>
+                  </div>
                 </div>
                 <% } %>
 
