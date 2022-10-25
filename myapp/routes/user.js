@@ -15,13 +15,14 @@ router.get('/:username', async (req, res) => {
     try{
         userInfo = await queryAsync('SELECT * FROM user WHERE username = ?' ,[username]);
         posts = await queryAsync('SELECT * FROM data WHERE username = ?', [username]);
-        categories = await queryAsync(db.getAllCategory);
+        subscribes = await queryAsync(db.getAllCategory, [req.session.user]);
+        subscribes['current'] = '/';
         
         res.render('user', {
             req:req,
             title: username,
             userInfo: userInfo[0],
-            categories: categories,
+            subscribes: subscribes,
             posts:posts
         });
     }catch(error){

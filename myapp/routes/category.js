@@ -15,12 +15,13 @@ router.get('/:category', async (req, res) => {
     try{
         categoryInfo = await queryAsync('SELECT * FROM category c WHERE c.category = ?' ,[category]);
         posts = await queryAsync('SELECT * FROM post p INNER JOIN data d ON p.post_id = d.post_id WHERE d.category = ?', [category]);
-        categories = await queryAsync(db.getAllCategory);
+        subscribes = await queryAsync(db.getAllCategory, [req.session.user]);
+        subscribes['current'] = category;
         
         res.render('category', {
             req:req,
             title: category,
-            categories: categories,
+            subscribes: subscribes,
             categoryInfo: categoryInfo[0],
             posts:posts
         });

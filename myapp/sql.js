@@ -1,3 +1,3 @@
-const getAllCategory = 'SELECT c.category AS category FROM category c';
+const getAllCategory = 'SELECT category FROM subscribe WHERE username = ?';
 
 module.exports.getAllCategory = getAllCategory;

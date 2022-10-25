@@ -1,15 +1,16 @@
-
 CREATE DATABASE IF NOT EXISTS rabbit;
 USE rabbit;
 
 DROP TABLE IF EXISTS user;
 CREATE TABLE user (
-  username VARCHAR(20) NOT NULL PRIMARY KEY,
+  username VARCHAR(20) PRIMARY KEY,
   password VARCHAR(64) NOT NULL,
-  email VARCHAR(64) NOT NULL,
-  is_admin TINYINT(1) NOT NULL DEFAULT 0,
+  email VARCHAR(35) NOT NULL UNIQUE,
   reputation INT NOT NULL DEFAULT 0,
-  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP()
+  is_admin TINYINT(1) NOT NULL DEFAULT 0,
+  is_blocked TINYINT(1) NOT NULL DEFAULT 0,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  check(length(username) >=3)
 );
 
 DROP TABLE IF EXISTS category;
@@ -23,7 +24,7 @@ DROP TABLE IF EXISTS image;
 CREATE TABLE image (
   image_id INT NOT NULL PRIMARY KEY,
   data BLOB NOT NULL
-);z
+);
 */
 
 DROP TABLE IF EXISTS data;
@@ -41,8 +42,9 @@ CREATE TABLE data (
 
 DROP TABLE IF EXISTS subscribe;
 CREATE TABLE subscribe (
-  category VARCHAR(45) NOT NULL REFERENCES category(category) ON DELETE CASCADE ON UPDATE CASCADE,
-  username VARCHAR(20) NOT NULL REFERENCES user(username) ON DELETE CASCADE ON UPDATE CASCADE
+  username VARCHAR(20) REFERENCES user(username) ON DELETE CASCADE,
+  category VARCHAR(45) REFERENCES category(category) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (username, category)
 );
 
 DROP TABLE IF EXISTS vote;
@@ -76,17 +78,24 @@ INSERT INTO user (username, password, email) VALUES
 
 TRUNCATE category;
 INSERT INTO category (category) VALUES
-('test');
+('test1'),
+('test2'),
+('test3'),
+('test4'),
+('test5');
 
 TRUNCATE data;
 INSERT INTO data (username, header, category, content) VALUES 
-('Kelvin', 'TESTING1', 'test', 'This is testing 1 contents'),
-('James', 'TESTING2', 'test', 'This is testing 2 contents'),
-('Robert', 'TESTING3', 'test', 'This is testing 3 contents'),
-('John', 'TESTING4', 'test', 'This is testing 4 contents'),
-('James', 'TESTING5', 'test', 'This is testing 5 reply'),
-('Robert', 'TESTING3', 'test', 'This is testing 6 reply'),
-('John', 'TESTING4', 'test', 'This is testing 7 reply');
+('Kelvin', 'TESTING1', 'test1', 'This is testing 1 contents'),
+('James', 'TESTING2', 'test2', 'This is testing 2 contents'),
+('Robert', 'TESTING3', 'test3', 'This is testing 3 contents'),
+('John', 'TESTING4', 'test4', 'This is testing 4 contents'),
+('James', 'TESTING5', 'test1', 'This is testing 5 contents'),
+('John', 'TESTING6', 'test3', 'This is testing 6 contents'),
+('John', 'TESTING7', 'test5', 'This is testing 7 contents'),
+('James', 'TESTING5', 'test1', 'This is testing 5 reply'),
+('Robert', 'TESTING3', 'test1', 'This is testing 6 reply'),
+('John', 'TESTING4', 'test1', 'This is testing 7 reply');
 
 INSERT INTO post (post_id) VALUES
 (1),
@@ -105,3 +114,10 @@ INSERT INTO vote (username, post_id, is_upvote) VALUES
 
 UPDATE data SET reputation = 1 WHERE post_id = 1;
 UPDATE data SET reputation = -1 WHERE post_id = 5;
+
+INSERT INTO subscribe (username, category) VALUES
+('Kelvin', 'test1'),
+('Kelvin', 'test3'),
+('James', 'test2'),
+('James', 'test3'),
+('James', 'test4');
