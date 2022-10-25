@@ -14,7 +14,7 @@ router.get('/:category', async (req, res) => {
     
     try{
         categoryInfo = await queryAsync('SELECT * FROM category c WHERE c.category = ?' ,[category]);
-        posts = await queryAsync('SELECT * FROM post p INNER JOIN data d ON p.post_id = d.post_id WHERE d.category = ?', [category]);
+        posts = await queryAsync('SELECT d.*, v.is_upvote FROM post p INNER JOIN data d ON p.post_id = d.post_id LEFT JOIN (SELECT * FROM vote v WHERE v.username = ?) v ON v.post_id = d.post_id WHERE d.category = ?', [req.session.user, category]);
         subscribes = await queryAsync(db.getAllCategory, [req.session.user]);
         subscribes['current'] = category;
         
