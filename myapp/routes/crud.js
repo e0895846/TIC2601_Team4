@@ -4,20 +4,37 @@ const bcrypt = require("bcrypt");
 
 var queryAsync = require('../mysql.js')
 
-router.post('/vote/:vote/:post', async (req, res) =>{
+router.get('/vote/:vote/:post', async (req, res) =>{
     let vote = req.params.vote;
     let post = req.params.post;
- 
-    let loginUser = req.session.user;
-    //Login Check
 
-    try {
-        //Vote check and vote edit
-    } catch (error) {
-        console.log('SQL error', error);
-        res.status(500).send('Something went wrong');
+    if (req.session.isLogin) {
+        var currentVote = await queryAsync ('SELECT is_upvote FROM vote v WHERE v.post_id = ? AND v.username = ?', [post, req.session.user]);
+        if (currentVote[0]) {
+            if (currentVote[0].is_upvote == vote) {
+                await queryAsync ('DELETE FROM vote v WHERE v.username = ? AND v.post_id = ?', [req.session.user, post]);
+                if (vote == '1'){
+                    await queryAsync ('UPDATE data SET reputation = reputation - 1 WHERE post_id = ?', [post]);
+                } else {
+                    await queryAsync ('UPDATE data SET reputation = reputation + 1 WHERE post_id = ?', [post]);
+                }
+            } else {
+                await queryAsync ('UPDATE vote SET is_upvote = ? WHERE username = ? AND post_id = ?', [vote, req.session.user, post]);
+                if (vote == '1'){
+                    await queryAsync ('UPDATE data SET reputation = reputation + 2 WHERE post_id = ?', [post]);
+                } else {
+                    await queryAsync ('UPDATE data SET reputation = reputation - 2 WHERE post_id = ?', [post]);
+                }
+            }
+        } else {
+            await queryAsync ('INSERT INTO vote (username, post_id, is_upvote) VALUES (?, ?, ?)', [req.session.user, post, vote]);
+            if (vote == '1'){
+                await queryAsync ('UPDATE data SET reputation = reputation + 1 WHERE post_id = ?', [post]);
+            } else {
+                await queryAsync ('UPDATE data SET reputation = reputation - 1 WHERE post_id = ?', [post]);
+            }
+        }
     }
-
     res.redirect('/post/' + post);
 });
 
@@ -100,7 +117,6 @@ router.post('/user/:crud/:name', async (req, res, next) =>{
         }
         // update user password and delete user
         else if (crud == 'edit' || crud == 'delete') {
-            let loginUser = req.session.user;
             if (req.session.username == name || req.session.isAdmin) {
                 if (crud == 'edit') {
                     await queryAsync('UPDATE user SET username = ?, password = ? WHERE username = ?', [username, password, name]);
