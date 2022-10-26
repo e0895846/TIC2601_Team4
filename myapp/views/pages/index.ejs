@@ -14,10 +14,12 @@
                     <% } %>
                 </div>
 
-                <div class="collapse" id="newPostCollapse">
-                    <%- include('../partial/newPost', {req:req}) %>
-                </div>
-                
+                <% if (req.session.isLogin) { %>
+                    <div class="collapse" id="newPostCollapse">
+                        <%- include('../partial/newPost', {req:req, categories:categories}) %>
+                    </div>
+                <% } %>
+
                 <div class="row row-cols-1 g-3">
                     <%  if (posts.length> 0) {
                         let counter = 1

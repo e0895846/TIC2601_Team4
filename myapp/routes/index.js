@@ -8,12 +8,14 @@ var queryAsync = require('../mysql.js')
 router.get('/', async (req, res, next) => {
   try {
     posts = await queryAsync('SELECT d.* , v.is_upvote FROM post p LEFT JOIN data d ON d.post_id = p.post_id LEFT JOIN (SELECT * FROM vote v WHERE v.username = ?) v ON d.post_id = v.post_id ORDER BY created_at DESC LIMIT 20;', [req.session.user]);
-    subscribes = await queryAsync(db.getAllCategory, [req.session.user]);
+    categories = await queryAsync(db.getAllCategory);
+    subscribes = await queryAsync(db.getAllSubscribes, [req.session.user]);
     subscribes['current'] = '/';
 
     res.render('index', {
       req:req,
       title:"Rabbit",
+      categories: categories,
       subscribes: subscribes,
       posts: posts
     });
@@ -27,12 +29,14 @@ router.get('/search', async (req, res) => {
   let opt = req.query.selectPicker;
   try {
     posts = await queryAsync('SELECT d.*, v.is_upvote FROM data d LEFT JOIN (SELECT * FROM vote v WHERE v.username = ?) v ON d.post_id = v.post_id WHERE d.username LIKE ? OR d.header LIKE ? OR d.content LIKE ?', [req.session.user, `%${req.query.search_content}%`, `%${req.query.search_content}%`, `%${req.query.search_content}%`]);
-    subscribes = await queryAsync(db.getAllCategory, [req.session.user]);
+    categories = await queryAsync(db.getAllCategory);
+    subscribes = await queryAsync(db.getAllSubscribes, [req.session.user]);
     subscribes['current'] = '/';
 
     res.render('index', {
       req:req,
       title:"Search Results",
+      categories: categories,
       subscribes: subscribes,
       posts: posts
     });

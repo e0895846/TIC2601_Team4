@@ -9,9 +9,12 @@
             <div class="col-8 px-5">
                 <div class="d-flex p-2 justify-content-between">
                     <p class="ps-5 mt-2 mx-2 h5"><%= categoryInfo.category %></p>
+                    <button class="btn btn-primary" type="button">Subscribe</button>
                 </div>
 
-                <%- include('../partial/newPost', {req:req}) %>
+                <% if (req.session.isLogin) { %>
+                    <%- include('../partial/newPost', {req:req, categories:categories}) %>
+                <% } %>
 
                 <div class="row row-cols-1 g-3">
                     <%  if (posts.length> 0) {

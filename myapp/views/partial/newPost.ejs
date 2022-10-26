@@ -1,4 +1,3 @@
-<% if (req.session.isLogin) { %>
 <div class="card card-body">
     <form class="row g-2 my-2 d-flex align-items-center" method="post" action="/crud/post/create/0">
         <label class="form-label w-auto">New post in </label>
@@ -6,7 +5,9 @@
             <select class="form-control w-auto" name="category">
                 <!-- loop category options here-->
                 <option value="" selected>--Select Category--</option>
-                <option value="Category A">Category A</option>
+                <% categories.forEach((category)=> {%> 
+                    <option value="<%= category.category%>"><%= category.category%></option>
+                <% }) %>
             </select>
         </div>
         <button class="btn btn-primary ms-auto w-auto" type="submit">Submit New Post</button>
@@ -15,4 +16,3 @@
     </form>
 </div>
 <br/>
-<% } %>
