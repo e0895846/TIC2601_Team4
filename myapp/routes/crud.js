@@ -13,14 +13,14 @@ router.get('/vote/:vote/:post', async (req, res) =>{
         if (currentVote[0]) {
             if (currentVote[0].is_upvote == vote) {
                 await queryAsync ('DELETE FROM vote v WHERE v.username = ? AND v.post_id = ?', [req.session.user, post]);
-                if (vote == '1'){
+                if (vote == 1){
                     await queryAsync ('UPDATE data SET reputation = reputation - 1 WHERE post_id = ?', [post]);
                 } else {
                     await queryAsync ('UPDATE data SET reputation = reputation + 1 WHERE post_id = ?', [post]);
                 }
             } else {
                 await queryAsync ('UPDATE vote SET is_upvote = ? WHERE username = ? AND post_id = ?', [vote, req.session.user, post]);
-                if (vote == '1'){
+                if (vote == 1){
                     await queryAsync ('UPDATE data SET reputation = reputation + 2 WHERE post_id = ?', [post]);
                 } else {
                     await queryAsync ('UPDATE data SET reputation = reputation - 2 WHERE post_id = ?', [post]);
@@ -28,7 +28,7 @@ router.get('/vote/:vote/:post', async (req, res) =>{
             }
         } else {
             await queryAsync ('INSERT INTO vote (username, post_id, is_upvote) VALUES (?, ?, ?)', [req.session.user, post, vote]);
-            if (vote == '1'){
+            if (vote == 1){
                 await queryAsync ('UPDATE data SET reputation = reputation + 1 WHERE post_id = ?', [post]);
             } else {
                 await queryAsync ('UPDATE data SET reputation = reputation - 1 WHERE post_id = ?', [post]);
