@@ -85,7 +85,7 @@ router.post('/post/:crud/:id', async (req, res) =>{
                         var rCategory = await queryAsync ('SELECT category FROM data WHERE post_id = ?', [id])
                         await queryAsync('UPDATE data SET header = ?, content = ? , category = ? WHERE post_id = ?', [header, content, rCategory[0].category, id]);
                     } else if (crud == 'delete'){
-                        await queryAsync('DELETE FROM data WHERE post_id = ?', [id]);
+                        await queryAsync('WITH RECURSIVE getAll AS (SELECT ? AS post UNION ALL SELECT ico.child AS post FROM is_comment_of ico INNER JOIN getAll ga ON ico.parent = ga.post) DELETE FROM data WHERE post_id in (SELECT * FROM getAll)', [id]);
                     }
                 }
             }
