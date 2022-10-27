@@ -27,10 +27,14 @@
             <div class="col-3 px-5 mt-5 pt-5">
               <ul class="list-group">
                 <li class="list-group-item">Username: <%= userInfo.username %></li>
-                <li class="list-group-item">-</li>
-                <li class="list-group-item">-</li>
-                <li class="list-group-item">-</li>
-                <li class="list-group-item">-</li>
+                <li class="list-group-item">Join date: <%= userInfo.created_at %></li>
+                <li class="list-group-item">e-mail: <%= userInfo.email %></li>
+                <li class="list-group-item">Reputation: <%= userInfo.reputation %></li>
+                <li class="list-group-item">Admin: <% if(userInfo.is_admin == 0) {%>
+                    <span>No</span>
+                <%} else { %>
+                    <span>Yes</span>
+                <%;} %></li>
               </ul>
             </div>
 
