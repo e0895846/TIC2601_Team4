@@ -46,7 +46,7 @@ router.get('/vote/:vote/:post', async (req, res) =>{
 
 router.get('/category/:category', async (req, res) =>{
     let category = req.params.category;
-
+q
     if (req.session.isLogin) {
         var currentSubscribe = await queryAsync ('SELECT * FROM subscribe s WHERE s.username = ? AND s.category = ?', [req.session.user, category]);
         if (currentSubscribe[0]){
@@ -158,7 +158,6 @@ router.post('/user/:crud/:name', async (req, res, next) =>{
     }
 
     res.redirect("/");
-    res.end();
 });
 
 module.exports = router;
