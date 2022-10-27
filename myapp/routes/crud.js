@@ -15,23 +15,29 @@ router.get('/vote/:vote/:post', async (req, res) =>{
                 await queryAsync ('DELETE FROM vote v WHERE v.username = ? AND v.post_id = ?', [req.session.user, post]);
                 if (vote == 1){
                     await queryAsync ('UPDATE data SET reputation = reputation - 1 WHERE post_id = ?', [post]);
+                    await queryAsync ('UPDATE user SET reputation = reputation - 1 WHERE username = (SELECT username FROM data WHERE post_id = ?)', [post]);
                 } else {
                     await queryAsync ('UPDATE data SET reputation = reputation + 1 WHERE post_id = ?', [post]);
+                    await queryAsync ('UPDATE user SET reputation = reputation + 1 WHERE username = (SELECT username FROM data WHERE post_id = ?)', [post]);
                 }
             } else {
                 await queryAsync ('UPDATE vote SET is_upvote = ? WHERE username = ? AND post_id = ?', [vote, req.session.user, post]);
                 if (vote == 1){
                     await queryAsync ('UPDATE data SET reputation = reputation + 2 WHERE post_id = ?', [post]);
+                    await queryAsync ('UPDATE user SET reputation = reputation + 2 WHERE username = (SELECT username FROM data WHERE post_id = ?)', [post]);
                 } else {
                     await queryAsync ('UPDATE data SET reputation = reputation - 2 WHERE post_id = ?', [post]);
+                    await queryAsync ('UPDATE user SET reputation = reputation - 2 WHERE username = (SELECT username FROM data WHERE post_id = ?)', [post]);
                 }
             }
         } else {
             await queryAsync ('INSERT INTO vote (username, post_id, is_upvote) VALUES (?, ?, ?)', [req.session.user, post, vote]);
             if (vote == 1){
                 await queryAsync ('UPDATE data SET reputation = reputation + 1 WHERE post_id = ?', [post]);
+                await queryAsync ('UPDATE user SET reputation = reputation + 1 WHERE username = (SELECT username FROM data WHERE post_id = ?)', [post]);
             } else {
                 await queryAsync ('UPDATE data SET reputation = reputation - 1 WHERE post_id = ?', [post]);
+                await queryAsync ('UPDATE user SET reputation = reputation - 1 WHERE username = (SELECT username FROM data WHERE post_id = ?)', [post]);
             }
         }
     }
