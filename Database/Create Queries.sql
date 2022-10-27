@@ -75,6 +75,9 @@ INSERT INTO user (username, password, email) VALUES
 ('James', '$2b$10$TRXpr7RpJn2jVs1EWAR9aOoEHElhee4PpOxIsJtbc2nCXSyVjnlmS','James@rabbit.com'),
 ('Robert', '$2b$10$wTudTtgk6FXR0rU.akBl3.luCzPDLtDnvc7o9YeQTdkfWK7xA.E0O', 'Robert@rabbit.com'),
 ('John', '$2b$10$WRXgM85h4Wy6iib9djz1duK8BynJ2SQYuod4UB9Tc9OPTakqh0eyi', 'John@rabbit.com');
+INSERT INTO user (username, password, email, is_admin) VALUES 
+('admin', '$2b$10$AWfAC5/7tx4Nk/uoSNYYgeL7lrZ6AM6KZZSW1AZDQbmzgrUUAPJBm', 'admin@rabbit.com', 1);
+##admin Admin123
 
 TRUNCATE category;
 INSERT INTO category (category) VALUES

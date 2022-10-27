@@ -3,92 +3,105 @@
   <body>
     <%- include('../partial/header', {req:req}) %>
     <div class="main container-fluid mt-2">
-        <div class="row">
-          <%- include('../partial/navbar', {subscribes:subscribes}) %> 
-            <div class="col-8 mx-3">
-              <div class="d-flex p-2 justify-content-between mb-2">
-                  <p class="ps-5 mt-2 mx-2 h5"></p>
-                  <div>
-                    <a href="/user/<%=post.username%>" ><%=post.username%></a> | <a href="/category/<%=post.category%>" ><%=post.category%></a>
-                    Last post on <%=post.created_at.getFullYear()+"-"+post.created_at.getMonth()+"-"+post.created_at.getDate()+" "+post.created_at.getHours()+":"+post.created_at.getMinutes()%>
-                  </div>
+        <div class="row justify-content-center">
+          <div class="col-6 px-5">
+            <div class="row justify-content-center mb-2">
+                <div class="col-11 offset-1">
+                    <%- include('../partial/navbar', {subscribes:subscribes}) %> 
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col">
+                    <% if (req.session.isLogin) { %>
+                        <div class="collapse" id="newPostCollapse">
+                            <%- include('../partial/newPost', {req:req, categories:categories}) %>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+            <div class="row justify-content-center align-items-center">
+              <div class="col-1 fs-4 px-2 text-center">
+                <a href="<%= (req.session.isLogin) ? '/crud/vote/1/' + post.post_id : 'login' %>" class="btn p-0 fs-3">
+                    <i class="bi d-block bi-hand-thumbs-up<%= post.is_upvote==1 ? '-fill':''%>"></i>
+                </a>
+                <div class="d-block"><%= post.reputation %></div>
+                <a href="<%= (req.session.isLogin) ? '/crud/vote/0/' + post.post_id : 'login' %>"  class="btn p-0 fs-3">
+                    <i class="bi d-block bi-hand-thumbs-down<%= post.is_upvote==0&&post.is_upvote!=undefined ? '-fill':''%>"></i>
+                </a>
               </div>
-
-              <div class="row row-cols-1 g-3">
-                <!-- Post-->
-                <div class="col-12 d-flex">
-                  <div class="fs-4 px-2">
-                      <a href="/<%= (req.session.isLogin) ? 'crud/vote/1/' + post.post_id : 'login'%>" class="btn p-0 fs-3"><i class="bi d-block bi-hand-thumbs-up<%= post.is_upvote==1 ? '-fill':''%>"></i></a>
-                      <div class="d-block text-center"><%= post.reputation %></div>
-                      <a href="/<%= (req.session.isLogin) ? 'crud/vote/0/' + post.post_id : 'login'%>"  class="btn p-0 fs-3"><i class="bi d-block bi-hand-thumbs-down<%= post.is_upvote==0&&post.is_upvote!=undefined ? '-fill':''%>"></i></a>
+              <div class="col-11 card">
+                <div class="card-header row justify-content-between p-2">
+                  <div class="col-2">
+                    <a href="/post/<%=post.post_id%>" class="me-auto"><%= post.header %></a>
                   </div>
-                  <div class="card col">
-                      <div class="card-header d-flex">
-                          <h4><%= post.header %></h4>
-                      </div>
-                      <div class="card-body">
-                          <%= post.content %>
-                      </div>
+                  <div class="col-8 text-end">
+                    <a href="/user/<%=post.username%>" ><%=post.username%></a> | <a href="/category/<%=post.category%>" ><%=post.category%></a>
+                      Last post on <%=post.created_at.getFullYear()+"-"+post.created_at.getMonth()+"-"+post.created_at.getDate()+" "+post.created_at.getHours()+":"+post.created_at.getMinutes()%>
+                </div>
+                <div class="card-body row text-start">
+                  <div class="col card-text">
+                      <%= post.content %>
                   </div>
                 </div>
+              </div>
+            </div>
 
-                <% if (req.session.isLogin) { %>
-                <div>
+            <% if (req.session.isLogin) { %>
+              <div class="row my-2">
+                <div class="d-flex justify-content-end">
                   <form method="post" action="/crud/post/delete/<%=post.post_id%>">
-                  <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#replyCollapse" aria-expanded="false" aria-controls="replyCollapse">Reply</button>
-                  <% if (post.username == req.session.user || req.session.isAdmin) { %>
-                  <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#editCollapse" aria-expanded="false" aria-controls="editCollapse">Edit</button>
-                  <button class="btn btn-primary mt-3" type="submit">Delete</button>
-                  <% } %>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#replyCollapse" aria-expanded="false" aria-controls="replyCollapse">Reply</button>
+                    <% if (post.username == req.session.user || req.session.isAdmin) { %>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#editCollapse" aria-expanded="false" aria-controls="editCollapse">Edit</button>
+                    <button class="btn btn-primary" type="submit">Delete</button>
+                    <% } %>
                   </form>
                 </div>
-                <% } %>
+              </div>
+              <% } %>
 
-                <!-- Textarea for edit-->
-                <% if (post.username == req.session.user || req.session.isAdmin) { %>
-                <div class="collapse"  id="editCollapse">
-                  <div class="col-12  justify-content-right d-block">
-                    <form method="post" action="/crud/post/edit/<%=post.post_id%>">
-                        <label class="h5">Edit your post here</label>
-                        <textarea class="form-control" name="header"><%= post.header %></textarea>
-                        <textarea class="form-control" name="content" rows="3"><%= post.content %></textarea>
-                        <button type="submit" class="btn btn-primary mt-3">Update</button>
-                    </form>
-                  </div>
-                </div>
-                <% } %>
-
-                <!-- Textarea for comment-->
-                <% if (req.session.isLogin) { %>
-                <div class="collapse"  id="replyCollapse">
-                  <div class="col-12 justify-content-right">
-                    <form method="post" action="/crud/post/reply/<%=post.post_id%>">
-                        <div class="form-floating d-block">
-                          <textarea class="form-control" name="content" id="floatingTextarea2" style="height: 100px"></textarea>
-                          <label for="floatingTextarea2">Comments</label>
-                        </div>
-                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
-                    </form>
-                  </div>
-                </div>
-                <% } %>
-
-                <hr/>
-                <!-- Comments-->
-                <div class="col-12 mx-1">
-                  <%  if (replies.length> 0) {
-                    let counter = 1
-                    replies.forEach((post)=> {%>    
-                  <%- include('../partial/showPost', {post:post, req:req}) %>
-                  <%      counter++
-                    })
-                    }
-                  %>
+            <!-- Textarea for edit-->
+            <% if (post.username == req.session.user || req.session.isAdmin) { %>
+              <div class="collapse"  id="editCollapse">
+                <div class="col-11 offset-1 card card-body">
+                  <form method="post" action="/crud/post/edit/<%=post.post_id%>">
+                      <label class="h5">Edit your post here</label>
+                      <textarea class="form-control" name="header"><%= post.header %></textarea>
+                      <textarea class="form-control" name="content" rows="3"><%= post.content %></textarea>
+                      <button type="submit" class="btn btn-primary mt-3">Update</button>
+                  </form>
                 </div>
               </div>
+              <% } %>
+
+            <!-- Textarea for comment-->
+            <% if (req.session.isLogin) { %>
+              <div class="collapse"  id="replyCollapse">
+                <div class="col-11 offset-1 card card-body">
+                  <form method="post" action="/crud/post/reply/<%=post.post_id%>">
+                      <div class="form-floating d-block">
+                        <textarea class="form-control" name="content" id="floatingTextarea2" style="height: 100px"></textarea>
+                        <label for="floatingTextarea2">Comments</label>
+                      </div>
+                      <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                  </form>
+                </div>
               </div>
+              <% } %>
+
+            <!-- Comments-->
+            <div class="col-12 mx-1">
+              <%  if (replies.length> 0) {
+                let counter = 1
+                replies.forEach((post)=> {%>    
+              <%- include('../partial/showReply', {post:post, req:req}) %>
+              <%      counter++
+                })
+                }
+              %>
+            </div>
           </div>
-          </div>
+        </div>
     </div>
     <%- include('../partial/footer') %>
   </body>
