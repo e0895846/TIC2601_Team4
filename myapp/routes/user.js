@@ -14,7 +14,7 @@ router.get('/:username', async (req, res) => {
     
     try{
         userInfo = await queryAsync('SELECT * FROM user WHERE username = ?' ,[username]);
-        posts = await queryAsync('SELECT * FROM data WHERE username = ?', [username]);
+        posts = await queryAsync('SELECT d.*, v.is_upvote FROM data d LEFT JOIN (SELECT * FROM vote v WHERE v.username = ?) v ON d.post_id = v.post_id WHERE d.username = ?', [req.session.user, username]);
         subscribes = await queryAsync(db.getAllSubscribes, [req.session.user]);
         subscribes['current'] = '/';
         
