@@ -4,32 +4,35 @@
   <body>
     <%- include('../partial/header', {req:req}) %>
     <div class="main container-fluid mt-2">
-        <div class="row">
-            <%- include('../partial/leftbar', {subscribes:subscribes}) %> 
-            <div class="col-8 px-5">
-                <div class="d-flex justify-content-between ps-5 mt-2 mx-2 h5">
-                    <p class="ps-5 mt-2 mx-2 h5"></p>
-                    <% if (req.session.isLogin) { %>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#newPostCollapse" aria-expanded="false" aria-controls="newPostCollapse">New Post</button>
-                    <% } %>
-                </div>
-
-                <% if (req.session.isLogin) { %>
-                    <div class="collapse" id="newPostCollapse">
-                        <%- include('../partial/newPost', {req:req, categories:categories}) %>
+        <div class="row justify-content-center">
+            <div class="col-6 px-5">
+                <div class="row justify-content-center mb-2">
+                    <div class="col-11 offset-1">
+                        <%- include('../partial/navbar', {subscribes:subscribes}) %> 
                     </div>
-                <% } %>
-
-                <div class="row row-cols-1 g-3">
-                    <%  if (posts.length> 0) {
-                        let counter = 1
-                        posts.forEach((post)=> {%>    
-                    <%- include('../partial/showPost', {post:post, req:req}) %>
-                    <%      counter++
-                        })
-                        }
-                    %>
                 </div>
+                <div class="row justify-content-center">
+                    <div class="col">
+                        <% if (req.session.isLogin) { %>
+                            <div class="collapse" id="newPostCollapse">
+                                <%- include('../partial/newPost', {req:req, categories:categories}) %>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                        <%  if (posts.length> 0) {
+                            let counter = 1
+                            posts.forEach((post)=> {%>    
+                        <%- include('../partial/showPost', {post:post, req:req}) %>
+                        <%      counter++
+                            })
+                            }
+                        %>
+                </div>
+            </div>
+            <div class="col-2 ps-2 mt-3">
+                <%- include('../partial/sidebar', {}) %>
             </div>
         </div>
     </div>

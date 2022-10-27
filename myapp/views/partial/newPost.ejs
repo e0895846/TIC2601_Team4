@@ -1,18 +1,19 @@
-<div class="card card-body">
-    <form class="row g-2 my-2 d-flex align-items-center" method="post" action="/crud/post/create/0">
-        <label class="form-label w-auto">New post in </label>
-        <div class="col-5">
-            <select class="form-control w-auto" name="category">
-                <!-- loop category options here-->
-                <option value="" selected>--Select Category--</option>
-                <% categories.forEach((category)=> {%> 
-                    <option value="<%= category.category%>"><%= category.category%></option>
-                <% }) %>
-            </select>
-        </div>
-        <button class="btn btn-primary ms-auto w-auto" type="submit">Submit New Post</button>
-        <input class="form-control col-12" name="header" placeholder="Post Header">
-        <textarea class="form-control col-12 my-2" name="content" rows="3" placeholder="Post Content"></textarea>
-    </form>
+<div class="row mb-2">
+    <div class="col-11 offset-1 card card-body">
+        <form class="form-group" method="post" action="/crud/post/create/0">
+            <div class="row row-cols-lg-auto g-3 align-items-center mb-3">
+                <label class="col-12">New post in </label>
+                <select class="form-control col-12 w-auto" name="category">
+                    <!-- loop category options here-->
+                    <option value="" selected>--Select Category--</option>
+                    <% categories.forEach((category)=> {%> 
+                        <option value="<%= category.category%>"><%= category.category%></option>
+                    <% }) %>
+                </select>
+                <button class="btn btn-primary col-12 ms-auto" type="submit">Submit New Post</button>
+            </div>
+            <input class="form-control col-12 mb-1" name="header" placeholder="Post Header">
+            <textarea class="form-control col-12" name="content" rows="3" placeholder="Post Content"></textarea>
+        </form>
+    </div>
 </div>
-<br/>
