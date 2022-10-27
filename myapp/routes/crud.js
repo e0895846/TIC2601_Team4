@@ -38,6 +38,20 @@ router.get('/vote/:vote/:post', async (req, res) =>{
     res.redirect('/post/' + post);
 });
 
+router.get('/category/:category', async (req, res) =>{
+    let category = req.params.category;
+
+    if (req.session.isLogin) {
+        var currentSubscribe = await queryAsync ('SELECT * FROM subscribe s WHERE s.username = ? AND s.category = ?', [req.session.user, category]);
+        if (currentSubscribe[0]){
+            await queryAsync ('DELETE FROM subscribe s WHERE s.username = ? AND s.category = ?', [req.session.user, category]);
+        } else {
+            await queryAsync ('INSERT INTO subscribe (username, category) VALUES (?, ?)', [req.session.user, category]);
+        }
+    }
+    res.redirect('/category/' + category);
+});
+
 router.post('/post/:crud/:id', async (req, res) =>{
     let crud = req.params.crud;
     let id = req.params.id;
