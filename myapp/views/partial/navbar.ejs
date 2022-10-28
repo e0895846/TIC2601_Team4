@@ -20,9 +20,13 @@
                         <a href="/category/<%= subs.category %>" class="list-group-item list-group-item-secondary <%= (subscribes.current == subs.category) ? 'active' : ''%>"><%= subs.category %></a>
                     </li>
                     <%  }) %>
+                    <%  if (subscribes.length > 0) { %>
+                    <hr class="dropdown-divider">
+                    <%  } %>
                     <%  if (!subscribes.find(subs => subs.category === subscribes.current) && subscribes.current != '/') {%>
-                        <li><hr class="dropdown-divider"></li>
-                        <a href="/category/<%= subscribes.current %>" class="list-group-item list-group-item-secondary active"><%= subscribes.current %></a>
+                        <li>
+                            <a href="/category/<%= subscribes.current %>" class="list-group-item list-group-item-secondary active"><%= subscribes.current %></a>
+                        </li>
                     <%  } %>
                   </ul>
             </li>
