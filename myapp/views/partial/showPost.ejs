@@ -26,6 +26,7 @@
         <div class="card-footer row text-start p-1">
             <a href="/post/<%=post.post_id%>" class="col">
                 <i class="bi bi-chat-dots" style="font-size:20px;"></i>
+                <%= post.comments %>
             </a>
             <div class="col-8 text-end ms-auto">
                 <a href="/user/<%=post.username%>" ><%=post.username%></a> | <a href="/category/<%=post.category%>" ><%=post.category%></a>

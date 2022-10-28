@@ -19,7 +19,7 @@
                     <% } %>
                 </div>
             </div>
-            <div class="row justify-content-center align-items-center">
+            <div class="row justify-content-center align-items-center mb-3">
               <div class="col-1 fs-4 px-2 text-center">
                 <a href="<%= (req.session.isLogin) ? '/crud/vote/1/' + post.post_id : 'login' %>" class="btn p-0 fs-3">
                     <i class="bi d-block bi-hand-thumbs-up<%= post.is_upvote==1 ? '-fill':''%>"></i>
@@ -31,16 +31,22 @@
               </div>
               <div class="col-11 card">
                 <div class="card-header row justify-content-between p-2">
-                  <div class="col-2">
+                  <div class="col">
                     <a href="/post/<%=post.post_id%>" class="me-auto"><%= post.header %></a>
                   </div>
-                  <div class="col-8 text-end">
-                    <a href="/user/<%=post.username%>" ><%=post.username%></a> | <a href="/category/<%=post.category%>" ><%=post.category%></a>
-                      Last post on <%=post.created_at.getFullYear()+"-"+post.created_at.getMonth()+"-"+post.created_at.getDate()+" "+post.created_at.getHours()+":"+post.created_at.getMinutes()%>
                 </div>
                 <div class="card-body row text-start">
                   <div class="col card-text">
                       <%= post.content %>
+                      <% if(post.img != null) { %>
+                        <img class="img-fluid" src="<%= post.img %>">
+                      <% } %>
+                  </div>
+                </div>
+                <div class="card-footer row">
+                  <div class="col">
+                      <a href="/user/<%=post.username%>" ><%=post.username%></a> | <a href="/category/<%=post.category%>" ><%=post.category%></a>
+                      Last post on <%=post.created_at.getFullYear()+"-"+post.created_at.getMonth()+"-"+post.created_at.getDate()+" "+post.created_at.getHours()+":"+post.created_at.getMinutes()%>
                   </div>
                 </div>
               </div>
@@ -90,7 +96,7 @@
               <% } %>
 
             <!-- Comments-->
-            <div class="col-12 mx-1">
+            <div class="col-12">
               <%  if (replies.length> 0) {
                 let counter = 1
                 replies.forEach((post)=> {%>    

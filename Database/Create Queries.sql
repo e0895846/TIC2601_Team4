@@ -50,23 +50,6 @@ CREATE TABLE vote (
   CHECK(is_upvote = 1 OR is_upvote = 0)
 );
 
-delimiter $
-CREATE TRIGGER vote_after_insert AFTER INSERT ON vote
-FOR EACH ROW 
-BEGIN
-		UPDATE user u SET reputation = reputation + NEW.is_upvote WHERE u.username = (SELECT DISTINCT username FROM data WHERE NEW.post_id IN (SELECT * FROM post) AND NEW.post_id = data.post_id);
-END;
-$
-delimiter ;
-
-delimiter $
-CREATE TRIGGER vote_after_update AFTER UPDATE ON vote
-FOR EACH ROW 
-BEGIN
-		UPDATE user u SET reputation = reputation + NEW.is_upvote WHERE u.username = (SELECT DISTINCT username FROM data WHERE NEW.post_id IN (SELECT * FROM post) AND NEW.post_id = data.post_id);
-END;
-$
-delimiter ;
 
 DROP TABLE IF EXISTS post;
 CREATE TABLE post (
@@ -81,14 +64,36 @@ CREATE TABLE is_comment_of (
   PRIMARY KEY (parent, child)
 );
 
+
+DROP PROCEDURE IF EXISTS getPost;
+DELIMITER $
+CREATE PROCEDURE getPost(IN comment_id INT, OUT post_id INT)
+BEGIN
+	WITH RECURSIVE getParent AS (
+	SELECT comment_id AS post
+  UNION ALL
+  SELECT ico.parent AS post FROM is_comment_of ico INNER JOIN getParent gp ON ico.child = gp.post
+)
+SELECT min(post) INTO post_id FROM getParent;
+END$
+DELIMITER ;
+
 delimiter $
 CREATE TRIGGER is_comment_of_AFTER_INSERT AFTER INSERT ON is_comment_of
 FOR EACH ROW 
 BEGIN
-    
-		UPDATE post SET comments = comments + 1 WHERE post.post_id = NEW.parent;
-END;
-$
+    CALL getPost(NEW.child, @postId);
+		UPDATE post SET comments = comments + 1 WHERE post.post_id = @postId;
+END$
+delimiter ;
+
+delimiter $
+CREATE TRIGGER is_comment_of_BEFORE_DELETE BEFORE DELETE ON is_comment_of
+FOR EACH ROW 
+BEGIN
+    CALL getPost(OLD.child, @postId);
+		UPDATE post SET comments = comments - 1 WHERE post.post_id = @postId;
+END$
 delimiter ;
 
 TRUNCATE user;
@@ -103,7 +108,7 @@ INSERT INTO user (username, password, email, is_admin) VALUES
 
 TRUNCATE category;
 INSERT INTO category (category) VALUES
-('test1'),
+('mildlyinteresting'),
 ('test2'),
 ('test3'),
 ('test4'),
@@ -111,34 +116,34 @@ INSERT INTO category (category) VALUES
 ('funny');
 
 TRUNCATE data;
-INSERT INTO data (username, header, category, content) VALUES 
-('Kelvin', 'TESTING1', 'test1', 'This is testing 1 contents'),
-('James', 'TESTING2', 'test2', 'This is testing 2 contents'),
-('Robert', 'TESTING3', 'test3', 'This is testing 3 contents'),
-('John', 'TESTING4', 'test4', 'This is testing 4 contents'),
-('James', 'TESTING5', 'test1', 'This is testing 5 contents'),
-('John', 'TESTING6', 'test3', 'This is testing 6 contents'),
-('John', 'TESTING7', 'test5', 'This is testing 7 contents'),
-('James', 'TESTING5', 'test1', 'This is testing 5 reply'),
-('Robert', 'TESTING3', 'test1', 'This is testing 6 reply'),
-('John', 'TESTING4', 'test1', 'This is testing 7 reply');
-INSERT INTO data (username, header, category, img) VALUES 
-('James', 'Hear no evil see no evil speak no evil and...?', 'funny','https://preview.redd.it/xwnaz3ybvew91.jpg?width=960&crop=smart&auto=webp&s=e89d24fc09cb69526ca2050cc01f3ebd47ea5e3e');
+INSERT INTO data (username, header, category, content, img) VALUES 
+('Kelvin', 'This Truck has a Wrap to Make it Look Bad', 'mildlyinteresting', '', 'https://external-preview.redd.it/DLiwTeV1X4SRj_RMpHIhkMuiwOIq8oMRRESv8pRmN9U.jpg?width=960&crop=smart&auto=webp&s=b80cd3381f59ad72bd0f69ddcb084086e194f59c'),
+('James', 'TESTING2', 'test2', 'This is testing 2 contents',''),
+('Robert', 'TESTING3', 'test3', 'This is testing 3 contents',''),
+('John', 'TESTING4', 'test4', 'This is testing 4 contents',''),
+('James', '', 'mildlyinteresting','The "distressed jeans" of the truck world.', ''),
+('John', 'TESTING6', 'test3', 'This is testing 6 contents',''),
+('John', '', 'mildlyinteresting', 'Destoration',''),
+('James', 'Dropped a screw and this is how it landed', 'mildlyinteresting', 'Dropped a screw and this is how it landed.', 'https://preview.redd.it/fgxmowyl8hw91.jpg?width=960&crop=smart&auto=webp&s=169bbf3cdc073ed6346f775d19699bdddddbb77a'),
+('Robert', 'TESTING3', 'mildlyinteresting', 'This is testing 6 reply',''),
+('John', 'TESTING4', 'mildlyinteresting', 'This is testing 7 reply',''),
+('James', 'Hear no evil see no evil speak no evil and...?', 'funny', '', 'https://preview.redd.it/xwnaz3ybvew91.jpg?width=960&crop=smart&auto=webp&s=e89d24fc09cb69526ca2050cc01f3ebd47ea5e3e'),
+('John', '', 'mildlyinteresting', "Inception... OP, you're in a dream... or something.", '');
 
 INSERT INTO post (post_id) VALUES
 (1),
 (2),
 (3),
 (4),
-(5),
-(6),
-(7),
-(11);
+(11),
+(8);
 
 INSERT INTO is_comment_of (parent, child) VALUES
 (1, 5),
 (1, 6),
-(5, 7);
+(5, 7),
+(8, 12);
+
 
 INSERT INTO vote (username, post_id, is_upvote) VALUES
 ('Kelvin', 1, 1),
@@ -148,7 +153,7 @@ UPDATE data SET reputation = 1 WHERE post_id = 1;
 UPDATE data SET reputation = -1 WHERE post_id = 5;
 
 INSERT INTO subscribe (username, category) VALUES
-('Kelvin', 'test1'),
+('Kelvin', 'mildlyinteresting'),
 ('Kelvin', 'test3'),
 ('James', 'test2'),
 ('James', 'test3'),
@@ -172,13 +177,3 @@ SELECT t.id FROM trending_post_count t
 GROUP BY t.id
 ORDER BY SUM(t.count) DESC
 LIMIT 5;
-
---recursive getParent
-/*
-with recursive getParent as (
-	select ? as post
-    union all
-    select ico.parent as post from is_comment_of ico inner join getParent gp on ico.child = gp.post
-)
-select min(post) from getParent;
-*/

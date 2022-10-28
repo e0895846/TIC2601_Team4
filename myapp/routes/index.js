@@ -7,7 +7,7 @@ var queryAsync = require('../mysql.js')
 /* GET home page. */
 router.get('/', async (req, res, next) => {
   try {
-    posts = await queryAsync('SELECT d.* , v.is_upvote FROM post p LEFT JOIN data d ON d.post_id = p.post_id LEFT JOIN (SELECT * FROM vote v WHERE v.username = ?) v ON d.post_id = v.post_id ORDER BY created_at DESC LIMIT 20;', [req.session.user]);
+    posts = await queryAsync('SELECT d.* , v.is_upvote, p.comments FROM post p LEFT JOIN data d ON d.post_id = p.post_id LEFT JOIN (SELECT * FROM vote v WHERE v.username = ?) v ON d.post_id = v.post_id ORDER BY created_at DESC LIMIT 20;', [req.session.user]);
     categories = await queryAsync(db.getAllCategory);
     subscribes = await queryAsync(db.getAllSubscribes, [req.session.user]);
     subscribes['current'] = '/';
