@@ -27,7 +27,7 @@ CREATE TABLE data (
   category VARCHAR(45) NOT NULL REFERENCES category(category) ON DELETE CASCADE ON UPDATE CASCADE,
   header VARCHAR(255) NOT NULL,
   content VARCHAR(16000),
-  img BLOB,
+  img VARCHAR(5000),
   reputation INT NOT NULL DEFAULT 0,
   update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP()
@@ -96,7 +96,8 @@ INSERT INTO category (category) VALUES
 ('test2'),
 ('test3'),
 ('test4'),
-('test5');
+('test5'),
+('funny');
 
 TRUNCATE data;
 INSERT INTO data (username, header, category, content) VALUES 
@@ -110,6 +111,8 @@ INSERT INTO data (username, header, category, content) VALUES
 ('James', 'TESTING5', 'test1', 'This is testing 5 reply'),
 ('Robert', 'TESTING3', 'test1', 'This is testing 6 reply'),
 ('John', 'TESTING4', 'test1', 'This is testing 7 reply');
+INSERT INTO data (username, header, category, img) VALUES 
+('James', 'Hear no evil see no evil speak no evil and...?', 'funny','https://preview.redd.it/xwnaz3ybvew91.jpg?width=960&crop=smart&auto=webp&s=e89d24fc09cb69526ca2050cc01f3ebd47ea5e3e');
 
 INSERT INTO post (post_id) VALUES
 (1),
@@ -118,7 +121,8 @@ INSERT INTO post (post_id) VALUES
 (4),
 (5),
 (6),
-(7);
+(7),
+(11);
 
 INSERT INTO is_comment_of (parent, child) VALUES
 (1, 5),
@@ -139,7 +143,7 @@ INSERT INTO subscribe (username, category) VALUES
 ('James', 'test3'),
 ('James', 'test4');
 
-
+DROP VIEW IF EXISTS trending_post_count;
 CREATE VIEW trending_post_count AS
 SELECT c.parent as id, COUNT(*) as count FROM data d
 INNER JOIN is_comment_of c
@@ -151,6 +155,7 @@ INNER JOIN post p ON p.post_id = v.post_id
 WHERE is_upvote = 1 AND update_at > NOW() - INTERVAL 1 DAY
 GROUP BY v.post_id;
 
+DROP VIEW IF EXISTS trending_post_id;
 CREATE VIEW trending_post_id AS
 SELECT t.id FROM trending_post_count t
 GROUP BY t.id

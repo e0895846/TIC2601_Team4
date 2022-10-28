@@ -11,25 +11,26 @@
     </div>
     <div class="col-11 card">
         <div class="card-header row justify-content-between p-2">
-            <div class="col-2">
-                <a href="/post/<%=post.post_id%>" class="me-auto"><%= post.header %></a>
+            <div class="col">
+                <a href="/post/<%=post.post_id %>" class="me-auto"><%= post.header %></a>
             </div>
-            <div class="col-8 text-end">
-                <a href="/user/<%=post.username%>" ><%=post.username%></a> | <a href="/category/<%=post.category%>" ><%=post.category%></a>
-                Last post on <%=post.created_at.getFullYear()+"-"+post.created_at.getMonth()+"-"+post.created_at.getDate()+" "+post.created_at.getHours()+":"+post.created_at.getMinutes()%>
-            </div>
-            
         </div>
         <div class="card-body row text-start">
             <div class="col">
                 <%= post.content %>
+                <% if(post.img != null) { %>
+                    <img class="img-fluid" src="<%= post.img %>">
+                <% } %>
             </div>
         </div>
         <div class="card-footer row text-start p-1">
             <a href="/post/<%=post.post_id%>" class="col">
                 <i class="bi bi-chat-dots" style="font-size:20px;"></i>
-                
             </a>
+            <div class="col-8 text-end ms-auto">
+                <a href="/user/<%=post.username%>" ><%=post.username%></a> | <a href="/category/<%=post.category%>" ><%=post.category%></a>
+                Last post on <%=post.created_at.getFullYear()+"-"+post.created_at.getMonth()+"-"+post.created_at.getDate()+" "+post.created_at.getHours()+":"+post.created_at.getMinutes()%>
+            </div>
         </div>
     </div>
 </div>
