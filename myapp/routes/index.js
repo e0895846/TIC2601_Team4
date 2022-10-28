@@ -17,9 +17,9 @@ router.get('/', async (req, res, next) => {
       req:req,
       title:"Rabbit",
       categories: categories,
+      trendingPost:trendingPost,
       subscribes: subscribes,
-      posts: posts,
-      trendingPost:trendingPost
+      posts: posts
     });
   } catch (error) {
     console.log('SQL error', error);
@@ -30,15 +30,17 @@ router.get('/', async (req, res, next) => {
 router.get('/search', async (req, res) => {
   let opt = req.query.selectPicker;
   try {
-    posts = await queryAsync('SELECT p.header, d.*, v.is_upvote FROM data d LEFT JOIN (SELECT * FROM vote v WHERE v.username = ?) v ON d.post_id = v.post_id WHERE d.username LIKE ? OR d.header LIKE ? OR d.content LIKE ?', [req.session.user, `%${req.query.search_content}%`, `%${req.query.search_content}%`, `%${req.query.search_content}%`]);
+    posts = await queryAsync('SELECT p.header, d.*, v.is_upvote FROM post p LEFT JOIN data d ON p.post_id = d.post_id LEFT JOIN (SELECT * FROM vote v WHERE v.username = ?) v ON d.post_id = v.post_id WHERE p.header LIKE ? OR d.content LIKE ?', [req.session.user, `%${req.query.search_content}%`, `%${req.query.search_content}%`]);
     categories = await queryAsync(db.getAllCategory);
     subscribes = await queryAsync(db.getAllSubscribes, [req.session.user]);
     subscribes['current'] = '/';
+    trendingPost = await queryAsync('SELECT p.post_id, p.header FROM post p WHERE p.post_id IN (SELECT * FROM trending_post_id)');
 
     res.render('index', {
       req:req,
       title:"Search Results",
       categories: categories,
+      trendingPost:trendingPost,
       subscribes: subscribes,
       posts: posts
     });
