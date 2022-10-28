@@ -14,13 +14,15 @@ router.get('/:id', async (req, res) => {
         isPost = await queryAsync('SELECT p.post_id FROM post p WHERE p.post_id = ?', [id]);
         subscribes = await queryAsync(db.getAllSubscribes, [req.session.user]);
         subscribes['current'] = post[0].category;
-        
+        trendingPost = await queryAsync('SELECT p.post_id, p.header FROM post p WHERE p.post_id IN (SELECT * FROM trending_post_id)');
+
         res.render('post',{
             req:req,
             title: post[0].header,
             subscribes: subscribes,
             post: post[0],
             replies: replies,
+            trendingPost:trendingPost,
             isPost:isPost
         });
         
