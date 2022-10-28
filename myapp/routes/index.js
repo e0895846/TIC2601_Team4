@@ -11,13 +11,15 @@ router.get('/', async (req, res, next) => {
     categories = await queryAsync(db.getAllCategory);
     subscribes = await queryAsync(db.getAllSubscribes, [req.session.user]);
     subscribes['current'] = '/';
+    trendingPost = await queryAsync('SELECT d.post_id, d.header FROM data d WHERE d.post_id IN (SELECT * FROM trending_post_id)');
 
     res.render('index', {
       req:req,
       title:"Rabbit",
       categories: categories,
       subscribes: subscribes,
-      posts: posts
+      posts: posts,
+      trendingPost:trendingPost
     });
   } catch (error) {
     console.log('SQL error', error);

@@ -19,13 +19,6 @@ CREATE TABLE category (
   reputation INT NOT NULL DEFAULT 0
 );
 
-/*
-DROP TABLE IF EXISTS image;
-CREATE TABLE image (
-  image_id INT NOT NULL PRIMARY KEY,
-  data BLOB NOT NULL
-);
-*/
 
 DROP TABLE IF EXISTS data;
 CREATE TABLE data (
@@ -34,12 +27,11 @@ CREATE TABLE data (
   category VARCHAR(45) NOT NULL REFERENCES category(category) ON DELETE CASCADE ON UPDATE CASCADE,
   header VARCHAR(255) NOT NULL,
   content VARCHAR(16000),
-  image BLOB,
+  img BLOB,
   reputation INT NOT NULL DEFAULT 0,
   update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP()
 );
-
 
 DROP TABLE IF EXISTS subscribe;
 CREATE TABLE subscribe (
@@ -57,6 +49,24 @@ CREATE TABLE vote (
   PRIMARY KEY (username, post_id),
   CHECK(is_upvote = 1 OR is_upvote = 0)
 );
+
+delimiter $
+CREATE TRIGGER vote_after_insert AFTER INSERT ON vote
+FOR EACH ROW 
+BEGIN
+		UPDATE user u SET reputation = reputation + NEW.is_upvote WHERE u.username = (SELECT DISTINCT username FROM data WHERE NEW.post_id IN (SELECT * FROM post) AND NEW.post_id = data.post_id);
+END;
+$
+delimiter ;
+
+delimiter $
+CREATE TRIGGER vote_after_update AFTER UPDATE ON vote
+FOR EACH ROW 
+BEGIN
+		UPDATE user u SET reputation = reputation + NEW.is_upvote WHERE u.username = (SELECT DISTINCT username FROM data WHERE NEW.post_id IN (SELECT * FROM post) AND NEW.post_id = data.post_id);
+END;
+$
+delimiter ;
 
 DROP TABLE IF EXISTS post;
 CREATE TABLE post (
@@ -86,8 +96,7 @@ INSERT INTO category (category) VALUES
 ('test2'),
 ('test3'),
 ('test4'),
-('test5'),
-('mildlyinteresting');
+('test5');
 
 TRUNCATE data;
 INSERT INTO data (username, header, category, content) VALUES 
@@ -101,15 +110,15 @@ INSERT INTO data (username, header, category, content) VALUES
 ('James', 'TESTING5', 'test1', 'This is testing 5 reply'),
 ('Robert', 'TESTING3', 'test1', 'This is testing 6 reply'),
 ('John', 'TESTING4', 'test1', 'This is testing 7 reply');
-INSERT INTO data (username, header, category, content, image) VALUES 
-('James', 'This Truck has a Wrap to Make it Look Bad', 'mildlyinteresting', '', 'https://external-preview.redd.it/DLiwTeV1X4SRj_RMpHIhkMuiwOIq8oMRRESv8pRmN9U.jpg?width=960&crop=smart&auto=webp&s=b80cd3381f59ad72bd0f69ddcb084086e194f59c');
-
 
 INSERT INTO post (post_id) VALUES
 (1),
 (2),
 (3),
-(4);
+(4),
+(5),
+(6),
+(7);
 
 INSERT INTO is_comment_of (parent, child) VALUES
 (1, 5),
@@ -129,3 +138,21 @@ INSERT INTO subscribe (username, category) VALUES
 ('James', 'test2'),
 ('James', 'test3'),
 ('James', 'test4');
+
+
+CREATE VIEW trending_post_count AS
+SELECT c.parent as id, COUNT(*) as count FROM data d
+INNER JOIN is_comment_of c
+WHERE c.child = d.post_id AND d.created_at > NOW() - INTERVAL 1 DAY
+GROUP BY c.parent
+UNION ALL
+SELECT v.post_id as id, COUNT(*) as count FROM vote v
+INNER JOIN post p ON p.post_id = v.post_id
+WHERE is_upvote = 1 AND update_at > NOW() - INTERVAL 1 DAY
+GROUP BY v.post_id;
+
+CREATE VIEW trending_post_id AS
+SELECT t.id FROM trending_post_count t
+GROUP BY t.id
+ORDER BY SUM(t.count) DESC
+LIMIT 5;

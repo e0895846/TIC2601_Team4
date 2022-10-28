@@ -1,3 +1,7 @@
+CREATE DATABASE IF NOT EXISTS rabbit;
+USE rabbit;
+
+DROP TABLE IF EXISTS user;
 CREATE TABLE user (
   username VARCHAR(20) PRIMARY KEY,
   password VARCHAR(64) NOT NULL,
@@ -9,28 +13,33 @@ CREATE TABLE user (
   check(length(username) >=5)
 );
 
+DROP TABLE IF EXISTS category;
 CREATE TABLE category (
   category VARCHAR(45) NOT NULL PRIMARY KEY
 );
 
+DROP TABLE IF EXISTS subscribe;
 CREATE TABLE subscribe (
   username VARCHAR(20) REFERENCES user(username) ON DELETE CASCADE,
   category VARCHAR(45) REFERENCES category(category) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (username, category)
 );
 
+DROP TABLE IF EXISTS post;
 CREATE TABLE post (
   post_id INT PRIMARY KEY AUTO_INCREMENT,
   username VARCHAR(20) NOT NULL REFERENCES user(username) ON DELETE CASCADE,
   category VARCHAR(45) NOT NULL REFERENCES category(category) ON DELETE CASCADE ON UPDATE CASCADE,
   header VARCHAR(255) NOT NULL,
   content VARCHAR(16000),
+  img BLOB,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP()
 );
 
+DROP TABLE IF EXISTS comment;
 CREATE TABLE comment (
-  comment_id INT NOT NULL AUTO_INCREMENT,
+  comment_id INT NOT NULL,
   post_id INT NOT NULL REFERENCES post(post_id) ON DELETE CASCADE,
   parent_comment_id INT REFERENCES comment(comment_id) ON DELETE CASCADE,
   username VARCHAR(20) NOT NULL REFERENCES user(username) ON DELETE CASCADE,
@@ -40,57 +49,49 @@ CREATE TABLE comment (
   PRIMARY KEY(comment_id, post_id)
 );
 
+delimiter $
+CREATE TRIGGER comment_before_insert BEFORE INSERT ON comment
+FOR EACH ROW 
+BEGIN
+		SET NEW.comment_id = (SELECT COUNT(*)+1 FROM comment WHERE NEW.post_id = comment.post_id);
+END;
+$
+delimiter ;
 
+DROP TABLE IF EXISTS vote_post;
 CREATE TABLE vote_post (
   username VARCHAR(20) REFERENCES user(username) ON DELETE CASCADE,
   post_id INT REFERENCES post(post_id) ON DELETE CASCADE,
   is_upvote TINYINT(1) NOT NULL,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
-  PRIMARY KEY (username, post_id),
+  PRIMARY KEY (username, post_id)
 );
 
+DROP TABLE IF EXISTS vote_comment;
 CREATE TABLE vote_comment (
   username VARCHAR(20) REFERENCES user(username) ON DELETE CASCADE,
   post_id INT REFERENCES comment(post_id) ON DELETE CASCADE,
   comment_id INT REFERENCES comment(comment_id) ON DELETE CASCADE,
   is_upvote TINYINT(1) NOT NULL,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
-  PRIMARY KEY (username, post_id, comment_id),
+  PRIMARY KEY (username, post_id, comment_id)
 );
 
 -- Trigger statement
-CREATE TRIGGER reput_ins_voteComm AFTER INSERT ON vote_comment
-FOR EACH ROW BEGIN
-	IF NEW.is_upvote = 1 THEN
-		UPDATE user u SET reputation = reputation + 1 WHERE EXISTS (SELECT * FROM post p WHERE NEW.post_id = p.Post_id AND p.username = u.username);
-	ELSE
-		UPDATE user u SET reputation = reputation - 1 WHERE EXISTS (SELECT * FROM post p WHERE NEW.post_id = p.Post_id AND p.username = u.username);    
-	END IF;
-END; //
+delimiter $
+CREATE TRIGGER vote_post_after_insert AFTER INSERT ON vote_post
+FOR EACH ROW 
+BEGIN
+		UPDATE user u SET reputation = reputation + NEW.is_upvote;
+END;
+$
+delimiter ;
 
-CREATE TRIGGER reput_update_voteComm AFTER UPDATE ON vote_comment
-FOR EACH ROW BEGIN
-	IF NEW.is_upvote = 1 THEN
-		UPDATE user u SET reputation = reputation + 1 WHERE EXISTS (SELECT * FROM post p WHERE NEW.post_id = p.Post_id AND p.username = u.username);
-	ELSE
-		UPDATE user u SET reputation = reputation - 1 WHERE EXISTS (SELECT * FROM post p WHERE NEW.post_id = p.Post_id AND p.username = u.username);    
-	END IF;
-END; //
-
-CREATE TRIGGER reput_ins_votePost AFTER INSERT ON vote_post
-FOR EACH ROW BEGIN
-	IF NEW.is_upvote = 1 THEN
-		UPDATE user u SET reputation = reputation + 1 WHERE EXISTS (SELECT * FROM post p WHERE NEW.post_id = p.Post_id AND p.username = u.username);
-	ELSE
-		UPDATE user u SET reputation = reputation - 1 WHERE EXISTS (SELECT * FROM post p WHERE NEW.post_id = p.Post_id AND p.username = u.username);    
-	END IF;
-END; //
-
-CREATE TRIGGER reput_update_votePost AFTER UPDATE ON vote_post
-FOR EACH ROW BEGIN
-	IF NEW.is_upvote = 1 THEN
-		UPDATE user u SET reputation = reputation + 1 WHERE EXISTS (SELECT * FROM post p WHERE NEW.post_id = p.Post_id AND p.username = u.username);
-	ELSE
-		UPDATE user u SET reputation = reputation - 1 WHERE EXISTS (SELECT * FROM post p WHERE NEW.post_id = p.Post_id AND p.username = u.username);    
-	END IF;
-END; //
+delimiter $
+CREATE TRIGGER vote_post_after_update AFTER UPDATE ON vote_post
+FOR EACH ROW 
+BEGIN
+		UPDATE user u SET reputation = reputation + NEW.is_upvote;
+END;
+$
+delimiter ;
