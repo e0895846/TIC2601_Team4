@@ -11,13 +11,13 @@ router.get('/', async (req, res, next) => {
     categories = await queryAsync(db.getAllCategory);
     subscribes = await queryAsync(db.getAllSubscribes, [req.session.user]);
     subscribes['current'] = '/';
-    trendingPost = await queryAsync('SELECT p.post_id, p.header FROM post p WHERE p.post_id IN (SELECT * FROM trending_post_id)');
+    topCategories = await queryAsync('SELECT category FROM category ORDER BY reputation DESC LIMIT 5');
 
     res.render('index', {
       req:req,
       title:"Rabbit",
       categories: categories,
-      trendingPost:trendingPost,
+      topCategories:topCategories,
       subscribes: subscribes,
       posts: posts
     });

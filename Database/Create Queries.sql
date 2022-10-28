@@ -19,7 +19,6 @@ CREATE TABLE category (
   reputation INT NOT NULL DEFAULT 0
 );
 
-
 DROP TABLE IF EXISTS data;
 CREATE TABLE data (
   post_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -38,6 +37,22 @@ CREATE TABLE subscribe (
   category VARCHAR(45) REFERENCES category(category) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (username, category)
 );
+
+delimiter $
+CREATE TRIGGER subscribe_AFTER_INSERT AFTER INSERT ON subscribe
+FOR EACH ROW 
+BEGIN
+		UPDATE category SET reputation = reputation + 1 WHERE NEW.category = category.category;
+END$
+delimiter ;
+
+delimiter $
+CREATE TRIGGER subscribe_BEFORE_DELETE BEFORE DELETE ON subscribe
+FOR EACH ROW 
+BEGIN
+		UPDATE category SET reputation = reputation - 1 WHERE OLD.category = category.category;
+END$
+delimiter ;
 
 DROP TABLE IF EXISTS vote;
 CREATE TABLE vote (

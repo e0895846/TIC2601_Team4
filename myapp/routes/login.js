@@ -44,9 +44,8 @@ router.post('/login', async (req, res, next) => {
             console.log('SQL error', error);
             res.status(500).send('Something went wrong');
         }
-    } else {
+    } else {   
         res.send('Please enter username and password');
-        res.end()
     }
 });
 
