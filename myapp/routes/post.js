@@ -11,6 +11,7 @@ router.get('/:id', async (req, res) => {
     try{
         post = await queryAsync("SELECT p.header, d.*, v.is_upvote FROM data d LEFT JOIN post p ON p.post_id = d.post_id LEFT JOIN (SELECT * FROM vote v WHERE v.username = ?) v ON v.post_id = d.post_id WHERE d.post_id = ?", [req.session.user, id]);
         replies = await queryAsync('SELECT d.*, v.is_upvote FROM data d LEFT JOIN (SELECT * FROM vote v WHERE v.username = ?) v ON d.post_id = v.post_id WHERE d.post_id IN (SELECT child FROM is_comment_of WHERE parent = ?)', [req.session.user, id]);
+        isPost = await queryAsync('SELECT p.post_id FROM post p WHERE p.post_id = ?', [id]);
         subscribes = await queryAsync(db.getAllSubscribes, [req.session.user]);
         subscribes['current'] = post[0].category;
         
@@ -19,7 +20,8 @@ router.get('/:id', async (req, res) => {
             title: post[0].header,
             subscribes: subscribes,
             post: post[0],
-            replies: replies
+            replies: replies,
+            isPost:isPost
         });
         
     }catch(error){

@@ -5,10 +5,15 @@
     <div class="main container-fluid mt-2">
         <div class="row justify-content-center">
           <div class="col-6 px-5">
-            <div class="row justify-content-center mb-2">
-                <div class="col-11 offset-1">
-                    <%- include('../partial/navbar', {subscribes:subscribes}) %> 
-                </div>
+            <div class="row justify-content-center mb-2 align-items-center">
+              <% if(isPost.length==0) { %>
+              <div class="col-1">
+                <a href="#" type="button"><i class="bi bi-arrow-return-left" style="font-size: 25px;"></i></a>
+              </div>
+              <% } %>
+              <div class="col-11 <%= (isPost.length>0) ? 'offset-1' : '' %>">
+                  <%- include('../partial/navbar', {subscribes:subscribes}) %> 
+              </div>
             </div>
             <div class="row justify-content-center">
                 <div class="col">
