@@ -172,3 +172,13 @@ SELECT t.id FROM trending_post_count t
 GROUP BY t.id
 ORDER BY SUM(t.count) DESC
 LIMIT 5;
+
+--recursive getParent
+/*
+with recursive getParent as (
+	select ? as post
+    union all
+    select ico.parent as post from is_comment_of ico inner join getParent gp on ico.child = gp.post
+)
+select min(post) from getParent;
+*/
