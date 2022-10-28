@@ -27,7 +27,7 @@ CREATE TABLE data (
   category VARCHAR(45) NOT NULL REFERENCES category(category) ON DELETE CASCADE ON UPDATE CASCADE,
   header VARCHAR(255) NOT NULL,
   content VARCHAR(16000),
-  img VARCHAR(5000),
+  img BLOB,
   reputation INT NOT NULL DEFAULT 0,
   update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP()
@@ -70,7 +70,8 @@ delimiter ;
 
 DROP TABLE IF EXISTS post;
 CREATE TABLE post (
-  post_id INT NOT NULL REFERENCES data(post_id) ON DELETE CASCADE ON UPDATE CASCADE
+  post_id INT NOT NULL REFERENCES data(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  comments INT DEFAULT 0
 );
 
 DROP TABLE IF EXISTS is_comment_of;
@@ -79,6 +80,16 @@ CREATE TABLE is_comment_of (
   child INT NOT NULL REFERENCES data(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (parent, child)
 );
+
+delimiter $
+CREATE TRIGGER is_comment_of_AFTER_INSERT AFTER INSERT ON is_comment_of
+FOR EACH ROW 
+BEGIN
+    
+		UPDATE post SET comments = comments + 1 WHERE post.post_id = NEW.parent;
+END;
+$
+delimiter ;
 
 TRUNCATE user;
 INSERT INTO user (username, password, email) VALUES 
