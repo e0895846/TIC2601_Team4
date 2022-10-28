@@ -25,7 +25,6 @@ CREATE TABLE data (
   post_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   username VARCHAR(20) NOT NULL REFERENCES user(username) ON DELETE CASCADE ON UPDATE CASCADE,
   category VARCHAR(45) NOT NULL REFERENCES category(category) ON DELETE CASCADE ON UPDATE CASCADE,
-  header VARCHAR(255) NOT NULL,
   content VARCHAR(16000),
   img BLOB,
   reputation INT NOT NULL DEFAULT 0,
@@ -54,6 +53,7 @@ CREATE TABLE vote (
 DROP TABLE IF EXISTS post;
 CREATE TABLE post (
   post_id INT NOT NULL REFERENCES data(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  header VARCHAR(255) NOT NULL,
   comments INT DEFAULT 0
 );
 
@@ -116,27 +116,27 @@ INSERT INTO category (category) VALUES
 ('funny');
 
 TRUNCATE data;
-INSERT INTO data (username, header, category, content, img) VALUES 
-('Kelvin', 'This Truck has a Wrap to Make it Look Bad', 'mildlyinteresting', '', 'https://external-preview.redd.it/DLiwTeV1X4SRj_RMpHIhkMuiwOIq8oMRRESv8pRmN9U.jpg?width=960&crop=smart&auto=webp&s=b80cd3381f59ad72bd0f69ddcb084086e194f59c'),
-('James', 'TESTING2', 'test2', 'This is testing 2 contents',''),
-('Robert', 'TESTING3', 'test3', 'This is testing 3 contents',''),
-('John', 'TESTING4', 'test4', 'This is testing 4 contents',''),
-('James', '', 'mildlyinteresting','The "distressed jeans" of the truck world.', ''),
-('John', 'TESTING6', 'test3', 'This is testing 6 contents',''),
-('John', '', 'mildlyinteresting', 'Destoration',''),
-('James', 'Dropped a screw and this is how it landed', 'mildlyinteresting', 'Dropped a screw and this is how it landed.', 'https://preview.redd.it/fgxmowyl8hw91.jpg?width=960&crop=smart&auto=webp&s=169bbf3cdc073ed6346f775d19699bdddddbb77a'),
-('Robert', 'TESTING3', 'mildlyinteresting', 'This is testing 6 reply',''),
-('John', 'TESTING4', 'mildlyinteresting', 'This is testing 7 reply',''),
-('James', 'Hear no evil see no evil speak no evil and...?', 'funny', '', 'https://preview.redd.it/xwnaz3ybvew91.jpg?width=960&crop=smart&auto=webp&s=e89d24fc09cb69526ca2050cc01f3ebd47ea5e3e'),
-('John', '', 'mildlyinteresting', "Inception... OP, you're in a dream... or something.", '');
+INSERT INTO data (username, category, content, img) VALUES 
+('Kelvin', 'mildlyinteresting', '', 'https://external-preview.redd.it/DLiwTeV1X4SRj_RMpHIhkMuiwOIq8oMRRESv8pRmN9U.jpg?width=960&crop=smart&auto=webp&s=b80cd3381f59ad72bd0f69ddcb084086e194f59c'),
+('James', 'test2', 'This is testing 2 contents',''),
+('Robert', 'test3', 'This is testing 3 contents',''),
+('John', 'test4', 'This is testing 4 contents',''),
+('James', 'mildlyinteresting','The "distressed jeans" of the truck world.', ''),
+('John', 'test3', 'This is testing 6 contents',''),
+('John', 'mildlyinteresting', 'Destoration',''),
+('James', 'mildlyinteresting', 'Dropped a screw and this is how it landed.', 'https://preview.redd.it/fgxmowyl8hw91.jpg?width=960&crop=smart&auto=webp&s=169bbf3cdc073ed6346f775d19699bdddddbb77a'),
+('Robert', 'mildlyinteresting', 'This is testing 6 reply',''),
+('John', 'mildlyinteresting', 'This is testing 7 reply',''),
+('James', 'funny', '', 'https://preview.redd.it/xwnaz3ybvew91.jpg?width=960&crop=smart&auto=webp&s=e89d24fc09cb69526ca2050cc01f3ebd47ea5e3e'),
+('John', 'mildlyinteresting', "Inception... OP, you're in a dream... or something.", '');
 
-INSERT INTO post (post_id) VALUES
-(1),
-(2),
-(3),
-(4),
-(11),
-(8);
+INSERT INTO post (post_id, header) VALUES
+(1, 'This Truck has a Wrap to Make it Look Bad'),
+(2, 'TESTING2'),
+(3, 'TESTING3'),
+(4, 'TESTING4'),
+(8, 'Dropped a screw and this is how it landed'),
+(11, 'Hear no evil see no evil speak no evil and...?');
 
 INSERT INTO is_comment_of (parent, child) VALUES
 (1, 5),
