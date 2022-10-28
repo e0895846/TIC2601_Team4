@@ -122,11 +122,11 @@ INSERT INTO data (username, category, content, img) VALUES
 ('Robert', 'test3', 'This is testing 3 contents',''),
 ('John', 'test4', 'This is testing 4 contents',''),
 ('James', 'mildlyinteresting','The "distressed jeans" of the truck world.', ''),
-('John', 'TESTING6', 'test3', 'This is testing 6 contents',''),
+('John', 'test3', 'This is testing 6 contents',''),
 ('John', 'mildlyinteresting', 'Destoration',''),
 ('James', 'mildlyinteresting', 'Dropped a screw and this is how it landed.', 'https://preview.redd.it/fgxmowyl8hw91.jpg?width=960&crop=smart&auto=webp&s=169bbf3cdc073ed6346f775d19699bdddddbb77a'),
-('Robert', 'TESTING3', 'mildlyinteresting', 'This is testing 6 reply',''),
-('John', 'TESTING4', 'mildlyinteresting', 'This is testing 7 reply',''),
+('Robert', 'mildlyinteresting', 'This is testing 6 reply',''),
+('John', 'mildlyinteresting', 'This is testing 7 reply',''),
 ('James', 'funny', '', 'https://preview.redd.it/xwnaz3ybvew91.jpg?width=960&crop=smart&auto=webp&s=e89d24fc09cb69526ca2050cc01f3ebd47ea5e3e'),
 ('John', 'mildlyinteresting', "Inception... OP, you're in a dream... or something.", '');
 
