@@ -7,6 +7,8 @@
             <li class="navbar-item">
                 <a class="nav-link <%= (subscribes.current == '/') ? 'active' : ''%>" href="/">Hot</a>
             </li>
+
+            <%  if (subscribes.length > 0 || subscribes.current != '/') { %>
             <li class="navbar-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Categories</a>
                 <ul class="dropdown-menu">
@@ -21,6 +23,7 @@
                     <%  } %>
                   </ul>
             </li>
+            <%  } %>
         </ul>
         <% if (req.session.isLogin) { %>
             <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#newPostCollapse" aria-expanded="false" aria-controls="newPostCollapse">New Post</button>
