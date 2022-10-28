@@ -12,7 +12,7 @@ router.get('/vote/:vote/:post', async (req, res) =>{
         var currentVote = await queryAsync ('SELECT is_upvote FROM vote v WHERE v.post_id = ? AND v.username = ?', [post, req.session.user]);
         if (currentVote[0]) {
             if (currentVote[0].is_upvote == vote) {
-                await queryAsync ('DELETE FROM vote v WHERE v.username = ? AND v.post_id = ?', [req.session.user, post]);
+                await queryAsync ('DELETE FROM vote WHERE username = ? AND post_id = ?', [req.session.user, post]);
                 if (vote == 1){
                     await queryAsync ('UPDATE data SET reputation = reputation - 1 WHERE post_id = ?', [post]);
                     await queryAsync ('UPDATE user SET reputation = reputation - 1 WHERE username = (SELECT username FROM data WHERE post_id = ?)', [post]);
@@ -46,11 +46,11 @@ router.get('/vote/:vote/:post', async (req, res) =>{
 
 router.get('/category/:category', async (req, res) =>{
     let category = req.params.category;
-q
+
     if (req.session.isLogin) {
         var currentSubscribe = await queryAsync ('SELECT * FROM subscribe s WHERE s.username = ? AND s.category = ?', [req.session.user, category]);
         if (currentSubscribe[0]){
-            await queryAsync ('DELETE FROM subscribe s WHERE s.username = ? AND s.category = ?', [req.session.user, category]);
+            await queryAsync ('DELETE FROM subscribe WHERE username = ? AND category = ?', [req.session.user, category]);
         } else {
             await queryAsync ('INSERT INTO subscribe (username, category) VALUES (?, ?)', [req.session.user, category]);
         }
