@@ -25,7 +25,6 @@ CREATE TABLE data (
   post_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   username VARCHAR(20) NOT NULL REFERENCES user(username) ON DELETE CASCADE ON UPDATE CASCADE,
   category VARCHAR(45) NOT NULL REFERENCES category(category) ON DELETE CASCADE ON UPDATE CASCADE,
-  header VARCHAR(255) NOT NULL,
   content VARCHAR(16000),
   img BLOB,
   reputation INT NOT NULL DEFAULT 0,
@@ -50,27 +49,10 @@ CREATE TABLE vote (
   CHECK(is_upvote = 1 OR is_upvote = 0)
 );
 
-delimiter $
-CREATE TRIGGER vote_after_insert AFTER INSERT ON vote
-FOR EACH ROW 
-BEGIN
-		UPDATE user u SET reputation = reputation + NEW.is_upvote WHERE u.username = (SELECT DISTINCT username FROM data WHERE NEW.post_id IN (SELECT * FROM post) AND NEW.post_id = data.post_id);
-END;
-$
-delimiter ;
-
-delimiter $
-CREATE TRIGGER vote_after_update AFTER UPDATE ON vote
-FOR EACH ROW 
-BEGIN
-		UPDATE user u SET reputation = reputation + NEW.is_upvote WHERE u.username = (SELECT DISTINCT username FROM data WHERE NEW.post_id IN (SELECT * FROM post) AND NEW.post_id = data.post_id);
-END;
-$
-delimiter ;
-
 DROP TABLE IF EXISTS post;
 CREATE TABLE post (
   post_id INT NOT NULL REFERENCES data(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  header VARCHAR(255) NOT NULL,
   comments INT DEFAULT 0
 );
 
@@ -80,16 +62,6 @@ CREATE TABLE is_comment_of (
   child INT NOT NULL REFERENCES data(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (parent, child)
 );
-
-delimiter $
-CREATE TRIGGER is_comment_of_AFTER_INSERT AFTER INSERT ON is_comment_of
-FOR EACH ROW 
-BEGIN
-    
-		UPDATE post SET comments = comments + 1 WHERE post.post_id = NEW.parent;
-END;
-$
-delimiter ;
 
 TRUNCATE user;
 INSERT INTO user (username, password, email) VALUES 
@@ -111,34 +83,35 @@ INSERT INTO category (category) VALUES
 ('funny');
 
 TRUNCATE data;
-INSERT INTO data (username, header, category, content) VALUES 
-('Kelvin', 'TESTING1', 'test1', 'This is testing 1 contents'),
-('James', 'TESTING2', 'test2', 'This is testing 2 contents'),
-('Robert', 'TESTING3', 'test3', 'This is testing 3 contents'),
-('John', 'TESTING4', 'test4', 'This is testing 4 contents'),
-('James', 'TESTING5', 'test1', 'This is testing 5 contents'),
-('John', 'TESTING6', 'test3', 'This is testing 6 contents'),
-('John', 'TESTING7', 'test5', 'This is testing 7 contents'),
-('James', 'TESTING5', 'test1', 'This is testing 5 reply'),
-('Robert', 'TESTING3', 'test1', 'This is testing 6 reply'),
-('John', 'TESTING4', 'test1', 'This is testing 7 reply');
-INSERT INTO data (username, header, category, img) VALUES 
-('James', 'Hear no evil see no evil speak no evil and...?', 'funny','https://preview.redd.it/xwnaz3ybvew91.jpg?width=960&crop=smart&auto=webp&s=e89d24fc09cb69526ca2050cc01f3ebd47ea5e3e');
+INSERT INTO data (username, category, content) VALUES 
+('Kelvin', 'test1', 'This is testing 1 contents'),
+('James', 'test2', 'This is testing 2 contents'),
+('Robert', 'test3', 'This is testing 3 contents'),
+('John', 'test4', 'This is testing 4 contents'),
+('James', 'test1', 'This is testing 5 contents'),
+('John', 'test3', 'This is testing 6 contents'),
+('John', 'test5', 'This is testing 7 contents'),
+('James', 'test1', 'This is testing 5 reply'),
+('Robert', 'test1', 'This is testing 6 reply'),
+('John', 'test1', 'This is testing 7 reply');
 
-INSERT INTO post (post_id) VALUES
-(1),
-(2),
-(3),
-(4),
-(5),
-(6),
-(7),
-(11);
+INSERT INTO data (username, category, img) VALUES 
+('James', 'funny','https://preview.redd.it/xwnaz3ybvew91.jpg?width=960&crop=smart&auto=webp&s=e89d24fc09cb69526ca2050cc01f3ebd47ea5e3e');
+
+INSERT INTO post (post_id, header) VALUES
+(1, 'TESTING1'),
+(2, 'TESTING2'),
+(3, 'TESTING3'),
+(4, 'TESTING4'),
+(5, 'TESTING5'),
+(6, 'TESTING6'),
+(7, 'TESTING7'),
+(11, 'Hear no evil see no evil speak no evil and...?');
 
 INSERT INTO is_comment_of (parent, child) VALUES
-(1, 5),
-(1, 6),
-(5, 7);
+(1, 8),
+(1, 9),
+(8, 10);
 
 INSERT INTO vote (username, post_id, is_upvote) VALUES
 ('Kelvin', 1, 1),
