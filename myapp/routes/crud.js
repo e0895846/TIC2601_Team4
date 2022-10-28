@@ -133,7 +133,7 @@ router.post('/user/:crud/:name', async (req, res, next) => {
             } else if (password != repeatPassword) {
                 res.send('Repeat Password does not match');
             } else {
-                res.send('Please enter username and password');
+                res.send('Please enter username, password and email');
             }
         }
         // update user password and delete user
