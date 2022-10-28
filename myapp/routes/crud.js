@@ -4,61 +4,61 @@ const bcrypt = require("bcrypt");
 
 var queryAsync = require('../mysql.js')
 
-router.get('/vote/:vote/:post', async (req, res) =>{
+router.get('/vote/:vote/:post', async (req, res) => {
     let vote = req.params.vote;
     let post = req.params.post;
 
     if (req.session.isLogin) {
-        var currentVote = await queryAsync ('SELECT is_upvote FROM vote v WHERE v.post_id = ? AND v.username = ?', [post, req.session.user]);
+        var currentVote = await queryAsync('SELECT is_upvote FROM vote v WHERE v.post_id = ? AND v.username = ?', [post, req.session.user]);
         if (currentVote[0]) {
             if (currentVote[0].is_upvote == vote) {
-                await queryAsync ('DELETE FROM vote WHERE username = ? AND post_id = ?', [req.session.user, post]);
-                if (vote == 1){
-                    await queryAsync ('UPDATE data SET reputation = reputation - 1 WHERE post_id = ?', [post]);
-                    await queryAsync ('UPDATE user SET reputation = reputation - 1 WHERE username = (SELECT username FROM data WHERE post_id = ?)', [post]);
+                await queryAsync('DELETE FROM vote WHERE username = ? AND post_id = ?', [req.session.user, post]);
+                if (vote == 1) {
+                    await queryAsync('UPDATE data SET reputation = reputation - 1 WHERE post_id = ?', [post]);
+                    await queryAsync('UPDATE user SET reputation = reputation - 1 WHERE username = (SELECT username FROM data WHERE post_id = ?)', [post]);
                 } else {
-                    await queryAsync ('UPDATE data SET reputation = reputation + 1 WHERE post_id = ?', [post]);
-                    await queryAsync ('UPDATE user SET reputation = reputation + 1 WHERE username = (SELECT username FROM data WHERE post_id = ?)', [post]);
+                    await queryAsync('UPDATE data SET reputation = reputation + 1 WHERE post_id = ?', [post]);
+                    await queryAsync('UPDATE user SET reputation = reputation + 1 WHERE username = (SELECT username FROM data WHERE post_id = ?)', [post]);
                 }
             } else {
-                await queryAsync ('UPDATE vote SET is_upvote = ? WHERE username = ? AND post_id = ?', [vote, req.session.user, post]);
-                if (vote == 1){
-                    await queryAsync ('UPDATE data SET reputation = reputation + 2 WHERE post_id = ?', [post]);
-                    await queryAsync ('UPDATE user SET reputation = reputation + 2 WHERE username = (SELECT username FROM data WHERE post_id = ?)', [post]);
+                await queryAsync('UPDATE vote SET is_upvote = ? WHERE username = ? AND post_id = ?', [vote, req.session.user, post]);
+                if (vote == 1) {
+                    await queryAsync('UPDATE data SET reputation = reputation + 2 WHERE post_id = ?', [post]);
+                    await queryAsync('UPDATE user SET reputation = reputation + 2 WHERE username = (SELECT username FROM data WHERE post_id = ?)', [post]);
                 } else {
-                    await queryAsync ('UPDATE data SET reputation = reputation - 2 WHERE post_id = ?', [post]);
-                    await queryAsync ('UPDATE user SET reputation = reputation - 2 WHERE username = (SELECT username FROM data WHERE post_id = ?)', [post]);
+                    await queryAsync('UPDATE data SET reputation = reputation - 2 WHERE post_id = ?', [post]);
+                    await queryAsync('UPDATE user SET reputation = reputation - 2 WHERE username = (SELECT username FROM data WHERE post_id = ?)', [post]);
                 }
             }
         } else {
-            await queryAsync ('INSERT INTO vote (username, post_id, is_upvote) VALUES (?, ?, ?)', [req.session.user, post, vote]);
-            if (vote == 1){
-                await queryAsync ('UPDATE data SET reputation = reputation + 1 WHERE post_id = ?', [post]);
-                await queryAsync ('UPDATE user SET reputation = reputation + 1 WHERE username = (SELECT username FROM data WHERE post_id = ?)', [post]);
+            await queryAsync('INSERT INTO vote (username, post_id, is_upvote) VALUES (?, ?, ?)', [req.session.user, post, vote]);
+            if (vote == 1) {
+                await queryAsync('UPDATE data SET reputation = reputation + 1 WHERE post_id = ?', [post]);
+                await queryAsync('UPDATE user SET reputation = reputation + 1 WHERE username = (SELECT username FROM data WHERE post_id = ?)', [post]);
             } else {
-                await queryAsync ('UPDATE data SET reputation = reputation - 1 WHERE post_id = ?', [post]);
-                await queryAsync ('UPDATE user SET reputation = reputation - 1 WHERE username = (SELECT username FROM data WHERE post_id = ?)', [post]);
+                await queryAsync('UPDATE data SET reputation = reputation - 1 WHERE post_id = ?', [post]);
+                await queryAsync('UPDATE user SET reputation = reputation - 1 WHERE username = (SELECT username FROM data WHERE post_id = ?)', [post]);
             }
         }
     }
     res.redirect('/post/' + post);
 });
 
-router.get('/category/:category', async (req, res) =>{
+router.get('/category/:category', async (req, res) => {
     let category = req.params.category;
 
     if (req.session.isLogin) {
-        var currentSubscribe = await queryAsync ('SELECT * FROM subscribe s WHERE s.username = ? AND s.category = ?', [req.session.user, category]);
-        if (currentSubscribe[0]){
-            await queryAsync ('DELETE FROM subscribe WHERE username = ? AND category = ?', [req.session.user, category]);
+        var currentSubscribe = await queryAsync('SELECT * FROM subscribe s WHERE s.username = ? AND s.category = ?', [req.session.user, category]);
+        if (currentSubscribe[0]) {
+            await queryAsync('DELETE FROM subscribe WHERE username = ? AND category = ?', [req.session.user, category]);
         } else {
-            await queryAsync ('INSERT INTO subscribe (username, category) VALUES (?, ?)', [req.session.user, category]);
+            await queryAsync('INSERT INTO subscribe (username, category) VALUES (?, ?)', [req.session.user, category]);
         }
     }
     res.redirect('/category/' + category);
 });
 
-router.post('/post/:crud/:id', async (req, res) =>{
+router.post('/post/:crud/:id', async (req, res) => {
     let crud = req.params.crud;
     let id = req.params.id;
 
@@ -69,25 +69,31 @@ router.post('/post/:crud/:id', async (req, res) =>{
     if (req.session.isLogin) {
         let loginUser = req.session.user;
         try {
-            if (crud == 'create' || crud == 'reply'){
+            if (crud == 'create' || crud == 'reply') {
                 if (crud == 'reply') {
-                    var rCategory = await queryAsync ('SELECT category FROM data WHERE post_id = ?', [id])
-                    var returnPost = await queryAsync('INSERT INTO data SET ?', {username:loginUser, header:'Reply to post#' + id, category:rCategory[0].category, content:content});
+                    var rCategory = await queryAsync('SELECT category FROM data WHERE post_id = ?', [id])
+                    var returnPost = await queryAsync('INSERT INTO data SET ?', { username: loginUser, header: 'Reply to post#' + id, category: rCategory[0].category, content: content });
                     await queryAsync('INSERT INTO is_comment_of (parent, child) VALUES (?, ?)', [id, returnPost.insertId]);
                 } else {
-                    var returnPost = await queryAsync('INSERT INTO data SET ?', {username:loginUser, header:header, category:category, content:content});
+                    var returnPost = await queryAsync('INSERT INTO data SET ?', { username: loginUser, header: header, category: category, content: content });
                     await queryAsync('INSERT INTO post (post_id) VALUES (?)', [returnPost.insertId]);
                 }
             } else if (crud == 'edit' || crud == 'delete') {
-                let username = await queryAsync('SELECT username FROM data WHERE post_id = ?', [id]); 
+                let username = await queryAsync('SELECT username FROM data WHERE post_id = ?', [id]);
                 if (req.session.user == username[0].username || req.session.isAdmin) {
                     if (crud == 'edit') {
-                        var rCategory = await queryAsync ('SELECT category FROM data WHERE post_id = ?', [id])
+                        var rCategory = await queryAsync('SELECT category FROM data WHERE post_id = ?', [id])
                         await queryAsync('UPDATE data SET header = ?, content = ? , category = ? WHERE post_id = ?', [header, content, rCategory[0].category, id]);
-                    } else if (crud == 'delete'){
+                    } else if (crud == 'delete') {
                         await queryAsync('WITH RECURSIVE getAll AS (SELECT ? AS post UNION ALL SELECT ico.child AS post FROM is_comment_of ico INNER JOIN getAll ga ON ico.parent = ga.post) DELETE FROM data WHERE post_id in (SELECT * FROM getAll)', [id]);
                     }
                 }
+            }
+
+            if (crud == 'edit' || crud == 'reply') {
+                res.redirect('/post/' + id);
+            } else {
+                res.redirect('/');
             }
         } catch (error) {
             console.log('SQL error', error);
@@ -96,17 +102,12 @@ router.post('/post/:crud/:id', async (req, res) =>{
     } else {
         res.status(500).send('Please login first');
     }
-    if (crud == 'edit' || crud == 'reply'){
-        res.redirect('/post/'+id);
-    } else {
-        res.redirect('/');
-    }
 });
 
-router.post('/user/:crud/:name', async (req, res, next) =>{
+router.post('/user/:crud/:name', async (req, res, next) => {
     let crud = req.params.crud;
     let name = req.params.name;
- 
+
     let username = req.body.username;
     let email = req.body.email;
     let password = req.body.password;
@@ -115,7 +116,7 @@ router.post('/user/:crud/:name', async (req, res, next) =>{
     try {
         //create user
         if (crud == 'create' && (!req.session.isLogin || req.session.isAdmin)) {
-            if((username && password && email) && (password == repeatPassword)){  
+            if ((username && password && email) && (password == repeatPassword)) {
                 // check used name
                 let result = await queryAsync('SELECT username FROM user WHERE username = ?', [username]);
                 if (result.length > 0) {
@@ -129,7 +130,7 @@ router.post('/user/:crud/:name', async (req, res, next) =>{
                     req.session.isAdmin = false;
                     req.session.isLogin = true;
                 }
-            } else if (password != repeatPassword){
+            } else if (password != repeatPassword) {
                 res.send('Repeat Password does not match');
             } else {
                 res.send('Please enter username and password');
@@ -141,14 +142,14 @@ router.post('/user/:crud/:name', async (req, res, next) =>{
                 if (crud == 'edit') {
                     await queryAsync('UPDATE user SET username = ?, password = ? WHERE username = ?', [username, password, name]);
                     req.session.user = username;
-                } 
+                }
                 else if (crud == 'delete') {
                     await queryAsync('DELETE FROM user WHERE username = ?', [name]);
                     req.session.user = '';
                     req.session.isAdmin = false;
                     req.session.isLogin = false;
                 }
-            }    
+            }
         } else if (crud == 'admin' && req.session.isAdmin) {
             await queryAsync('UPDATE user SET is_admin = 1 WHERE username = ?', [name]);
         }

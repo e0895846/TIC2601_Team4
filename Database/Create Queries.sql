@@ -34,11 +34,12 @@ CREATE TABLE data (
   category VARCHAR(45) NOT NULL REFERENCES category(category) ON DELETE CASCADE ON UPDATE CASCADE,
   header VARCHAR(255) NOT NULL,
   content VARCHAR(16000),
-  #image_id INT NOT NULL REFERENCES image(image_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  image BLOB,
   reputation INT NOT NULL DEFAULT 0,
   update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP()
 );
+
 
 DROP TABLE IF EXISTS subscribe;
 CREATE TABLE subscribe (
@@ -85,7 +86,8 @@ INSERT INTO category (category) VALUES
 ('test2'),
 ('test3'),
 ('test4'),
-('test5');
+('test5'),
+('mildlyinteresting');
 
 TRUNCATE data;
 INSERT INTO data (username, header, category, content) VALUES 
@@ -99,6 +101,9 @@ INSERT INTO data (username, header, category, content) VALUES
 ('James', 'TESTING5', 'test1', 'This is testing 5 reply'),
 ('Robert', 'TESTING3', 'test1', 'This is testing 6 reply'),
 ('John', 'TESTING4', 'test1', 'This is testing 7 reply');
+INSERT INTO data (username, header, category, content, image) VALUES 
+('James', 'This Truck has a Wrap to Make it Look Bad', 'mildlyinteresting', '', 'https://external-preview.redd.it/DLiwTeV1X4SRj_RMpHIhkMuiwOIq8oMRRESv8pRmN9U.jpg?width=960&crop=smart&auto=webp&s=b80cd3381f59ad72bd0f69ddcb084086e194f59c');
+
 
 INSERT INTO post (post_id) VALUES
 (1),
