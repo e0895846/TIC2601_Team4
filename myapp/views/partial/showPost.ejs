@@ -1,11 +1,11 @@
 <% if (post.post_id) {%>
 <div class="row justify-content-center mb-2">
     <div class="col-1 fs-4 px-2 text-center">
-        <a href="<%= (req.session.isLogin) ? '/crud/vote/1/' + post.post_id : 'login' %>" class="btn p-0 fs-3">
+        <a href="/<%= (req.session.isLogin) ? 'crud/vote/1/' + post.post_id : 'login' %>" class="btn p-0 fs-3">
             <i class="bi d-block bi-hand-thumbs-up<%= post.is_upvote==1 ? '-fill':''%>"></i>
         </a>
         <div class="d-block"><%= post.reputation %></div>
-        <a href="<%= (req.session.isLogin) ? '/crud/vote/0/' + post.post_id : 'login' %>"  class="btn p-0 fs-3">
+        <a href="/<%= (req.session.isLogin) ? 'crud/vote/0/' + post.post_id : 'login' %>"  class="btn p-0 fs-3">
             <i class="bi d-block bi-hand-thumbs-down<%= post.is_upvote==0&&post.is_upvote!=undefined ? '-fill':''%>"></i>
         </a>
     </div>
