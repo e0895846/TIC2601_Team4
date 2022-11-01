@@ -72,18 +72,21 @@ router.post('/post/:crud/:id', async (req, res) => {
             if (crud == 'create' || crud == 'reply') {
                 if (crud == 'reply') {
                     var rCategory = await queryAsync('SELECT category FROM data WHERE post_id = ?', [id])
-                    var returnPost = await queryAsync('INSERT INTO data SET ?', { username: loginUser, header: 'Reply to post#' + id, category: rCategory[0].category, content: content });
+                    var returnPost = await queryAsync('INSERT INTO data SET ?', { username: loginUser, category: rCategory[0].category, content: content });
                     await queryAsync('INSERT INTO is_comment_of (parent, child) VALUES (?, ?)', [id, returnPost.insertId]);
                 } else {
-                    var returnPost = await queryAsync('INSERT INTO data SET ?', { username: loginUser, header: header, category: category, content: content });
-                    await queryAsync('INSERT INTO post (post_id) VALUES (?)', [returnPost.insertId]);
+                    var returnPost = await queryAsync('INSERT INTO data SET ?', { username: loginUser, category: category, content: content });
+                    await queryAsync('INSERT INTO post (post_id, header) VALUES (?, ?)', [returnPost.insertId, header]);
                 }
             } else if (crud == 'edit' || crud == 'delete') {
                 let username = await queryAsync('SELECT username FROM data WHERE post_id = ?', [id]);
                 if (req.session.user == username[0].username || req.session.isAdmin) {
                     if (crud == 'edit') {
-                        var rCategory = await queryAsync('SELECT category FROM data WHERE post_id = ?', [id])
-                        await queryAsync('UPDATE data SET header = ?, content = ? , category = ? WHERE post_id = ?', [header, content, rCategory[0].category, id]);
+                        var rCategory = await queryAsync('SELECT post_id FROM post WHERE post_id = ?', [id])
+                        await queryAsync('UPDATE data SET content = ? WHERE post_id = ?', [content, id]);
+                        if(rCategory[0]){
+                            await queryAsync('UPDATE post SET header = ? WHERE post_id = ?', [header, id]);
+                        }
                     } else if (crud == 'delete') {
                         await queryAsync('WITH RECURSIVE getAll AS (SELECT ? AS post UNION ALL SELECT ico.child AS post FROM is_comment_of ico INNER JOIN getAll ga ON ico.parent = ga.post) DELETE FROM data WHERE post_id in (SELECT * FROM getAll)', [id]);
                     }
