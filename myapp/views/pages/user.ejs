@@ -37,7 +37,6 @@
               <ul class="list-group">
                 <li class="list-group-item">Username: <%= userInfo.username %></li>
                 <li class="list-group-item">Join date: <%= userInfo.created_at.getFullYear()+"-"+userInfo.created_at.getMonth()+"-"+userInfo.created_at.getDate()+" "+userInfo.created_at.getHours()+":"+userInfo.created_at.getMinutes()%></li>
-                <li class="list-group-item">e-mail: <%= userInfo.email %></li>
                 <li class="list-group-item">Reputation: <%= userInfo.reputation %></li>
                 <li class="list-group-item">Admin: <% if(userInfo.is_admin == 0) {%>
                     <span>No</span>
