@@ -112,14 +112,14 @@ router.post('/user/:crud/:name', async (req, res, next) => {
     let name = req.params.name;
 
     let username = req.body.username;
-    let email = req.body.email;
+    //let email = req.body.email;
     let password = req.body.password;
     let repeatPassword = req.body.repeatPassword;
 
     try {
         //create user
         if (crud == 'create' && (!req.session.isLogin || req.session.isAdmin)) {
-            if ((username && password && email) && (password == repeatPassword)) {
+            if ((username && password) && (password == repeatPassword)) {
                 // check used name
                 let result = await queryAsync('SELECT username FROM user WHERE username = ?', [username]);
                 if (result.length > 0) {
@@ -128,7 +128,8 @@ router.post('/user/:crud/:name', async (req, res, next) => {
                 else {
                     let salt = await bcrypt.genSalt(10);
                     let hashPassword = await bcrypt.hash(password, salt);
-                    await queryAsync('INSERT INTO user (username, password, email) VALUES (?, ?, ?)', [username, hashPassword, email]);
+                    //await queryAsync('INSERT INTO user (username, password, email) VALUES (?, ?, ?)', [username, hashPassword, email]);
+                    await queryAsync('INSERT INTO user (username, password) VALUES (?, ?)', [username, hashPassword]);
                     req.session.user = username;
                     req.session.isAdmin = false;
                     req.session.isLogin = true;
