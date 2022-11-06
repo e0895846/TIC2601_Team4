@@ -18,7 +18,6 @@
           <li><a class="dropdown-item" href="/user/<%= req.session.user %>" data-bs-toggle="collapse" data-bs-target="#newPostCollapse" aria-expanded="false" aria-controls="newPostCollapse">New post</a></li>
           <li><a class="dropdown-item" href="/user/<%= req.session.user %>">Profile</a></li>
           <li><a class="dropdown-item" href="/crud/user/edit/<%= req.session.user %>">Change Password</a></li>
-          <li><a class="dropdown-item" href="/crud/user/delete/<%= req.session.user %>">De-register</a></li>
           <li><hr class="dropdown-divider"></li>
           <% if (req.session.isAdmin) { %>
             <li><a class="dropdown-item" href="/admin">Statistics</a></li>

@@ -142,16 +142,18 @@ router.post('/user/:crud/:name', async (req, res, next) => {
         }
         // update user password and delete user
         else if (crud == 'edit' || crud == 'delete') {
-            if (req.session.username == name || req.session.isAdmin) {
+            if (req.session.user == name || req.session.isAdmin) {
                 if (crud == 'edit') {
                     await queryAsync('UPDATE user SET username = ?, password = ? WHERE username = ?', [username, password, name]);
                     req.session.user = username;
-                }
+                } 
                 else if (crud == 'delete') {
                     await queryAsync('DELETE FROM user WHERE username = ?', [name]);
-                    req.session.user = '';
-                    req.session.isAdmin = false;
-                    req.session.isLogin = false;
+                    if (!req.session.isAdmin){
+                        req.session.user = '';
+                        req.session.isAdmin = false;
+                        req.session.isLogin = false;
+                    }
                 }
             }
         } else if (crud == 'admin' && req.session.isAdmin) {
