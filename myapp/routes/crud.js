@@ -116,11 +116,6 @@ router.post('/user/:crud/:name', async (req, res, next) => {
     let password = req.body.password;
     let repeatPassword = req.body.repeatPassword;
 
-    if(crud == 'create' || crud == 'edit') {
-        let salt = await bcrypt.genSalt(10);
-        let hashPassword = await bcrypt.hash(password, salt);
-    }
-
     try {
         //create user
         if (crud == 'create' && (!req.session.isLogin || req.session.isAdmin)) {
@@ -131,6 +126,8 @@ router.post('/user/:crud/:name', async (req, res, next) => {
                     res.send("This username has been used");
                 }
                 else {
+                    let salt = await bcrypt.genSalt(10);
+                    let hashPassword = await bcrypt.hash(password, salt);
                     await queryAsync('INSERT INTO user (username, password, email) VALUES (?, ?, ?)', [username, hashPassword, email]);
                     // await queryAsync('INSERT INTO user (username, password) VALUES (?, ?)', [username, hashPassword]);
                     req.session.user = username;
@@ -145,15 +142,19 @@ router.post('/user/:crud/:name', async (req, res, next) => {
         }
         // update user password and delete user
         else if (crud == 'edit' || crud == 'delete') {
-            if (req.session.user == name || req.session.isAdmin) {
-                if (crud == 'edit') {
+            if (crud == 'edit') {
+                if (req.session.user == name) {
                     if (password == repeatPassword){
+                        let salt = await bcrypt.genSalt(10);
+                        let hashPassword = await bcrypt.hash(password, salt);
                         await queryAsync('UPDATE user SET password = ? WHERE username = ?', [hashPassword, name]);
                     } else {
                         res.send('Repeat Password does not match');
                     }
-                } 
-                else if (crud == 'delete') {
+                }
+            } 
+            else if (crud == 'delete') {
+                if (req.session.user == name || req.session.isAdmin) {
                     await queryAsync('DELETE FROM user WHERE username = ?', [name]);
                     if (!req.session.isAdmin){
                         req.session.user = '';
@@ -162,6 +163,7 @@ router.post('/user/:crud/:name', async (req, res, next) => {
                     }
                 }
             }
+            
         } else if (crud == 'admin' && req.session.isAdmin) {
             await queryAsync('UPDATE user SET is_admin = 1 WHERE username = ?', [name]);
         }

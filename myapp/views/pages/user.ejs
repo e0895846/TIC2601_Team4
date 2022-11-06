@@ -41,10 +41,11 @@
                     <li class="list-group-item">Reputation: <%= userInfo.reputation %></li>
                     <li class="list-group-item">Admin: <% if(userInfo.is_admin == 0) {%> <span>No</span> <%} else { %> <span>Yes</span> <%} %></li>
                 </ul>
-                <br/>
+                
 
-                <% if (userInfo.username == req.session.user || req.session.isAdmin) { %>
+                <% if (userInfo.username == req.session.user) { %>
                     <!-- Delete user -->
+                    <br/>
                     <button class="btn btn-primary col-12 ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#passwordCollapse" aria-expanded="false" aria-controls="passwordCollapse">Change Password</button>
                     <div class="collapse" id="passwordCollapse">
                         <form method="post" action="/crud/user/edit/<%= userInfo.username %>">
@@ -53,7 +54,10 @@
                             <button class="btn btn-primary" type="submit">Submit</button>
                         </form>
                     </div>
-
+                    
+                <% } %>
+                
+                <% if (userInfo.username == req.session.user || req.session.isAdmin) { %>
                     <!-- Delete user -->
                     <form method="post" action="/crud/user/delete/<%= userInfo.username %>">
                         <br/>
