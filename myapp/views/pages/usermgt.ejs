@@ -51,12 +51,6 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label>E-mail</label>
-                                        <input type="text" name="email" id="email" class="form-control"/>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
                                         <label>Admin</label>
                                         <select name="admin" class="form-control">
                                             <option value="0">No</option>
@@ -87,12 +81,6 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label>E-mail</label>
-                                        <input type="text" name="email" id="email" class="form-control" value="<%= sampleData.email %>"/>
-                                    </div>
-                                </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>Reputation</label>
@@ -141,7 +129,6 @@
                             <tr>
                                 <th>Username</th>
                                 <th>Join Date</th>
-                                <th>E-mail</th>
                                 <th>Reputation</th>
                                 <th>Admin</th>
                                 <th>Action</th>
@@ -154,7 +141,6 @@
                             <tr>
                                 <td><%= data.username %></td>
                                 <td><%= data.created_at %></td>
-                                <td><%= data.email %></td>
                                 <td><%= data.reputation %></td>
                                 <td><%= data.is_admin %></td>
                                 <td>
