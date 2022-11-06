@@ -42,15 +42,14 @@ router.post("/add_user_data", function(request, response, next){
 
     //store form data in the local variable
     var username = request.body.username;
-    var email = request.body.email;
     var admin = request.body.admin;
     var password = request.body.password;
 
     //insert data query. Define variable in query under node js
     var query = `
     INSERT INTO user
-    (username, email, is_admin, password)
-    VALUES("${username}", "${email}","${admin}","${password}")
+    (username, is_admin, password)
+    VALUES("${username}", "${admin}","${password}")
     `;
 
     //execute above insert query
@@ -93,8 +92,6 @@ router.get('/edit/:username', function(request, response, next){
 router.post('/edit/:username', function(request, response, next){
     //store data in local variable
     var username = request.params.username;
-
-    var email = request.body.email;
     var reputation = request.body.reputation;
     var admin = request.body.admin;
 
@@ -105,7 +102,6 @@ router.post('/edit/:username', function(request, response, next){
     var query = `
     UPDATE user
     SET
-    email = "${email}",
 
     reputation = "${reputation}",
     is_admin = "${admin}"
