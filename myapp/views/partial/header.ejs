@@ -15,11 +15,11 @@
           <span><%= req.session.user %></span>
         </a>
         <ul class="dropdown-menu text-small">
-          <li><a class="dropdown-item" href="#">New post</a></li>
           <li><a class="dropdown-item" href="/user/<%= req.session.user %>">Profile</a></li>
           <li><hr class="dropdown-divider"></li>
           <% if (req.session.isAdmin) { %>
             <li><a class="dropdown-item" href="/admin">Statistics</a></li>
+            <li><a class="dropdown-item" href="/usermgt">User Management</a></li>
           <% } %>
           <li><a class="dropdown-item" href="/signout">Sign out</a></li>
         </ul>
