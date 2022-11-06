@@ -15,7 +15,6 @@
           <span><%= req.session.user %></span>
         </a>
         <ul class="dropdown-menu text-small">
-          <li><a class="dropdown-item" href="/user/<%= req.session.user %>" data-bs-toggle="collapse" data-bs-target="#newPostCollapse" aria-expanded="false" aria-controls="newPostCollapse">New post</a></li>
           <li><a class="dropdown-item" href="/user/<%= req.session.user %>">Profile</a></li>
           <% if (req.session.isAdmin) { %>
             <li><hr class="dropdown-divider"></li>
