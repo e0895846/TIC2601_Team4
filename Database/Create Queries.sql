@@ -116,10 +116,14 @@ INSERT INTO user (username, email, password) VALUES
 ('James', 'james@rabbit.com','$2b$10$TRXpr7RpJn2jVs1EWAR9aOoEHElhee4PpOxIsJtbc2nCXSyVjnlmS'),
 ('Robert', 'robert@rabbit.com', '$2b$10$wTudTtgk6FXR0rU.akBl3.luCzPDLtDnvc7o9YeQTdkfWK7xA.E0O'),
 ('John', 'john@rabbit.com', '$2b$10$WRXgM85h4Wy6iib9djz1duK8BynJ2SQYuod4UB9Tc9OPTakqh0eyi');
+#Kelvin 123456
+#James 654321
+#Robert 654321
+#John 654321
 
 INSERT INTO user (username, email, password, is_admin) VALUES 
 ('admin', 'admin@rabbit.com', '$2b$10$V4bx3onIgab/mvuIlkgAVOTlB/dzOCeGy7Q5GY6aeZUr.f/u3zy/y', 1);
-##admin Admin123
+#admin 123456
 
 TRUNCATE category;
 INSERT INTO category (category) VALUES
