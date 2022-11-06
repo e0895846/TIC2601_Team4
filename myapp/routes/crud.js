@@ -116,6 +116,9 @@ router.post('/user/:crud/:name', async (req, res, next) => {
     let password = req.body.password;
     let repeatPassword = req.body.repeatPassword;
 
+    let salt = await bcrypt.genSalt(10);
+    let hashPassword = await bcrypt.hash(password, salt);
+
     try {
         //create user
         if (crud == 'create' && (!req.session.isLogin || req.session.isAdmin)) {
@@ -126,8 +129,6 @@ router.post('/user/:crud/:name', async (req, res, next) => {
                     res.send("This username has been used");
                 }
                 else {
-                    let salt = await bcrypt.genSalt(10);
-                    let hashPassword = await bcrypt.hash(password, salt);
                     await queryAsync('INSERT INTO user (username, password, email) VALUES (?, ?, ?)', [username, hashPassword, email]);
                     // await queryAsync('INSERT INTO user (username, password) VALUES (?, ?)', [username, hashPassword]);
                     req.session.user = username;
@@ -144,8 +145,11 @@ router.post('/user/:crud/:name', async (req, res, next) => {
         else if (crud == 'edit' || crud == 'delete') {
             if (req.session.user == name || req.session.isAdmin) {
                 if (crud == 'edit') {
-                    await queryAsync('UPDATE user SET username = ?, password = ? WHERE username = ?', [username, password, name]);
-                    req.session.user = username;
+                    if (password == repeatPassword){
+                        await queryAsync('UPDATE user SET password = ? WHERE username = ?', [hashPassword, name]);
+                    } else {
+                        res.send('Repeat Password does not match');
+                    }
                 } 
                 else if (crud == 'delete') {
                     await queryAsync('DELETE FROM user WHERE username = ?', [name]);

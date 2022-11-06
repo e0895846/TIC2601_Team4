@@ -34,24 +34,32 @@
 
             <!-- User info bar-->
             <div class="col-2 ps-2 mt-3">
-              <ul class="list-group">
-                <li class="list-group-item">Username: <%= userInfo.username %></li>
-                <li class="list-group-item">Join date: <%= userInfo.created_at.getFullYear()+"-"+userInfo.created_at.getMonth()+"-"+userInfo.created_at.getDate()+" "+userInfo.created_at.getHours()+":"+userInfo.created_at.getMinutes()%></li>
-                <li class="list-group-item">E-mail: <%= userInfo.email %></li>
-                <li class="list-group-item">Reputation: <%= userInfo.reputation %></li>
-                <li class="list-group-item">Admin: <% if(userInfo.is_admin == 0) {%>
-                    <span>No</span>
-                <%} else { %>
-                    <span>Yes</span>
-                <%;} %></li>
-              </ul>
+                <ul class="list-group">
+                    <li class="list-group-item">Username: <%= userInfo.username %></li>
+                    <li class="list-group-item">Join date: <%= userInfo.created_at.getFullYear()+"-"+userInfo.created_at.getMonth()+"-"+userInfo.created_at.getDate()+" "+userInfo.created_at.getHours()+":"+userInfo.created_at.getMinutes()%></li>
+                    <li class="list-group-item">E-mail: <%= userInfo.email %></li>
+                    <li class="list-group-item">Reputation: <%= userInfo.reputation %></li>
+                    <li class="list-group-item">Admin: <% if(userInfo.is_admin == 0) {%> <span>No</span> <%} else { %> <span>Yes</span> <%} %></li>
+                </ul>
+                <br/>
 
-              <br/>
-              <% if (userInfo.username == req.session.user || req.session.isAdmin) { %>
-              <form method="post" action="/crud/user/delete/<%= userInfo.username %>">
-                <button class="btn btn-primary col-12 ms-auto" type="submit">De-register</button>
-              </form>
-              <% } %>
+                <% if (userInfo.username == req.session.user || req.session.isAdmin) { %>
+                    <!-- Delete user -->
+                    <button class="btn btn-primary col-12 ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#passwordCollapse" aria-expanded="false" aria-controls="passwordCollapse">Change Password</button>
+                    <div class="collapse" id="passwordCollapse">
+                        <form method="post" action="/crud/user/edit/<%= userInfo.username %>">
+                            <input class="form-control" type="password" name="password" placeholder="Password">
+                            <input class="form-control" type="password" name="repeatPassword" placeholder="Repeat Password">
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </form>
+                    </div>
+
+                    <!-- Delete user -->
+                    <form method="post" action="/crud/user/delete/<%= userInfo.username %>">
+                        <br/>
+                        <button class="btn btn-danger col-12 ms-auto" type="submit">De-register</button>
+                    </form>
+                <% } %>
 
             </div>
         </div>
