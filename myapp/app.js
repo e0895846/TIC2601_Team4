@@ -44,3 +44,5 @@ var server = app.listen(8080, function() {
 
     console.log("Example app listening at http://localhost:8080");
 });
+
+console.log("Recommended display resolution: 1920x1080");
