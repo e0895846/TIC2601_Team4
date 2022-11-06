@@ -1,0 +1,375 @@
+<<<<<<< HEAD:Obsolete/usermgt.ejs
+<!doctype html>
+
+<html lang="en">
+    
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+        <title></title>
+    </head>
+
+
+    <body>
+        
+        <div class="container">
+
+        <br>
+            <a class="p-3" href="/"> 
+                <img src="../public/images/rabbit-logo.png" alt="Home icon" width="100" height="100" align="left">
+            </a>
+    
+            <a class="p-3" href="/">
+                <img src="../public/images/rabbit-text.png" alt="icon text" width="110" height="45">
+            </a>
+        </br>
+        
+        
+            <h1 class="text-center mt-3 mb-3"><%= title %></h1>
+            
+            <% if(action == 'add') { %>
+                <!--create form to add data-->
+                <!--paste Bootstrap five card element code-->
+                <div class="card">
+                    <div class="card-header"></div>
+                    <div class="card-body">
+                        <!--create one form to add data-->
+                        <!--action means when form is submitted, it will send form data to this route-->                        
+                        <form method="POST" action="/usermgt/add_user_data"> 
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Username</label>
+                                        <input type="text" name="username" id="username" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Password</label>
+                                        <input type="text" name="password" id="password" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>E-mail</label>
+                                        <input type="text" name="email" id="email" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Admin</label>
+                                        <select name="admin" class="form-control">
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>                            
+                            </div>
+                            <!--create submit button for submit form data-->
+                            <div class="mb-3">
+                                <input type="submit" name="submit_button" class="btn btn-primary" value="Add"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <%} else if(action == 'edit') { %>
+                <!--load edit form with data-->
+                <div class="card">
+                    <div class="card-header"></div>
+                    <div class="card-body">
+                        <form method="POST" action="/usermgt/edit/<%= sampleData.username %>"> 
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Username</label>
+                                        <input type="text" name="username" id="username" 
+                                            class="form-control" value="<%= sampleData.username %>" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Reputation</label>
+                                        <input type="number" name="reputation" id="reputation" class="form-control" value="<%= sampleData.reputation %>"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>E-mail</label>
+                                        <input type="text" name="email" id="email" class="form-control" value="<%= sampleData.email %>"/>
+                                    </div>
+                                </div>
+                               
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Admin</label>
+                                        <select name="admin" id="admin" class="form-control">
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>                            
+                            </div>
+                            <!--create submit button for submit form data-->
+                            <div class="mb-3">
+                                <input type="submit" name="submit_button" class="btn btn-primary" value="Add"/>
+                            </div>
+                        </form>
+                        <script>
+                            //extract admin from database
+                            document.getElementById('admin').value="<%=sampleData.is_admin %>";
+                        </script>
+
+                    </div>
+                </div>
+
+            <% } else { %>
+                
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col">
+                            <a href="/usermgt/add" class="btn btn-success btn-sm float-end">Add User</a>
+                            <br></br>
+                            <a href="/exportcsv" class="btn btn-success btn-sm float-end" style="float:left">Export to CSV</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Username</th>
+                                <th>Join Date</th>
+                                <th>E-mail</th>
+                                <th>Reputation</th>
+                                <th>Admin</th>
+                                <th>Action</th>
+                            </tr>
+                            <%
+                            if(sampleData.length > 0)
+                            {
+                                sampleData.forEach(function(data){
+                            %>
+                            <tr>
+                                <td><%= data.username %></td>
+                                <td><%= data.created_at %></td>
+                                <td><%= data.email %></td>
+                                <td><%= data.reputation %></td>
+                                <td><%= data.is_admin %></td>
+                                <td>
+                                    <a href="/usermgt/edit/<%= data.username %>" 
+                                        class="btn btn-primary btn-sm">Edit</a>
+                                    <a href="/usermgt/delete/<%= data.username %>"
+                                        class="btn btn-danger btn-sm">Delete</a>
+                                </td>
+                            </tr>
+                            <%
+                                });
+                            }
+                            else
+                            {
+                            %>
+                            <tr>
+                                <td colspan="5">No Data Found</td>
+                            </tr>
+                            <%
+                            }
+                            %>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <% } %>
+
+        </div> 
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    </body>
+</html>
+=======
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+        <title></title>
+    </head>
+    <body>
+
+        <div class="container">
+
+        <br>
+            <a class="p-3" href="/"> 
+                <img src="public/images/rabbit-logo.png" alt="Home icon" width="100" height="100" align="left">
+            </a>
+    
+            <a class="p-3" href="/">
+                <img src="public/images/rabbit-text.png" alt="icon text" width="110" height="45">
+            </a>
+        </br>
+            <h1 class="text-center mt-3 mb-3"><%= title %></h1>
+            
+            <% if(action == 'add') { %>
+                <!--create form to add data-->
+                <!--paste Bootstrap five card element code-->
+                <div class="card">
+                    <div class="card-header"></div>
+                    <div class="card-body">
+                        <!--create one form to add data-->
+                        <!--action means when form is submitted, it will send form data to this route-->                        
+                        <form method="POST" action="/usermgt/add_user_data"> 
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Username</label>
+                                        <input type="text" name="username" id="username" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Password</label>
+                                        <input type="text" name="password" id="password" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Admin</label>
+                                        <select name="admin" class="form-control">
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>                            
+                            </div>
+                            <!--create submit button for submit form data-->
+                            <div class="mb-3">
+                                <input type="submit" name="submit_button" class="btn btn-primary" value="Add"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <%} else if(action == 'edit') { %>
+                <!--load edit form with data-->
+                <div class="card">
+                    <div class="card-header"></div>
+                    <div class="card-body">
+                        <form method="POST" action="/usermgt/edit/<%= sampleData.username %>"> 
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Username</label>
+                                        <input type="text" name="username" id="username" 
+                                            class="form-control" value="<%= sampleData.username %>" readonly/>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Reputation</label>
+                                        <input type="number" name="reputation" id="reputation" class="form-control" value="<%= sampleData.reputation %>"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Admin</label>
+                                        <select name="admin" id="admin" class="form-control">
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>                            
+                            </div>
+                            <!--create submit button for submit form data-->
+                            <div class="mb-3">
+                                <input type="submit" name="submit_button" class="btn btn-primary" value="Add"/>
+                            </div>
+                        </form>
+                        <script>
+                            //extract admin from database
+                            document.getElementById('admin').value="<%=sampleData.is_admin %>";
+                        </script>
+
+                    </div>
+                </div>
+
+            <% } else { %>
+                
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col">
+                            <a href="/usermgt/add" class="btn btn-success btn-sm float-end">Add User</a>
+                            <br></br>
+                            <a href="/exportcsv" class="btn btn-success btn-sm float-end" style="float:left">Export to CSV</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Username</th>
+                                <th>Join Date</th>
+                                <th>Reputation</th>
+                                <th>Admin</th>
+                                <th>Action</th>
+                            </tr>
+                            <%
+                            if(sampleData.length > 0)
+                            {
+                                sampleData.forEach(function(data){
+                            %>
+                            <tr>
+                                <td><%= data.username %></td>
+                                <td><%= data.created_at %></td>
+                                <td><%= data.reputation %></td>
+                                <td><%= data.is_admin %></td>
+                                <td>
+                                    <a href="/usermgt/edit/<%= data.username %>" 
+                                        class="btn btn-primary btn-sm">Edit</a>
+                                    <a href="/usermgt/delete/<%= data.username %>"
+                                        class="btn btn-danger btn-sm">Delete</a>
+                                </td>
+                            </tr>
+                            <%
+                                });
+                            }
+                            else
+                            {
+                            %>
+                            <tr>
+                                <td colspan="5">No Data Found</td>
+                            </tr>
+                            <%
+                            }
+                            %>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <% } %>
+
+        </div> 
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    </body>
+</html>
+>>>>>>> de0665db9d595b4bf503843d0d6f36f93f6f35e7:myapp/views/pages/usermgt.ejs

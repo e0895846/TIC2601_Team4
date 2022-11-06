@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<%- include('../partial/head') %>
+
+  <body>
+    <%- include('../partial/header', {req:req}) %>
+    <h1 class="text-center mt-3 mb-3"><%= title %></h1>
+    
+    <div class="card">
+      <div class="card-header">
+          <div class="row">
+              <div class="col"></div>
+              <div class="col">
+                  <a href="/admin/adduser" class="btn btn-success btn-sm float-end">Add User</a>
+                  <br></br>
+                  <a href="/admin/exportcsv" class="btn btn-success btn-sm float-end" style="float:left">Export to CSV</a>
+              </div>
+          </div>
+      </div>
+      <div class="card-body">
+          <div class="table-responsive">
+              <table class="table table-bordered">
+                  <tr>
+                      <th>Username</th>
+                      <th>Join Date</th>
+                      <th>E-mail</th>
+                      <th>Reputation</th>
+                      <th>Admin</th>
+                      <th>Action</th>
+                  </tr>
+                  <%
+                  if(sampleData.length > 0)
+                  {
+                      sampleData.forEach(function(data){
+                    %>                    
+                    <tr>
+                        <td><%= data.username %></td>
+                        <td><%= data.created_at %></td>
+                        <td><%= data.email %></td>
+                        <td><%= data.reputation %></td>
+                        <td><%= data.is_admin %></td>
+                        <td>
+                            <a href="/admin/edit/<%=data.username %>" 
+                              class="btn btn-primary btn-sm">Edit</a>                                                                                 
+                            <a href="/admin/delete/<%=data.username %>"
+                              class="btn btn-danger btn-sm">Delete</a>                                                                                                                                           
+                                                    
+                        </td>
+                    </tr>                    
+                  <%
+                      });
+                  }
+                  else
+                  {
+                  %>
+                  <tr>
+                      <td colspan="5">No Data Found</td>
+                  </tr>
+                  <%
+                  }
+                  %>
+              </table>
+          </div>
+        </div>
+      </div>    
+<%- include('../partial/footer') %>   
+</body>
+</html>

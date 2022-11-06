@@ -4,44 +4,71 @@
   <body>
     <%- include('../partial/header', {req:req}) %>
     <div class="main container-fluid mt-2">
-        <div class="row">
-            <%- include('../partial/leftbar') %> 
-            <div class="col-8 px-5">
-                <div class="d-flex p-2 justify-content-between">
-                    <p class="ps-5 mt-2 mx-2 h5">User Activity</p>
-                    <a class="btn btn-primary text-center" href="#" role="button">New Post</a>
+        <div class="row justify-content-center">
+            <div class="col-6 px-5">
+                <div class="row justify-content-center mb-2">
+                    <div class="col-11 offset-1">
+                        <%- include('../partial/navbar', {subscribes:subscribes}) %> 
+                    </div>
                 </div>
-
-                <div class="row row-cols-1 g-3">
-                    <%  if (posts.length> 0) {
-                        let counter = 1
-                        posts.forEach((post)=> {%>    
-                    <%- include('../partial/showPost', {post:post, req:req}) %>
-                    <%      counter++
-                        })
-                        }
-                    %>
+                <div class="row justify-content-center">
+                    <div class="col">
+                        <% if (req.session.isLogin) { %>
+                            <div class="collapse" id="newPostCollapse">
+                                <%- include('../partial/newPost', {req:req, categories:categories}) %>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                        <%  if (posts.length> 0) {
+                            let counter = 1
+                            posts.forEach((post)=> {%>    
+                        <%- include('../partial/showPost', {post:post, req:req}) %>
+                        <%      counter++
+                            })
+                            }
+                        %>
                 </div>
             </div>
 
             <!-- User info bar-->
-            <div class="col-3 px-5 mt-5 pt-5">
-              <ul class="list-group">
-                <li class="list-group-item">Username: <%= req.user %></li>
-                <li class="list-group-item">-</li>
-                <li class="list-group-item">-</li>
-                <li class="list-group-item">-</li>
-                <li class="list-group-item">-</li>
-              </ul>
-            </div>
+            <div class="col-2 ps-2 mt-3">
+                <ul class="list-group">
+                    <li class="list-group-item">Username: <%= userInfo.username %></li>
+                    <li class="list-group-item">Join date: <%= userInfo.created_at.getFullYear()+"-"+userInfo.created_at.getMonth()+"-"+userInfo.created_at.getDate()+" "+userInfo.created_at.getHours()+":"+userInfo.created_at.getMinutes()%></li>
+                    <li class="list-group-item">E-mail: <%= userInfo.email %></li>
+                    <li class="list-group-item">Reputation: <%= userInfo.reputation %></li>
+                    <li class="list-group-item">Admin: <% if(userInfo.is_admin == 0) {%> <span>No</span> <%} else { %> <span>Yes</span> <%} %></li>
+                </ul>
+                
 
+                <% if (userInfo.username == req.session.user) { %>
+                    <!-- Delete user -->
+                    <br/>
+                    <button class="btn btn-primary col-12 ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#passwordCollapse" aria-expanded="false" aria-controls="passwordCollapse">Change Password</button>
+                    <div class="collapse" id="passwordCollapse">
+                        <form method="post" action="/crud/user/edit/<%= userInfo.username %>">
+                            <input class="form-control" type="password" name="password" placeholder="Password">
+                            <input class="form-control" type="password" name="repeatPassword" placeholder="Repeat Password">
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </form>
+                    </div>
+                    
+                <% } %>
+                
+                <% if (userInfo.username == req.session.user || req.session.isAdmin) { %>
+                    <!-- Delete user -->
+                    <form method="post" action="/crud/user/delete/<%= userInfo.username %>">
+                        <br/>
+                        <button class="btn btn-danger col-12 ms-auto" type="submit">De-register</button>
+                    </form>
+                <% } %>
+
+            </div>
         </div>
     </div>
 
-    
-
-    
-    
 <%- include('../partial/footer') %>   
 </body>
 

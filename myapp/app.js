@@ -1,7 +1,6 @@
 const path = require('path');
 const express = require('express');
 const cookieParser = require('cookie-parser')
-const bodyParser = require('body-parser');
 const session = require('express-session')
 
 const {
@@ -12,7 +11,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser())
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: false}))
 
 app.set('views', path.join(__dirname, 'views/pages/'));
 app.set('view engine', 'ejs');
@@ -23,6 +22,9 @@ app.use(session({
     saveUninitialized: true
     
 }));
+
+app.use('/public', express.static(__dirname + "/public"))
+app.use('/partial', express.static(__dirname + "/views/partial"))
 
 var fs = require('fs')
 var routes = fs.readdirSync('./routes/')
@@ -35,9 +37,6 @@ for (var key in routeDict){
 	app.use(webpath, routeDict[key]);
 }
 
-app.use('/public', express.static(__dirname + "/public"))
-app.use('/partial', express.static(__dirname + "/views/partial"))
-
 
 var server = app.listen(8080, function() {
     var host = server.address().address;
@@ -45,3 +44,5 @@ var server = app.listen(8080, function() {
 
     console.log("Example app listening at http://localhost:8080");
 });
+
+console.log("Recommended display resolution: 1920x1080");

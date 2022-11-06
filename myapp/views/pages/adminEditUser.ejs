@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<%- include('../partial/head') %>
+
+  <body>
+    <%- include('../partial/header', {req:req}) %>
+    <h1 class="text-center mt-3 mb-3"><%= title %></h1>
+    <div class="card">
+        <div class="card-header"></div>
+        <div class="card-body">
+            <form method="POST" action="/admin/edit/<%= sampleData.username %>"> 
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label>Username</label>
+                            <input type="text" name="username" id="username" 
+                                class="form-control" value="<%= sampleData.username %>" readonly/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label>Reputation</label>
+                            <input type="number" name="reputation" id="reputation" class="form-control" value="<%= sampleData.reputation %>"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label>E-mail</label>
+                            <input type="text" name="email" id="email" class="form-control" value="<%= sampleData.email %>"/>
+                        </div>
+                    </div>
+                   
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label>Admin</label>
+                            <select name="admin" id="admin" class="form-control">
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>                            
+                </div>
+                <!--create submit button for submit form data-->
+                <div class="mb-3">
+                    <input type="submit" name="submit_button" class="btn btn-primary" value="Apply"/>
+                </div>
+            </form>
+            
+            <script>
+                //extract admin from database
+                document.getElementById('admin').value="<%=sampleData.is_admin %>";
+            </script>
+            
+
+        </div>
+    </div>
+<%- include('../partial/footer') %>   
+</body>
+
+</html>

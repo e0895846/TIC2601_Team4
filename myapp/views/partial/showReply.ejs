@@ -1,0 +1,31 @@
+<% if (post.post_id) {%>
+    <div class="row justify-content-center mb-2">
+        <div class="col-1 fs-4 px-2 text-center">
+            <a href="<%= (req.session.isLogin) ? '/crud/vote/1/' + post.post_id : 'login' %>" class="btn p-0 fs-3">
+                <i class="bi d-block bi-hand-thumbs-up<%= post.is_upvote==1 ? '-fill':''%>"></i>
+            </a>
+            <div class="d-block"><%= post.reputation %></div>
+            <a href="<%= (req.session.isLogin) ? '/crud/vote/0/' + post.post_id : 'login' %>"  class="btn p-0 fs-3">
+                <i class="bi d-block bi-hand-thumbs-down<%= post.is_upvote==0&&post.is_upvote!=undefined ? '-fill':''%>"></i>
+            </a>
+        </div>
+        <div class="col-11 card">
+            <div class="card-body row text-start">
+                <div class="col">
+                    <%= post.content %>
+                </div>
+            </div>
+            <div class="card-footer row align-items-center justify-content-between p-1">
+                <a href="/post/<%=post.post_id%>" class="col-2">
+                    <i class="bi bi-chat-dots" style="font-size:20px;"></i>
+                    
+                </a>
+                <div class="col-8 text-end"> 
+                    <a href="/user/<%=post.username%>" ><%=post.username%></a> | <a href="/category/<%=post.category%>" ><%=post.category%></a>
+                    Last post on <%=post.created_at.getFullYear()+"-"+post.created_at.getMonth()+"-"+post.created_at.getDate()+" "+post.created_at.getHours()+":"+post.created_at.getMinutes()%>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } %>
+    

@@ -1,61 +1,97 @@
+CREATE DATABASE IF NOT EXISTS rabbit;
+USE rabbit;
+
+DROP TABLE IF EXISTS user;
 CREATE TABLE user (
-  username VARCHAR(20) NOT NULL PRIMARY KEY,
+  username VARCHAR(20) PRIMARY KEY,
   password VARCHAR(64) NOT NULL,
-  is_admin TINYINT(1) NOT NULL DEFAULT 0,
+  email VARCHAR(35) NOT NULL UNIQUE,
   reputation INT NOT NULL DEFAULT 0,
+  is_admin TINYINT(1) NOT NULL DEFAULT 0,
+  is_blocked TINYINT(1) NOT NULL DEFAULT 0,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   check(length(username) >=5)
 );
 
+DROP TABLE IF EXISTS category;
 CREATE TABLE category (
   category VARCHAR(45) NOT NULL PRIMARY KEY
 );
 
+DROP TABLE IF EXISTS subscribe;
 CREATE TABLE subscribe (
-  username VARCHAR(20) NOT NULL REFERENCES user(username) ON DELETE CASCADE ON UPDATE CASCADE,
-  category VARCHAR(45) NOT NULL REFERENCES category(category) ON DELETE CASCADE ON UPDATE CASCADE,
+  username VARCHAR(20) REFERENCES user(username) ON DELETE CASCADE,
+  category VARCHAR(45) REFERENCES category(category) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (username, category)
 );
 
-
+DROP TABLE IF EXISTS post;
 CREATE TABLE post (
-  post_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  username VARCHAR(20) NOT NULL REFERENCES user(username) ON DELETE CASCADE ON UPDATE CASCADE,
+  post_id INT PRIMARY KEY AUTO_INCREMENT,
+  username VARCHAR(20) NOT NULL REFERENCES user(username) ON DELETE CASCADE,
   category VARCHAR(45) NOT NULL REFERENCES category(category) ON DELETE CASCADE ON UPDATE CASCADE,
   header VARCHAR(255) NOT NULL,
   content VARCHAR(16000),
+  img BLOB,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP()
 );
 
-
+DROP TABLE IF EXISTS comment;
 CREATE TABLE comment (
-  comment_id INT NOT NULL AUTO_INCREMENT,
+  comment_id INT NOT NULL,
+  post_id INT NOT NULL REFERENCES post(post_id) ON DELETE CASCADE,
+  parent_comment_id INT REFERENCES comment(comment_id) ON DELETE CASCADE,
+  username VARCHAR(20) NOT NULL REFERENCES user(username) ON DELETE CASCADE,
   content VARCHAR(16000),
-  post_id INT NOT NULL REFERENCES post(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-  username VARCHAR(20) NOT NULL REFERENCES user(username) ON DELETE CASCADE ON UPDATE CASCADE,
-  parent_comment_id INT NOT NULL DEFAULT 0,
   PRIMARY KEY(comment_id, post_id)
 );
 
+delimiter $
+CREATE TRIGGER comment_before_insert BEFORE INSERT ON comment
+FOR EACH ROW 
+BEGIN
+		SET NEW.comment_id = (SELECT COUNT(*)+1 FROM comment WHERE NEW.post_id = comment.post_id);
+END;
+$
+delimiter ;
 
+DROP TABLE IF EXISTS vote_post;
 CREATE TABLE vote_post (
-  username VARCHAR(20) NOT NULL REFERENCES user(username) ON DELETE CASCADE ON UPDATE CASCADE,
-  post_id INT NOT NULL REFERENCES post(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  username VARCHAR(20) REFERENCES user(username) ON DELETE CASCADE,
+  post_id INT REFERENCES post(post_id) ON DELETE CASCADE,
   is_upvote TINYINT(1) NOT NULL,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
-  PRIMARY KEY (username, post_id),
-  CHECK(is_upvote = 1 OR is_upvote = 0)
+  PRIMARY KEY (username, post_id)
 );
 
+DROP TABLE IF EXISTS vote_comment;
 CREATE TABLE vote_comment (
-  username VARCHAR(20) NOT NULL REFERENCES user(username) ON DELETE CASCADE ON UPDATE CASCADE,
-  comment_id INT NOT NULL REFERENCES comment(comment_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  post_id INT NOT NULL REFERENCES comment(post_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  username VARCHAR(20) REFERENCES user(username) ON DELETE CASCADE,
+  post_id INT REFERENCES comment(post_id) ON DELETE CASCADE,
+  comment_id INT REFERENCES comment(comment_id) ON DELETE CASCADE,
   is_upvote TINYINT(1) NOT NULL,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
-  PRIMARY KEY (username, comment_id, post_id),
-  CHECK(is_upvote = 1 OR is_upvote = 0)
+  PRIMARY KEY (username, post_id, comment_id)
 );
+
+-- Trigger statement
+delimiter $
+CREATE TRIGGER vote_post_after_insert AFTER INSERT ON vote_post
+FOR EACH ROW 
+BEGIN
+		UPDATE user u SET reputation = reputation + NEW.is_upvote;
+END;
+$
+delimiter ;
+
+delimiter $
+CREATE TRIGGER vote_post_after_update AFTER UPDATE ON vote_post
+FOR EACH ROW 
+BEGIN
+		UPDATE user u SET reputation = reputation + NEW.is_upvote;
+END;
+$
+delimiter ;

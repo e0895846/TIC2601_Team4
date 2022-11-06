@@ -1,27 +1,40 @@
-<div class="col-12 d-flex">
-    <div class="fs-4 px-2">
-        <button class="btn p-0 fs-3"><i class="bi d-block bi-hand-thumbs-up<%= post.is_upvote==1 ? '-fill':''%>"></i></button>
-        <div class="d-block text-center"><%= post.reputation %></div>
-        <button class="btn p-0 fs-3"><i class="bi d-block bi-hand-thumbs-down<%= post.is_upvote==0&&post.is_upvote!=undefined ? '-fill':''%>"></i></button>
+<% if (post.post_id) {%>
+<div class="row justify-content-center mb-2">
+    <div class="col-1 fs-4 px-2 text-center">
+        <a href="/<%= (req.session.isLogin) ? 'crud/vote/1/' + post.post_id : 'login' %>" class="btn p-0 fs-3">
+            <i class="bi d-block bi-hand-thumbs-up<%= post.is_upvote==1 ? '-fill':''%>"></i>
+        </a>
+        <div class="d-block"><%= post.reputation %></div>
+        <a href="/<%= (req.session.isLogin) ? 'crud/vote/0/' + post.post_id : 'login' %>"  class="btn p-0 fs-3">
+            <i class="bi d-block bi-hand-thumbs-down<%= post.is_upvote==0&&post.is_upvote!=undefined ? '-fill':''%>"></i>
+        </a>
     </div>
-    <div class="card col">
-        <div class="card-header d-flex p-2">
-            <a href="/post/<%=post.post_id%>" class="me-auto"><%= post.header %></a>
-            <div>
-                <a href="/user/<%=post.username%>" ><%=post.username%></a>
+    <div class="col-11 card">
+        <% if(post.header.length>0) { %>
+            <div class="card-header row justify-content-between p-2">
+                <div class="col">
+                    <a href="/post/<%=post.post_id %>" class="me-auto"><%= post.header %></a>
+                </div>
+            </div>
+        <% } %>
+        <div class="card-body row text-start">
+            <div class="col">
+                <%= post.content %>
+                <% if(post.img != null) { %>
+                    <img class="img-fluid" src="<%= post.img %>">
+                <% } %>
+            </div>
+        </div>
+        <div class="card-footer row text-start p-1">
+            <a href="/post/<%=post.post_id%>" class="col">
+                <i class="bi bi-chat-dots" style="font-size:20px;"></i>
+                <%= post.comments %>
+            </a>
+            <div class="col-8 text-end ms-auto">
+                <a href="/user/<%=post.username%>" ><%=post.username%></a> | <a href="/category/<%=post.category%>" ><%=post.category%></a>
                 Last post on <%=post.created_at.getFullYear()+"-"+post.created_at.getMonth()+"-"+post.created_at.getDate()+" "+post.created_at.getHours()+":"+post.created_at.getMinutes()%>
             </div>
-            
         </div>
-        <div class="card-body">
-            <%= post.content %>
-        </div>
-        <div class="card-footer">
-            <a href="/post/<%=post.post_id%>" class="">
-                <i class="bi bi-chat-dots" style="font-size:25px;"></i>
-                99+
-            </a>
-        </div>
-      </div>
+    </div>
 </div>
-<br>
+<% } %>
