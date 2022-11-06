@@ -116,8 +116,10 @@ router.post('/user/:crud/:name', async (req, res, next) => {
     let password = req.body.password;
     let repeatPassword = req.body.repeatPassword;
 
-    let salt = await bcrypt.genSalt(10);
-    let hashPassword = await bcrypt.hash(password, salt);
+    if(crud == 'create' || crud == 'edit') {
+        let salt = await bcrypt.genSalt(10);
+        let hashPassword = await bcrypt.hash(password, salt);
+    }
 
     try {
         //create user
