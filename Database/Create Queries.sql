@@ -128,40 +128,40 @@ INSERT INTO user (username, email, password, is_admin) VALUES
 TRUNCATE category;
 INSERT INTO category (category) VALUES
 ('mildlyinteresting'),
-('test2'),
-('test3'),
-('test4'),
-('test5'),
-('funny');
+('funny'),
+('space'),
+('worldnews'),
+('technology'),
+('Music');
 
 TRUNCATE data;
-INSERT INTO data (username, category, content, img) VALUES 
-('Kelvin', 'mildlyinteresting', '', 'https://external-preview.redd.it/DLiwTeV1X4SRj_RMpHIhkMuiwOIq8oMRRESv8pRmN9U.jpg?width=960&crop=smart&auto=webp&s=b80cd3381f59ad72bd0f69ddcb084086e194f59c'),
-('James', 'test2', 'This is testing 2 contents',''),
-('Robert', 'test3', 'This is testing 3 contents',''),
-('John', 'test4', 'This is testing 4 contents',''),
-('James', 'mildlyinteresting','The "distressed jeans" of the truck world.', ''),
-('John', 'test3', 'This is testing 6 contents',''),
-('John', 'mildlyinteresting', 'Destoration',''),
-('James', 'mildlyinteresting', 'Dropped a screw and this is how it landed.', 'https://preview.redd.it/fgxmowyl8hw91.jpg?width=960&crop=smart&auto=webp&s=169bbf3cdc073ed6346f775d19699bdddddbb77a'),
-('Robert', 'mildlyinteresting', 'This is testing 6 reply',''),
-('John', 'mildlyinteresting', 'This is testing 7 reply',''),
-('James', 'funny', '', 'https://preview.redd.it/xwnaz3ybvew91.jpg?width=960&crop=smart&auto=webp&s=e89d24fc09cb69526ca2050cc01f3ebd47ea5e3e'),
-('John', 'mildlyinteresting', "Inception... OP, you're in a dream... or something.", '');
+INSERT INTO data (username, category, content, img, update_at, created_at) VALUES 
+('Kelvin', 'mildlyinteresting', '', 'https://preview.redd.it/qb6r9v6l6my91.jpg?width=960&crop=smart&auto=webp&s=20fb44f6e9fb5dc8a53f7ceebe57bd963288b59a', '2022-11-9 20:55:09', '2022-11-9 20:55:09'),
+('James', 'mildlyinteresting', 'Pro tip: if you put a flashlight against those puppies you can see the quick clear as day to trim them safely','','2022-11-9 22:55:29','2022-11-9 22:55:29'),
+('Robert', 'mildlyinteresting', "Last time I trimmed my huskies nails, I accidentally clipped it because he was twitching a bit (he's usually really calm doing it but holding the back leg makes him twitch) and I got his quick,it was bleeding profusely and I felt so bad. Thankfully it healed up a lot by the next day.",'','2022-11-9 23:25:29','2022-11-9 23:25:29'),
+('John', 'mildlyinteresting', "Does this work with black nails as well? I have massive anxiety when I cut my dogs' black nails. I once cut the quick and never want to do that again.",'','2022-11-9 21:26:59','2022-11-9 21:26:59'),
+('James', 'space','', 'https://preview.redd.it/1mu80jm1bey91.jpg?width=640&crop=smart&auto=webp&s=af1ffde29212876990de85e4b64250f24da5237a','2022-11-6 10:28:17','2022-11-6 10:28:17'),
+('John', 'space', 'Am I right that is just a photo from camera? How you get so much stars?','','2022-11-6 11:58:14','2022-11-6 11:58:14'),
+('James', 'space', "Long exposure picture. The aperture (the hole that opens to allow light in) stays open for 2 minutes, allowing light in for the whole time it's open, which basically makes every light source brighter, so a dim star or not even visible to the naked eye, will appear in the picture.
+
+Edit: I messed up and called the aperture the shutter. The aperture does open larger though for more light to be let into the camera usually on these photos as well though.",'','2022-11-6 12:08:24','2022-11-6 12:08:24'),
+('James', 'mildlyinteresting', 'Dropped a screw and this is how it landed.', 'https://preview.redd.it/fgxmowyl8hw91.jpg?width=960&crop=smart&auto=webp&s=169bbf3cdc073ed6346f775d19699bdddddbb77a','2022-11-11 15:03:44','2022-11-11 15:03:44'),
+('Robert', 'technology', 'Meta says it will lay off more than 11,000 employees','https://i.insider.com/6284f111e19cda00188666d3?width=1300&format=jpeg&auto=webp','2022-11-9 20:38:19','2022-11-9 20:38:19'),
+('John', 'technology', "Between this and the twitter layoffs.. there're going to be a lot of tech employees fighting for the same jobs.",'','2022-11-9 20:48:55','2022-11-9 20:48:55');
 
 INSERT INTO post (post_id, header) VALUES
-(1, 'This Truck has a Wrap to Make it Look Bad'),
-(2, 'TESTING2'),
-(3, 'TESTING3'),
-(4, 'TESTING4'),
-(8, 'Dropped a screw and this is how it landed'),
-(11, 'Hear no evil see no evil speak no evil and...?');
+(1, 'My dog has a claw that is half black and half white.'),
+(5, 'Too many to count.'),
+(8, 'Dropped a screw and this is how it landed.'),
+(9, 'Meta says it will lay off more than 11,000 employees');
 
 INSERT INTO is_comment_of (parent, child) VALUES
-(1, 5),
-(1, 6),
-(5, 7),
-(8, 12);
+(1, 2),
+(2, 3),
+(1, 4),
+(5, 6),
+(6, 7),
+(9, 10);
 
 
 INSERT INTO vote (username, post_id, is_upvote) VALUES
@@ -173,10 +173,10 @@ UPDATE data SET reputation = -1 WHERE post_id = 5;
 
 INSERT INTO subscribe (username, category) VALUES
 ('Kelvin', 'mildlyinteresting'),
-('Kelvin', 'test3'),
-('James', 'test2'),
-('James', 'test3'),
-('James', 'test4');
+('Kelvin', 'worldnews'),
+('James', 'worldnews'),
+('James', 'space'),
+('James', 'technology');
 
 DROP VIEW IF EXISTS trending_post_count;
 CREATE VIEW trending_post_count AS
